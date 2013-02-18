@@ -31,6 +31,7 @@ class GameManagerTest extends WebTestCase
         
         $project = $manager->createProject('Soccer','SP2013','NASOA','MSSL');
         
+        $this->assertEquals('Cerad\Bundle\GameBundle\Entity\Project', get_class($project));
         $this->assertEquals('SOCCERSP2013NASOAMSSL', $project->getHash());
     }
     public function testLevel()
@@ -41,6 +42,7 @@ class GameManagerTest extends WebTestCase
         
         $level = $manager->createLevel('Soccer','NASOA','MSSL','MS-G');
         
+        $this->assertEquals('Cerad\Bundle\GameBundle\Entity\Level', get_class($level));
         $this->assertEquals('SOCCERNASOAMSSLMSG', $level->getHash());
     }
     public function testField()
@@ -49,8 +51,9 @@ class GameManagerTest extends WebTestCase
 
         $manager = $client->getContainer()->get('cerad.game.manager');
         
-        $field = $manager->createLevel('SP2013','NASOA','MSSL','Whitesburg CA');
+        $field = $manager->createField('SP2013','NASOA','MSSL','Whitesburg CA');
         
+        $this->assertEquals('Cerad\Bundle\GameBundle\Entity\Field', get_class($field));
         $this->assertEquals('SP2013NASOAMSSLWHITESBURGCA', $field->getHash());
     }
     public function testGameTeam()
@@ -61,6 +64,7 @@ class GameManagerTest extends WebTestCase
         
         $team = $manager->createGameTeamAway();
         
+        $this->assertEquals('Cerad\Bundle\GameBundle\Entity\GameTeam', get_class($team));
         $this->assertEquals('Away', $team->getRole());
     }
     public function testGamePerson()
@@ -71,6 +75,7 @@ class GameManagerTest extends WebTestCase
         
         $person = $manager->createGamePerson(1,'Referee','John Price');
         
+        $this->assertEquals('Cerad\Bundle\GameBundle\Entity\GamePerson', get_class($person));
         $this->assertEquals('John Price', $person->getName());
     }
     public function testGame()
@@ -83,6 +88,7 @@ class GameManagerTest extends WebTestCase
         
         $game->setNum(100);
         
+        $this->assertEquals('Cerad\Bundle\GameBundle\Entity\Game', get_class($game));
         $this->assertEquals(100, $game->getNum());
     }
 }
