@@ -1,0 +1,75 @@
+Cerad\Bundle\GameBundle\Entity\Field:
+  
+    type:  entity
+    table: field
+    
+    changeTrackingPolicy: NOTIFY
+    
+    uniqueConstraints:
+       field_hash_index:
+           columns: hash
+        
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    
+    fields:
+            
+        name:
+            column:   name
+            type:     string
+            length:   40
+            nullable: false
+            
+        venue:
+            column:   venue
+            type:     string
+            length:   40
+            nullable: true
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: true
+                     
+        overlap:
+            column:   overlap
+            type:     integer
+            nullable: true
+            
+        linkField:
+            column:   link_field
+            type:     integer
+            nullable: true
+            
+        linkVenue:
+            column:   link_venue
+            type:     integer
+            nullable: true
+
+        season:
+            column:   season
+            type:     string
+            length:   20
+            nullable: false
+            
+        domain:
+            column:   domain
+            type:     string
+            length:   20
+            nullable: false
+            
+        domainSub:
+            column:   domain_sub
+            type:     string
+            length:   20
+            nullable: false
+            
+        hash:
+            column:   hash
+            type:     string
+            length:   80
+            nullable: false
+ 

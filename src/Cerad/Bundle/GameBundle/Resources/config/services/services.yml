@@ -1,0 +1,14 @@
+services:
+  
+# ==============================================================
+#   Entity Managers
+    cerad.game.entity_manager:
+        alias: doctrine.orm.games_entity_manager
+        
+# ==============================================================
+#   My Managers
+    cerad.game.manager:
+        class:  Cerad\Bundle\GameBundle\Manager\GameManager
+        arguments:  
+            - '@cerad.game.entity_manager'
+            - 'games'

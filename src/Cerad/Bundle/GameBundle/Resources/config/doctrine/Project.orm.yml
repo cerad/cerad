@@ -1,0 +1,58 @@
+Cerad\Bundle\GameBundle\Entity\Project:
+  
+    type:  entity
+    table: project
+    
+    changeTrackingPolicy: NOTIFY
+    
+    uniqueConstraints:
+       project_hash_index:
+           columns: hash
+        
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    
+    fields:
+        season:
+            column:   season
+            type:     string
+            length:   20
+            nullable: false
+            
+        sport:
+            column:   sport
+            type:     string
+            length:   20
+            nullable: false
+            
+        domain:
+            column:   domain
+            type:     string
+            length:   20
+            nullable: false
+            
+        domainSub:
+            column:   domain_sub
+            type:     string
+            length:   20
+            nullable: false
+            
+        desc:
+            column:   descx
+            type:     string
+            length:   60
+            nullable: true
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: true
+                     
+        hash:
+            column:   hash
+            type:     string
+            length:   80
+            nullable: false

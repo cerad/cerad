@@ -1,0 +1,101 @@
+Cerad\Bundle\GameBundle\Entity\Game:
+    type:  entity
+    table: game
+    
+    changeTrackingPolicy: NOTIFY
+    
+    uniqueConstraints:
+       game_project_num_index:
+           columns: project_id, num
+
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    oneToMany:
+            
+        teams:
+            targetEntity: GameTeam
+            mappedBy:     game
+            indexBy:      slot
+            cascade:      ['all']
+            
+        persons:
+            targetEntity: GamePerson
+            mappedBy:     game
+            indexBy:      slot
+            cascade:      ['all']     
+    
+    manyToOne:
+      
+        project:
+          targetEntity: Project
+          nullable:     false
+          
+        level:
+          targetEntity: Level
+          nullable:     false
+          
+        field:
+          targetEntity: Field
+          nullable:     false
+      
+    fields:
+            
+        num:
+            column:   num
+            type:     integer
+            nullable: false
+            
+        role:
+            column:   role
+            type:     string
+            length:   20
+            nullable: false
+            
+        league:
+            column:   league
+            type:     string
+            length:   40
+            nullable: true
+            
+        pool:
+            column:   pool
+            type:     string
+            length:   20
+            nullable: true
+            
+        link:
+            column:   link
+            type:     integer
+            nullable: true
+            
+        rules:
+            column:   rules
+            type:     string
+            length:   20
+            nullable: true
+            
+        dtBeg:
+            column:   dt_beg
+            type:     datetime
+            nullable: false
+            
+        dtEnd:
+            column:   dt_end
+            type:     datetime
+            nullable: true      # Maybe a TBD or BYE flag?
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: false
+
+        billTo:
+            column:   bill_to
+            type:     string
+            length:   40
+            nullable: true
+            

@@ -1,0 +1,75 @@
+Cerad\Bundle\GameBundle\Entity\Level:
+  
+    type:  entity
+    table: level
+    
+    changeTrackingPolicy: NOTIFY
+    
+    uniqueConstraints:
+       level_hash_index:
+           columns: hash
+        
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    
+    fields:
+        sport:
+            column:   sport
+            type:     string
+            length:   20
+            nullable: false
+            
+        domain:
+            column:   domain
+            type:     string
+            length:   20
+            nullable: false
+            
+        domainSub:
+            column:   domain_sub
+            type:     string
+            length:   20
+            nullable: false
+      
+        name:
+            column:   name
+            type:     string
+            length:   20
+            nullable: false
+            
+        div:
+            column:   divx   # Reserves word
+            type:     string
+            length:   8
+            nullable: true
+            
+        age:
+            column:   age
+            type:     string
+            length:   8
+            nullable: true
+            
+        gender:
+            column:   sex
+            type:     string
+            length:   8
+            nullable: true
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: true
+                     
+        link:
+            column:   link
+            type:     integer
+            nullable: true
+                       
+        hash:
+            column:   hash
+            type:     string
+            length:   80
+            nullable: false
