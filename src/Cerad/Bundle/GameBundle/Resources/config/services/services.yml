@@ -12,3 +12,25 @@ services:
         arguments:  
             - '@cerad.game.entity_manager'
             - 'games'
+            - 'Cerad\Bundle\GameBundle\Entity\Game'
+            
+    cerad.project.manager:
+        class:  Cerad\Bundle\GameBundle\Manager\ProjectManager
+        arguments:  
+            - '@cerad.game.entity_manager'
+            - 'games'
+            - 'Cerad\Bundle\GameBundle\Entity\Project'
+            
+    cerad.level.manager:
+        class:  Cerad\Bundle\GameBundle\Manager\LevelManager
+        arguments:  
+            - '@cerad.game.entity_manager'
+            - 'games'
+            - 'Cerad\Bundle\GameBundle\Entity\Level'
+            
+    cerad.field.manager:
+        class:  Cerad\Bundle\GameBundle\Manager\FieldManager
+        arguments:  
+            - '@cerad.game.entity_manager'
+            - 'games'
+            - 'Cerad\Bundle\GameBundle\Entity\Field'

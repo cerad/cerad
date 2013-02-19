@@ -13,48 +13,15 @@ class GameManagerTest extends WebTestCase
         
         $this->assertEquals('games', $manager->getEntityManagerName());
     }
-    public function testTruncate()
+    public function testResetDatabase()
     {
         $client = static::createClient();
 
         $manager = $client->getContainer()->get('cerad.game.manager');
         
-        $manager->truncate();
+        $manager->resetDatabase();
         
         $this->assertEquals('games', $manager->getEntityManagerName());
-    }
-    public function testProject()
-    {
-        $client = static::createClient();
-
-        $manager = $client->getContainer()->get('cerad.game.manager');
-        
-        $project = $manager->createProject('Soccer','SP2013','NASOA','MSSL');
-        
-        $this->assertEquals('Cerad\Bundle\GameBundle\Entity\Project', get_class($project));
-        $this->assertEquals('SOCCERSP2013NASOAMSSL', $project->getHash());
-    }
-    public function testLevel()
-    {
-        $client = static::createClient();
-
-        $manager = $client->getContainer()->get('cerad.game.manager');
-        
-        $level = $manager->createLevel('Soccer','NASOA','MSSL','MS-G');
-        
-        $this->assertEquals('Cerad\Bundle\GameBundle\Entity\Level', get_class($level));
-        $this->assertEquals('SOCCERNASOAMSSLMSG', $level->getHash());
-    }
-    public function testField()
-    {
-        $client = static::createClient();
-
-        $manager = $client->getContainer()->get('cerad.game.manager');
-        
-        $field = $manager->createField('SP2013','NASOA','MSSL','Whitesburg CA');
-        
-        $this->assertEquals('Cerad\Bundle\GameBundle\Entity\Field', get_class($field));
-        $this->assertEquals('SP2013NASOAMSSLWHITESBURGCA', $field->getHash());
     }
     public function testGameTeam()
     {
