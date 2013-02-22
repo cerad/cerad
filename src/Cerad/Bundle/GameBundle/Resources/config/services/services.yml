@@ -34,3 +34,33 @@ services:
             - '@cerad.game.entity_manager'
             - 'games'
             - 'Cerad\Bundle\GameBundle\Entity\Field'
+            
+# ==============================================================
+#   My Repositoriess
+    cerad.project.repository:
+        class:  Cerad\Bundle\GameBundle\EntityRepository\ProjectRepository
+        factory_service: 'cerad.game.entity_manager'
+        factory_method:  'getRepository'
+        arguments:  
+            - 'Cerad\Bundle\GameBundle\Entity\Project'
+            
+    cerad.level.repository:
+        class:  Cerad\Bundle\GameBundle\EntityRepository\LevelRepository
+        factory_service: 'cerad.game.entity_manager'
+        factory_method:  'getRepository'
+        arguments:  
+            - 'Cerad\Bundle\GameBundle\Entity\Level'
+            
+    cerad.field.repository:
+        class:  Cerad\Bundle\GameBundle\EntityRepository\FieldRepository
+        factory_service: 'cerad.game.entity_manager'
+        factory_method:  'getRepository'
+        arguments:  
+            - 'Cerad\Bundle\GameBundle\Entity\Field'
+            
+    cerad.game.repository:
+        class:  Cerad\Bundle\GameBundle\EntityRepository\GameRepository
+        factory_service: 'cerad.game.entity_manager'
+        factory_method:  'getRepository'
+        arguments:  
+            - 'Cerad\Bundle\GameBundle\Entity\Game'

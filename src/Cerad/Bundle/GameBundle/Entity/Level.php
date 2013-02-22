@@ -67,24 +67,28 @@ class Level extends BaseEntity
     
     public function setHash($value) { $this->onPropertySet('hash',$value); }
     
-    public function genHash()
+    static function genHash($params)
     {
-        return self::hash(array($this->sport,$this->domain,$this->domainSub,$this->name));
+        $paramsx = array($params['sport'],$params['domain'],$params['domainSub'],$params['name']);
+        
+        return self::hash($paramsx);
     }
     /* =======================================
      * Create factory
      */
-    static function create($sport,$domain,$domainSub,$name,$status = 'Active')
+    static function create($params)
     {
         $item = new self();
         
-        $item->setSport    ($sport);
-        $item->setDomain   ($domain);
-        $item->setDomainSub($domainSub);
-        $item->setName     ($name);
-        $item->setStatus   ($status);
+        $item->setSport    ($params['sport']);
+        $item->setDomain   ($params['domain']);
+        $item->setDomainSub($params['domainSub']);
+        $item->setName     ($params['name']);
         
-        $item->setHash($item->genHash());
+        if (isset($params['status'])) $item->setStatus($params['status']);
+        else                          $item->setStatus('Active');
+        
+        $item->setHash(self::genHash($params));
         
         return $item;
     }

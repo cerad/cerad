@@ -3,6 +3,8 @@ Cerad\Bundle\GameBundle\Entity\Level:
     type:  entity
     table: level
     
+    repositoryClass: Cerad\Bundle\GameBundle\EntityRepository\LevelRepository
+    
     changeTrackingPolicy: NOTIFY
     
     uniqueConstraints:

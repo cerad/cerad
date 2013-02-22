@@ -2,8 +2,11 @@ Cerad\Bundle\GameBundle\Entity\Game:
     type:  entity
     table: game
     
+    repositoryClass: Cerad\Bundle\GameBundle\EntityRepository\GameRepository
+
+    # This makes a huge difference when importing (time doubles)
     changeTrackingPolicy: NOTIFY
-    
+     
     uniqueConstraints:
        game_project_num_index:
            columns: project_id, num
@@ -31,7 +34,7 @@ Cerad\Bundle\GameBundle\Entity\Game:
       
         project:
           targetEntity: Project
-          nullable:     false
+          nullable:     true    # True or false does not seem to make a difference
           
         level:
           targetEntity: Level

@@ -24,7 +24,10 @@ class BaseEntity implements NotifyPropertyChanged
             array_walk($array, function($val) use (&$value) { $value .= trim($val); });
         }
         // Probably just get rid of everything but letters/numbers
-        $value = strtoupper(str_replace(array(' ','~','-','"',"'"),'',$value));
+        // Maybe allow under scores?
+        $value = strtoupper(preg_replace("/[^a-zA-Z0-9]/", '', $value));
+        
+        // $value = strtoupper(str_replace(array(' ','~','-','#',',','"',"'"),'',$value));
         
         if (!$crc) return $value;
         
@@ -58,6 +61,8 @@ class BaseEntity implements NotifyPropertyChanged
         
         $this->onPropertyChanged($name,$oldValue,$newValue);
     }
-
+    /* =============================================================
+     * Probably want to implement array interface, keeps coming in handy
+     */
 }
 ?>

@@ -47,16 +47,25 @@ class GamePerson extends BaseEntity
     public function setLeague($value) { $this->onPropertySet('league',$value); }
     public function setStatus($value) { $this->onPropertySet('status',$value); }
     
-    static public function create($slot, $role, $name = null, $status = 'Created')
+    static public function create($params)
     {
-        $person = new self();
+        $item = new self();
         
-        $person->setSlot  ($slot);
-        $person->setRole  ($role);
-        $person->setName  ($name);
-        $person->setStatus($status);
+        // Required - not defaults
+        $item->setSlot($params['slot']);
+        $item->setRole($params['role']);
         
-        return $person;
+        // Required with defaults
+        if (isset($params['status'])) $item->setStatus($params['status']);
+        else                          $item->setStatus('Assigned');
+        
+        // Optional
+        if (isset($params['name'])) $item->setName($params['name']);
+
+        // Relations
+        if (isset($params['game'])) $params['game']->addPerson($item);
+        
+        return $item;
     }
     /* =========================================
      * Debugging

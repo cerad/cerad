@@ -3,6 +3,8 @@ Cerad\Bundle\GameBundle\Entity\Project:
     type:  entity
     table: project
     
+    repositoryClass: Cerad\Bundle\GameBundle\EntityRepository\ProjectRepository
+    
     changeTrackingPolicy: NOTIFY
     
     uniqueConstraints:

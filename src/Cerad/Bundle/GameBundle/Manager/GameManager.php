@@ -66,5 +66,40 @@ class GameManager extends BaseManager
     {
         return new $this->gameClassName();
     }
+    /* -----------------------------------------------------
+     * Load for a number
+     */
+    public function loadGameForProjectNum($project,$num)
+    {
+        /* =======================================================
+         * For an empty game table, this is 6 seconds faster than the query build
+         * Run some tests with data loaded, full data set takes 12s vs 16s
+         * 
+         * With the repo, only takes 2s but of course the data is not being processed
+         * Processing with repo 5s, with qb takes 12s with no changes
+         * 
+         * Drop out project, level and field, 12s => 7.6s
+         */
+        return $this->getRepository()->findOneBy(array('project' => $project, 'num' => $num));
+
+        // Build query
+        $qb = $this->createQueryBuilder($this->gameClassName,'game');
+
+        $qb->addSelect('game'); //, gameProject, gameLevel, gameField');
+        
+        $qb->addSelect('gameTeam, gamePerson'); //gameTeamLevel');
+
+      //$qb->leftJoin('game.project',  'gameProject');
+      //$qb->leftJoin('game.level',    'gameLevel');
+      //$qb->leftJoin('game.field',    'gameField');
+        $qb->leftJoin('game.teams',    'gameTeam');
+        $qb->leftJoin('game.persons',  'gamePerson');
+      //$qb->leftJoin('gameTeam.level','gameTeamLevel');
+        
+        $qb->andWhereEq('game.project',$project);
+        $qb->andWhereEq('game.num',    $num);
+        
+        return $qb->getQuery()->getOneOrNullResult();       
+    }
 }
 ?>

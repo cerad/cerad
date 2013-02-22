@@ -1,13 +1,7 @@
 <?php
 namespace Cerad\Bundle\GameBundle\Manager;
 
-use Cerad\Bundle\GameBundle\Entity\Project;
-use Cerad\Bundle\GameBundle\Entity\Level;
-use Cerad\Bundle\GameBundle\Entity\Field;
-
-use Cerad\Bundle\GameBundle\Entity\Game;
-use Cerad\Bundle\GameBundle\Entity\GameTeam;
-use Cerad\Bundle\GameBundle\Entity\GamePerson;
+use Cerad\Bundle\GameBundle\Doctrine\QueryBuilder;
 
 class BaseManager
 {

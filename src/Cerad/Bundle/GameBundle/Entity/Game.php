@@ -72,25 +72,26 @@ class Game extends BaseEntity
         $this->teams   = new ArrayCollection();
         $this->persons = new ArrayCollection();
     }
-    static function create($role = self::RoleGame, $status = 'Normal')
+    static function create($params = array())
     {
         $item = new self();
         
-        $item->setRole   ($role);
-        $item->setStatus ($status);
-
-        return $item;
-    }
-    static function createExtended($num,$project,$level,$field,$role = self::RoleGame,$status = 'Normal')
-    {
-        $item = new self();
+        // Required with defaults
+        if (isset($params['role'])) $item->setRole($params['role']);
+        else                        $item->setRole(self::RoleGame);
         
-        $item->setNum    ($num);
-        $item->setProject($project);
-        $item->setLevel  ($level);
-        $item->setField  ($field);
-        $item->setRole   ($role);
-        $item->setStatus ($status);
+        if (isset($params['status'])) $item->setStatus($params['status']);
+        else                          $item->setStatus('Normal');
+        
+        // Maybe check for string and generate DT
+        if (isset($params['dt_beg'])) $item->setDtBeg($params['dt_beg']);
+        else                          $item->setDtBeg(new \DateTime());
+        
+        // Not required
+        if (isset($params['num'    ])) $item->setNum($params['num'    ]);
+        if (isset($params['field'  ])) $item->setNum($params['field'  ]);
+        if (isset($params['level'  ])) $item->setNum($params['level'  ]);
+        if (isset($params['project'])) $item->setNum($params['project']);
 
         return $item;
     }

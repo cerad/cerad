@@ -61,24 +61,24 @@ class GameTeam extends BaseEntity
      * Create factory
      * Too many parameters
      */
-    static function createHome($status = 'Normal')
+    static function create($params = array())
     {
         $item = new self();
         
-        $item->setRole  (self::RoleHome);
-        $item->setSlot  (self::SlotHome);
-        $item->setStatus($status);
-
-        return $item;
-    }
-    static function createAway($status = 'Normal')
-    {
-        $item = new self();
+        // Required
+        $item->setRole($params['role']);
+        $item->setSlot($params['slot']);
         
-        $item->setRole  (self::RoleAway);
-        $item->setSlot  (self::SlotAway);
-        $item->setStatus($status);
+        // Required with defaults
+        if (isset($params['status'])) $item->setStatus($params['status']);
+        else                          $item->setStatus('Normal');
 
+        // Optional
+        if (isset($params['name'])) $item->setName($params['name']);
+        
+        // Relations
+        if (isset($params['game'])) $params['game']->addTeam($item);
+        
         return $item;
     }
     /* =========================================

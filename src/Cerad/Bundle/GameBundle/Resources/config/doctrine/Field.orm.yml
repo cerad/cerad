@@ -3,6 +3,8 @@ Cerad\Bundle\GameBundle\Entity\Field:
     type:  entity
     table: field
     
+    repositoryClass: Cerad\Bundle\GameBundle\EntityRepository\FieldRepository
+    
     changeTrackingPolicy: NOTIFY
     
     uniqueConstraints:
@@ -26,6 +28,12 @@ Cerad\Bundle\GameBundle\Entity\Field:
             column:   venue
             type:     string
             length:   40
+            nullable: true
+            
+        venueSub:
+            column:   venue_sub
+            type:     string
+            length:   20
             nullable: true
             
         status:

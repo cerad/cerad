@@ -30,7 +30,7 @@ class FieldManagerTest extends WebTestCase
         $field = $manager->createField('SP2013','NASOA','MSSL','Whitesburg CA');
       
         $this->assertEquals('Cerad\Bundle\GameBundle\Entity\Field', get_class($field));
-        $this->assertEquals('SP2013NASOAMSSLWHITESBURGCA', $field->getHash());
+        $this->assertEquals('NASOAMSSLSP2013WHITESBURGCA',$field->getHash());
     }
 }
 
