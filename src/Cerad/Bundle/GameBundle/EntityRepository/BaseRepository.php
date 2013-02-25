@@ -2,6 +2,7 @@
 namespace Cerad\Bundle\GameBundle\EntityRepository;
 
 use Doctrine\ORM\EntityRepository;
+use Cerad\Bundle\GameBundle\Doctrine\QueryBuilder;
 
 class BaseRepository extends EntityRepository
 {
@@ -16,6 +17,21 @@ class BaseRepository extends EntityRepository
     public function getDatabaseConnection() { return $this->_em->getConnection(); }
     public function getEventManager      () { return $this->_em->getEventManager(); }
 
+    /* ==========================================================
+     * This also comes under the heading of hokay but
+     * the convience methods in my query buider really reduces code
+     */
+    public function createQueryBuilder($alias)
+    {
+        $qb = new QueryBuilder($this->_em);
+      //$qb->select($alias); // Allow distincts etc
+        $qb->from($this->_entityName, $alias);
+        return $qb;
+    }
+    
+    /* ==========================================================
+     * Need this if we decide to use the clear command on the entity manager
+     */
     public function clearCache()
     {
         $this->hashCache = null;

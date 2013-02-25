@@ -44,5 +44,16 @@ class QueryBuilder extends DoctrineQueryBuilder
         // Just a plain old scaler
         return $this->andWhere($this->expr()->lte($name,$this->expr()->literal($value)));
     }
+    // Useful for pulling parameters
+    public function getArrayForParam($params,$name)
+    {
+        if (!isset($params[$name])) return array();
+        
+        $items = $params[$name];
+        
+        if (isset($items[0]) && !$items[0]) return array();
+        
+        return $items;
+    }
 }
 ?>
