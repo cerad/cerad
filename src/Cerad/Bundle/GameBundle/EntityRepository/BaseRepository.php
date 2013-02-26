@@ -51,7 +51,7 @@ class BaseRepository extends EntityRepository
      * 2. Check database
      * 3. Create and add to cache if not found
      */
-    public function processEntity($params = array(), $flush = true)
+    public function processEntity($params = array(), $flush = false)
     {
         $entityClassName = $this->_entityName;
         
@@ -65,10 +65,11 @@ class BaseRepository extends EntityRepository
         $this->hashCache[$hash] = $entity;
         
         // Getting really shakey here but remember that we expect the item to already exist most of the time
-        $this->persist($entity);
-        
-        if ($flush) $this->flush();
-        
+        if ($flush)
+        {
+            $this->persist($entity);
+            $this->flush();
+        }
         return $entity;
     }
     public function getCount()
