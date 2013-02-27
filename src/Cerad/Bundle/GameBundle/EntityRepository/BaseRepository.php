@@ -51,7 +51,7 @@ class BaseRepository extends EntityRepository
      * 2. Check database
      * 3. Create and add to cache if not found
      */
-    public function processEntity($params = array(), $flush = false)
+    public function processEntity($params = array(), $persist = false)
     {
         $entityClassName = $this->_entityName;
         
@@ -60,15 +60,23 @@ class BaseRepository extends EntityRepository
         $entity = $this->loadForHash($hash);
         if ($entity) return $entity;
         
+        /* ================================================
+         * Probably should not do this but sometimes this is called without a sub domain
+         * Because we are trying to find the sub domain
+         * A create flag might be better?
+         */
+        if (!$persist) return null;
+        
+        // Add a new one
         $entity = $entityClassName::create($params);
         
         $this->hashCache[$hash] = $entity;
         
         // Getting really shakey here but remember that we expect the item to already exist most of the time
-        if ($flush)
+        if ($persist)
         {
             $this->persist($entity);
-            $this->flush();
+            $this->flush  ($entity); // Need this for now when creating new entities
         }
         return $entity;
     }
