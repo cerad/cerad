@@ -1,0 +1,7 @@
+
+services:
+    cerad_account.registration.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: cerad_account_registration }

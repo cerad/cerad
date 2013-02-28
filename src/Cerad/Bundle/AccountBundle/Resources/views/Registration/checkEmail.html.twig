@@ -1,0 +1,16 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    <p>An email has ben sent to: {{ user.email }}</p>
+    <p>Click on the link in the email to activate your account.  
+        This confirmation is required because your Arbiter email will allow you to view additional details about your games.
+        So we need to make sure it's really you.
+    </p>
+    <h3>Check your SPAM folder!</h3>
+    <p>
+        If the email does not arrive in a few seconds then check your spam folder.
+        Due to the way the emails are sent, many email clients will assume they are spam.
+        If the email does in up in your spam folder then please tell your email program that the email is not spam and 
+        to accept further emails from the same source.
+    </p>
+{% endblock fos_user_content %}

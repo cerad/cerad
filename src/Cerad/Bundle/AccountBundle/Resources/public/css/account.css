@@ -1,0 +1,235 @@
+/* forms2.scss */
+html, body,
+fieldset, form, label, legend {
+  margin:  0;
+  padding: 0;
+  border:  0;
+  vertical-align: baseline; }
+
+/* Layout */
+#container {
+  padding-bottom: 18px;
+  width: 640px; }
+
+#container-inner {
+  border: 10px solid #fff;
+  border-color: #fff #fff #ababab;
+  padding: 20px; }
+
+h1 {
+  border-bottom: 5px solid #fff;
+  color: #666666;
+  font-size: 1.2em;
+  font-weight: bold;
+  line-height: 1;
+  margin: 10px 0px 10px 10px;
+  padding: 0 0 0 0;
+  /* Was 28 */ }
+
+p 
+{
+  margin: 0 0 0 10px; 
+}
+div.instructions p
+{
+  margin: 3px 0 0 12px; 
+  width: 600px;
+}
+div.instructions h3,h4
+{
+  margin: 10px 0 0 12px; 
+}
+
+/* ==========================================================
+ * Forms stuff
+ */
+form {
+  width:      700px;
+  margin-top:   5px;
+  margin-left: 10px;
+  padding:        0;
+  border:         thin black solid;
+  vertical-align: baseline;
+}
+form fieldset, 
+form div 
+{
+  overflow: hidden;
+  margin:   0 0 2px;
+  padding:  5px 5px 5px 5px;
+  border:   thin solid blue; 
+}
+form fieldset div, 
+form div      div
+{
+  overflow: hidden;
+  margin:   0 0 2px;
+  padding:  5px 5px 5px 5px;
+  border:   thin solid green; 
+}
+/* Labels */
+form fieldset div label, 
+form div      div label 
+{
+  color: #666;
+  float: left;
+  font-size: 1.0em;
+  font-weight: bold;
+  line-height: 0.9;
+  width:         33%;
+  text-align:  right;
+  margin-top:    5px;
+  margin-right: 15px;
+  padding-left:  0px; 
+}
+/* Input defaults */
+form fieldset div input, form fieldset div textarea, form fieldset div select,
+form div      div input, form div      div textarea, form div      div select 
+{
+  color:       #333;
+  display:     block;
+  font-size:   100%;
+  /* Was 14px */
+  font-family: Arial, Helvetica, sans-serif;
+  float:       left;
+  line-height: 1;
+  margin:      0; 
+}
+
+/* =============================================
+ * Fieldset based stuff
+ */
+fieldset 
+{
+/*border: medium solid lime; */
+  /*
+  border-style: solid;
+  border-width: medium;
+  border-color: lime;*/
+  position: relative;
+  padding: 5px 5px 5px 5px;
+  /* top right bottom left */
+  /* background-color: blue; */
+  /* max-width: 90%; */ 
+}
+fieldset legend
+{
+    margin-left: 20px;
+    text-align: center;
+}
+fieldset div {
+  overflow: hidden;
+  margin: 0 0 2px;
+  padding: 5px 5px 5px 5px;
+  /* max-width: 90%; */
+  /* background-color: red; */
+  border: thin solid red; }
+
+/* Labels */
+fieldset div label 
+{
+  color: #666;
+  float: left;
+  font-size: 1.0em;
+  font-weight: bold;
+  line-height: 0.9;
+  width: 33%;
+  text-align: left;
+  margin-top:    5px;
+  margin-right: 15px;
+  padding-left:  0px; 
+}
+fieldset.errors
+{
+    color: red;    
+}
+/* Input defaults */
+fieldset div input,
+fieldset div textarea,
+fieldset div select 
+{
+  color: #333;
+  display: block;
+  font-size: 100%;
+  /* Was 14px */
+  font-family: Arial, Helvetica, sans-serif;
+  float: left;
+  line-height: 1;
+  margin: 0; }
+
+/* Text inputs */
+fieldset div input {
+  margin-top: 1px;
+  /* Compensates for select boxes being a bit taller than inut field */
+  padding: 0px 0px;
+  /*width:   288px; */ }
+
+/* Select menus */
+fieldset div select {
+  padding: 0px 0px 0px 0px;
+  /*width:   291px; */
+  /*max-width: 60%; */
+  max-width: 350px; }
+
+/* Textareas */
+fieldset div textarea {
+  height: auto;
+  padding: 0;
+  margin: 0;
+  margin-top: 5px;
+  /*max-width: 98%; */
+  max-width: 550px; }
+
+/* Submit */
+fieldset div.controls {
+  background: none; }
+
+fieldset div.controls input {
+  /*background: url(../images/ir-submit-create-profile.png) no-repeat 0 0;*/
+  float: right; 
+  width: auto;
+  padding: 5px;
+  margin-left: 50px; }
+
+fieldset div.controls button {
+  /*background: url(../images/ir-submit-create-profile.png) no-repeat 0 0;*/
+  float: right; 
+  width: auto;
+  padding: 5px;
+  margin-left: 50px; }
+
+div.radio-medium {
+  margin: 0;
+  margin-top: 2px;
+  padding: 0;
+  border: none; }
+
+div.radio-medium label {
+  width: auto;
+  text-align: left;
+  margin-top: 0px;
+  margin-left: 5px;
+  padding-top: 0px; }
+
+div.radio-medium input {
+  margin-top: 4px; }
+
+label.textarea {
+  text-align: left; }
+
+/* ===========================================
+ * Field specific errors
+ */
+fieldset div ul 
+{
+  color: red;
+  clear: left;
+  float: left;
+  width: 33%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 2px;
+  margin-right: 15px;
+  /* Same as fieldset div label */ 
+}
