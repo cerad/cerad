@@ -1,0 +1,14 @@
+services:
+  
+    cerad.person.entity_manager:
+        alias: doctrine.orm.persons_entity_manager
+        
+    cerad.person.repository:
+        class:  Cerad\Bundle\PersonBundle\EntityRepository\PersonRepository
+        factory_service: 'cerad.person.entity_manager'
+        factory_method:  'getRepository'
+        arguments:  
+            - 'Cerad\Bundle\PersonBundle\Entity\Person'
+
+    cerad.person.manager:
+        alias: cerad.person.repository

@@ -1,0 +1,92 @@
+Cerad\Bundle\PersonBundle\Entity\Person:
+    type:  entity
+    table: person
+    repositoryClass: Cerad\Bundle\PersonBundle\EntityRepository\PersonRepository
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: string
+            length: 32
+            generator: { strategy: NONE }
+            
+    oneToMany:
+      
+        certs:
+            targetEntity: PersonCert
+            mappedBy:     person
+            cascade:      ['all']
+            
+        leagues:
+            targetEntity: PersonLeague
+            mappedBy:     person
+            cascade:      ['all']
+            
+#       plans:
+#           targetEntity: Cerad\TournBundle\Entity\OfficialPlans
+#           mappedBy:     person
+             
+    fields:
+        name:
+            column:   name
+            type:     string
+            length:   80
+            nullable: false
+            
+        firstName:
+            column:   first_name
+            type:     string
+            length:   40
+            nullable: true
+            
+        lastName:
+            column:   last_name
+            type:     string
+            length:   40
+            nullable: true
+            
+        nickName:
+            column:   nick_name
+            type:     string
+            length:   40
+            nullable: true
+             
+        gender:
+            type:     string
+            length:   1
+            nullable: true
+            
+        dob:
+            type:     date
+            nullable: true
+            
+        email:
+            type:     string
+            length:   60
+            nullable: true
+            
+        phone:
+            column:   phone
+            type:     string
+            length:   20
+            nullable: true
+           
+        city:
+            type:     string
+            length:   20
+            nullable: true
+           
+        state:
+            type:     string
+            length:   20
+            nullable: true
+           
+        verified:
+            type:     string
+            length:   20
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false

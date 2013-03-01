@@ -1,0 +1,77 @@
+Cerad\Bundle\PersonBundle\Entity\PersonLeague:
+    type:  entity
+    table: person_league
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+      
+        person:
+            targetEntity: Person
+            inversedBy:   leagues
+             
+    fields:
+        fed:
+            column:   fed
+            type:     string
+            length:   20
+            nullable: false
+            
+        role:
+            column:   role
+            type:     string
+            length:   20
+            nullable: false
+            
+        league:
+            column:   league
+            type:     string
+            length:   40
+            nullable: true
+            
+        identifier:
+            column:   identifier
+            type:     string
+            length:   40
+            nullable: false
+            
+        memId:
+            column:   mem_id
+            type:     string
+            length:   20
+            nullable: true
+
+        memYear:
+            column:   mem_year
+            type:     string
+            length:   20
+            nullable: true
+             
+        dateFirst:
+            column:   date_first
+            type:     date
+            nullable: true
+            
+        dateLast:
+            column:   date_last
+            type:     date
+            nullable: true
+            
+        dateExpires:
+            column:   date_expires
+            type:     date
+            nullable: true
+            
+        verified:
+            type:     string
+            length:   20
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
