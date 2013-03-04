@@ -1,0 +1,15 @@
+services:
+  
+    cerad_arbiter.schedule.manager:
+        class:  Cerad\Bundle\ArbiterBundle\Schedule\ScheduleManager
+        arguments:  
+            - '@cerad.project.repository'
+            - '@cerad.level.repository'
+            - '@cerad.field.repository'
+            - '@cerad.game.repository'
+
+    cerad_arbiter.schedule.import.master:
+        class:  Cerad\Bundle\ArbiterBundle\Schedule\Import\ImportScheduleMaster
+        arguments:  
+            - '@cerad_arbiter.schedule.manager'
+           #- '@cerad_schedule.format.excel'
