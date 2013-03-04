@@ -146,6 +146,14 @@ class Game extends BaseEntity
         
         return null;
     }
+    public function getPersonSlotCount()
+    {
+        return count($this->persons);
+    }
+    public function resetPersons()
+    {
+        $this->persons = new ArrayCollection();
+    }
     /* =========================================
      * Want to explicitly compare DT values to avoid an unnecessary property change
      */
