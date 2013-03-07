@@ -1,0 +1,18 @@
+# ===============================================
+# Cerad Janrain accounts
+# Assume a prefix is given
+
+cerad_janrain_check:
+    pattern: /janrain/check
+    
+cerad_janrain_login:
+    pattern: /janrain/login
+    defaults: { _controller: CeradJanrainBundle:Janrain:login }
+    
+cerad_janrain_register:
+    pattern: /janrain/register
+    defaults: { _controller: CeradJanrainBundle:Janrain:register }
+    
+cerad_janrain_add:
+    pattern: /janrain/add
+    defaults: { _controller: CeradJanrainBundle:Janrain:add }

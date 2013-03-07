@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}Janrain Layout{% endblock %}</title>
+          
+{# Need this at the top to remember which account was last used to sign in #}
+{% block janrain %}{% endblock %}
+    
+{# Add standard zayso stuff later #}
+{% block stylesheets %}{%endblock %} 
+    
+<!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+
+</head>
+<body>
+<div id="layout-header">
+    {% block header %}
+        {% if is_granted('ROLE_USER') %}
+            <h3>User: {{ app.user.username }} <a href={{ path('fos_user_security_logout') }}>Signout</a></h3>
+        {% else %}
+            <h3>User: Guest</h3>
+        {% endif %}     
+    {% endblock %}
+</div>
+        
+<div id="layout-content">
+    {% block content %}{% endblock %}
+</div>
+
+{% block javascripts %}{% endblock %}
+    
+</body>
+</html>

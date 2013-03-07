@@ -1,0 +1,25 @@
+services:
+
+    # Inherits all sorts of injections
+    cerad_janrain.security.authentication.listener:
+        class:    Cerad\Bundle\JanrainBundle\Security\JanrainAuthenticationListener
+        parent:   security.authentication.listener.abstract
+        public:   false
+        abstract: true
+        
+    cerad_janrain.security.authentication.provider:
+        class:  Cerad\Bundle\JanrainBundle\Security\JanrainAuthenticationProvider
+        arguments:
+            - '' # userProvider injected
+            - '' # providerKey  aka firewall name
+                   
+    cerad_janrain.security.authentication.entry_point:
+        class:  Cerad\Bundle\JanrainBundle\Security\JanrainAuthenticationEntryPoint
+        arguments:
+            - '@security.http_utils'
+                                     # also gets login_path injected
+
+    cerad_janrain.registration.event_listener:
+        class:  Cerad\Bundle\JanrainBundle\EventListener\RegistrationListener
+        tags:   
+          - { name: kernel.event_subscriber }
