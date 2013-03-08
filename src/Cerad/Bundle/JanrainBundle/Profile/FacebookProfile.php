@@ -7,7 +7,13 @@ class FacebookProfile extends AbstractProfile
     public function getIdentifier2() 
     { 
         $identifier = $this->data['identifier'];
-        return substr($identifier,strrpos($identifier,'=')+1);
+        
+        $facebookId = substr($identifier,strrpos($identifier,'=')+1);
+        
+        if (!$facebookId) return null;
+        
+        // Tack on facebook to keep it unique
+        return 'facebook' . $facebookId;
     }
 }
 /*

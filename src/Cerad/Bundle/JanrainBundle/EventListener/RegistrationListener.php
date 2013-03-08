@@ -20,7 +20,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RegistrationListener implements EventSubscriberInterface
 {
-
     public static function getSubscribedEvents()
     {
         return array(
@@ -30,20 +29,36 @@ class RegistrationListener implements EventSubscriberInterface
     }
     public function onRegistrationSuccess(FormEvent $event)
     {
+        /* =================================================
+         * See if have a janrain profile
+         * TODO: Make sure the profile goes aways when signing out
+         */
         $session = $event->getRequest()->getSession();
         if (!$session->has('cerad_janrain_profile')) return;
         
+        // Get the stuff
         $profile = $session->get('cerad_janrain_profile');
-         
+        $user    = $event->getForm()->getData();
+        
+        // Want to add one or possibly two account_identifier objects
+        $identifier = $user->createIdentifier($profile->getProviderName(),$profile->getIdentifier(),$profile->getData());
+        $user->addIdentifier($identifier);
+        
+        if ($profile->getIdentifier2())
+        {
+            $identifier2 = $user->createIdentifier($profile->getProviderName(),$profile->getIdentifier2(),$profile->getData());
+            $user->addIdentifier($identifier2);
+        }
+        /* ===============================================
+         * If have a verified email then no need to confirm
+         */
         $verifiedEmail = $profile->getVerifiedEmail();
         if (!$verifiedEmail) return;
         
-        $user = $event->getForm()->getData();
+        if ($verifiedEmail == $user->getEmail()) $event->stopPropagation();
         
-        if ($verifiedEmail != $user->getEmail()) return;
-        
-        // Stop it from reaching the email confirmation listener
-        $event->stopPropagation();
+        // Done
+        return;
     }
     public function onRegistrationInitialize(UserEvent $event)
     {

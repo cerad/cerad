@@ -10,7 +10,14 @@ class ProfileFactory
     {
         $profileClassName = 'Cerad\Bundle\JanrainBundle\Profile\\' . $profileData['providerName'] . 'Profile';
         
-        return new $profileClassName($profileData);
+        if (class_exists($profileClassName))
+        {
+            return new $profileClassName($profileData);
+        }
+        print_r($profileData);
+        die();
+        // Could probably get by with a generic class?
+        return new GenericProfile($profileData);
     }
 }
 

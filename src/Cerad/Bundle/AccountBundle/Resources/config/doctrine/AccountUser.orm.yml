@@ -6,7 +6,14 @@ Cerad\Bundle\AccountBundle\Entity\AccountUser:
         id:
             type: integer
             generator: { strategy: AUTO }
-            
+    
+    oneToMany:
+
+        identifiers:
+            targetEntity: AccountIdentifier
+            mappedBy:     account
+            cascade:      ['all']
+           
     fields:
     
         name:
@@ -16,7 +23,7 @@ Cerad\Bundle\AccountBundle\Entity\AccountUser:
             nullable: true
             
         person:
-            column:   person_uid
+            column:   person_guid
             type:     string
             length:   32
             nullable: true

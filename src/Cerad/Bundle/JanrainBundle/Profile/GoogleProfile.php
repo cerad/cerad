@@ -4,7 +4,14 @@ namespace Cerad\Bundle\JanrainBundle\Profile;
 class GoogleProfile extends AbstractProfile
 {
     // OAuth2 has it's own field
-    public function getIdentifier2() { return $this->data['googleUserid']; }
+    public function getIdentifier2() 
+    { 
+        // Just to be safe
+        if (!isset($this->data['googleUserid']) || !$this->data['googleUserid']) return;
+        
+        // Append google just to help make sure it stays unique
+        return 'google' . $this->data['googleUserid']; 
+    }
 }
 /* 
   [providerName]      => Google 

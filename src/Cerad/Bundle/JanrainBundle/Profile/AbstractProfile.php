@@ -9,6 +9,8 @@ class AbstractProfile
     {
         $this->data = $data;
     }
+    public function getData() { return $this->data; }
+    
     public function getIdentifier()  { return $this->data['identifier'];   }
     
     // This could be marked as abstract
