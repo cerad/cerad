@@ -76,7 +76,14 @@ class JanrainAuthenticationListener extends AbstractAuthenticationListener
         }
         // Might want to wrap this in a profile object for decoding
         $profile = ProfileFactory::create($authInfo['profile']);
-        
+
+        // Tuck these away for now, later need to figure out when to remove
+        // On logout for sure
+        $request->getSession()->set('cerad_janrain_token',  $janrainRequestToken);
+        $request->getSession()->set('cerad_janrain_profile',$profile);
+      //$request->getSession()->set('cerad_janrain_wtf',    'wtf');
+          
+        // Security Token
         $token = new JanrainAuthenticationToken($profile);
 
         try
@@ -99,8 +106,7 @@ class JanrainAuthenticationListener extends AbstractAuthenticationListener
            
             // Already signed in? redirect to add
             
-            // Not signed in? redirect to register
-            
+            // Not signed in? redirect to register       
             if ($this->securityContext->getToken() == null)
             {
                 $response = $this->httpUtils->createRedirectResponse($request, $this->options['register_path']);
@@ -109,11 +115,6 @@ class JanrainAuthenticationListener extends AbstractAuthenticationListener
             {
                 $response = $this->httpUtils->createRedirectResponse($request, $this->options['add_path']);
             }
-            // This is NOT the auth token, don't think we really need
-            $request->getSession()->set('cerad_janrain_token',$janrainRequestToken);
-            
-            // This is what we should use for downstream code
-            $request->getSession()->set('cerad_janrain_profile',$profile);
             
             return $response;
             

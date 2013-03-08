@@ -23,3 +23,6 @@ services:
         class:  Cerad\Bundle\JanrainBundle\EventListener\RegistrationListener
         tags:   
           - { name: kernel.event_subscriber }
+        arguments:
+          - '@cerad_account.user_manager'
+          

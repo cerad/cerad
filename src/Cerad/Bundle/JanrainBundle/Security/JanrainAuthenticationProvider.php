@@ -25,6 +25,21 @@ class JanrainAuthenticationProvider implements AuthenticationProviderInterface
     }
 
     // Comes in with JanrainAuthenticationToken
+    /* =====================================================
+     * Want a little bit more logic here
+     * 
+     * 1. Try the basic openid identifier
+     * 
+     * 2. If not found, try the oauth identifier if have one
+     * 
+     * 3. If not found, try the verified email if have one
+     *    If a verified email user is found then add the identifier to the user automatically OR
+     *    Do a redirect to the add identifier page, require password to add
+     * 
+     * 4. Might consider doing this for username as well?
+     * 
+     * Multiple tries will require catching exceptions, better to have logic in user provider?
+     */
     public function authenticate(TokenInterface $token)
     {
         // die('AuthenticationProvider.authenticate ' . get_class($this->userProvider));

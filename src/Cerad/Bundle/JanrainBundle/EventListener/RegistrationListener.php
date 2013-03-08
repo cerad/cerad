@@ -20,12 +20,18 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RegistrationListener implements EventSubscriberInterface
 {
+    protected $userManager;
+    
     public static function getSubscribedEvents()
     {
         return array(
             FOSUserEvents::REGISTRATION_INITIALIZE =>       'onRegistrationInitialize',
             FOSUserEvents::REGISTRATION_SUCCESS    => array('onRegistrationSuccess',10),
         );
+    }
+    public function __construct($userManager)
+    {
+        $this->userManager = $userManager;
     }
     public function onRegistrationSuccess(FormEvent $event)
     {
@@ -35,19 +41,19 @@ class RegistrationListener implements EventSubscriberInterface
          */
         $session = $event->getRequest()->getSession();
         if (!$session->has('cerad_janrain_profile')) return;
-        
+   
         // Get the stuff
         $profile = $session->get('cerad_janrain_profile');
         $user    = $event->getForm()->getData();
         
         // Want to add one or possibly two account_identifier objects
-        $identifier = $user->createIdentifier($profile->getProviderName(),$profile->getIdentifier(),$profile->getData());
-        $user->addIdentifier($identifier);
+        $identifier = $this->userManager->createIdentifier($profile->getProviderName(),$profile->getIdentifier(),$profile->getData());
+        $this->userManager->addIdentifierToUser($user,$identifier);
         
         if ($profile->getIdentifier2())
         {
-            $identifier2 = $user->createIdentifier($profile->getProviderName(),$profile->getIdentifier2(),$profile->getData());
-            $user->addIdentifier($identifier2);
+            $identifier2 = $this->userManager->createIdentifier($profile->getProviderName(),$profile->getIdentifier2(),$profile->getData());
+            $this->userManager->addIdentifierToUser($user,$identifier2);
         }
         /* ===============================================
          * If have a verified email then no need to confirm
@@ -64,9 +70,9 @@ class RegistrationListener implements EventSubscriberInterface
     {
         $session = $event->getRequest()->getSession();
         if (!$session->has('cerad_janrain_profile')) return;
-        
+    
         $profile = $session->get('cerad_janrain_profile');
-        
+  
         $user = $event->getUser();
         
         $user->setUsername($profile->getUsername());
