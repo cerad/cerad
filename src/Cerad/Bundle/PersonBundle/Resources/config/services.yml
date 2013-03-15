@@ -1,14 +1,66 @@
 services:
   
-    cerad.person.entity_manager:
+    cerad_person.entity_manager:
         alias: doctrine.orm.persons_entity_manager
         
-    cerad.person.repository:
+    cerad_person.repository:
         class:  Cerad\Bundle\PersonBundle\EntityRepository\PersonRepository
-        factory_service: 'cerad.person.entity_manager'
+        factory_service: 'cerad_person.entity_manager'
         factory_method:  'getRepository'
         arguments:  
             - 'Cerad\Bundle\PersonBundle\Entity\Person'
 
-    cerad.person.manager:
-        alias: cerad.person.repository
+    cerad_person.manager:
+        alias: cerad_person.repository
+        
+# =======================================================
+# Data transformers
+    cerad_person.ayso_region_id.datatransformer:
+        class: Cerad\Bundle\PersonBundle\DataTransformer\AYSO\RegionIDTransformer
+    
+    cerad_person.ayso_region_entity.datatransformer:
+        class: Cerad\Bundle\PersonBundle\DataTransformer\AYSO\RegionEntityTransformer
+        arguments:  
+            - '@cerad_person.manager' # Should be league manager
+            
+    cerad_person.ayso_volunteer_id.datatransformer:
+        class: Cerad\Bundle\PersonBundle\DataTransformer\AYSO\VolunteerIDTransformer
+ 
+# =======================================================
+# Form types
+    cerad_person.person.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\PersonFormType
+        tags:
+            - { name: form.type, alias: cerad_person }
+        arguments:  
+            - '@cerad_person.manager'
+          
+    cerad_person.person.form_type.admin:
+        class: Cerad\Bundle\PersonBundle\Form\Type\PersonFormType
+        tags:
+            - { name: form.type, alias: cerad_person_admin }
+        arguments:  
+            - '@cerad_person.manager'
+            - 'admin'
+            
+    cerad_person.ayso_region_id.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RegionIDFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ayso_region_id }
+            
+    cerad_person.ayso_volunteer_id.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\VolunteerIDFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ayso_volunteer_id }
+            
+    cerad_person.ayso_referee_badge.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RefereeBadgeFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ayso_referee_badge }
+
+    cerad_person.ayso_volunteer_region.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\VolunteerRegionFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ayso_volunteer_region }
+
+ 

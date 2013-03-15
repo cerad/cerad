@@ -1,0 +1,27 @@
+{% extends '@person/layout.html.twig' %}
+
+{% block title %}AYSO Volunteer Region{% endblock %}
+
+{% block content %}
+<h3>AYSO Volunteer Region</h3>
+<form 
+    class="s1" style="width: 500px;"
+    action="{{ path('cerad_person_ayso_volunteer_region') }}" {{ form_enctype(form) }} method="POST" >
+<fieldset>
+    {{ form_row(form.ayso_volunteer_id) }}
+    {{ form_row(form.ayso_region_id)    }}
+    {{ form_row(form.ayso_referee_badge)}}
+    {{ form_rest(form) }}
+</fieldset>
+<fieldset>
+    <div class="controls">
+        <input type="submit" value="Submit" />
+    </div>
+</fieldset>
+</form>
+<h4>Instructions</h4>
+<p style="width: 600px;">If you have an ArbiterSports account (either referee or contact) 
+    then your unique email should be your <em>Arbiter</em> email.  
+    Using your arbiter email will allow the sytem to tie you directly to your games.
+</p>
+{% endblock %}
