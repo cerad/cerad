@@ -1,0 +1,32 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\ProjectPerson:
+    type:                 entity
+    table:                project_person
+    changeTrackingPolicy: NOTIFY
+    uniqueConstraints:
+        person_project_index:
+            columns: person_id,project_id
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+        project:
+            targetEntity: Project
+            nullable:     false
+            
+        person:
+            targetEntity: Person
+            nullable:     false
+            inversedBy:   projectPersons
+            
+    fields: 
+        status:
+            type:     string
+            length:   20
+            nullable: false
+
+        datax:
+            type:     text
+            nullable: true

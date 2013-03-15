@@ -1,0 +1,34 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\Project:
+    type:                 entity
+    table:                project
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: NONE }
+            
+    manyToOne:
+        parent:
+            targetEntity: Project
+            nullable:     true
+            
+        projectGroup:
+            targetEntity: ProjectGroup
+            nullable:     false
+            joinColumn:
+                name:   project_group_id
+                referencedColumnName: id
+            
+    fields:
+        description:
+            column:   desc1
+            type:     string
+            length:   80
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
+

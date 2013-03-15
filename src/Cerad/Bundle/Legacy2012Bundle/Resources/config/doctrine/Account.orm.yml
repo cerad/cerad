@@ -1,0 +1,47 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\Account:
+    type:                 entity
+    table:                account
+    repositoryClass:      Cerad\Bundle\Legacy2012Bundle\EntityRepository\AccountRepository
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    oneToMany:
+        openids:
+            targetEntity: AccountOpenid
+            mappedBy:     account
+            
+    manyToOne:
+       person:
+           targetEntity: Person
+           nullable:     false
+            
+    fields:
+        userName:
+            column:   user_name
+            type:     string
+            length:   40
+            nullable: false
+            unique:   true
+            
+        userPass:
+            column:   user_pass
+            type:     string
+            length:   32
+            nullable: false
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: false
+            
+        reset:
+            column:   reset
+            type:     string
+            length:   40
+            nullable: true
+            unique:   true

@@ -1,0 +1,87 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\Person:
+    type:                 entity
+    table:                person
+    repositoryClass:      Cerad\Bundle\Legacy2012Bundle\EntityRepository\PersonRepository
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    oneToMany:
+        accounts:
+            targetEntity: Account
+            mappedBy:     person
+            
+        registeredPersons:
+            targetEntity: PersonReg
+            mappedBy:     person
+            indexBy:      regType
+            
+        personPersons:
+            targetEntity: PersonPerson
+            mappedBy:     person1
+            
+        projectPersons:
+            targetEntity: ProjectPerson
+            mappedBy:     person
+            
+#       teamRels:
+#           targetEntity: PersonTeamRel
+#           mappedBy:     person
+             
+    fields:
+        firstName:
+            column:   first_name
+            type:     string
+            length:   40
+            nullable: false
+            
+        lastName:
+            column:   last_name
+            type:     string
+            length:   40
+            nullable: false
+            
+        nickName:
+            column:   nick_name
+            type:     string
+            length:   40
+            nullable: true
+             
+        gender:
+            type:     string
+            length:   1
+            nullable: true
+            
+        dob:
+            type:     string
+            length:   8
+            nullable: true
+            
+        email:
+            type:     string
+            length:   60
+            nullable: true
+            
+        cellPhone:
+            column:   cell_phone
+            type:     string
+            length:   20
+            nullable: true
+           
+        verified:
+            type:     string
+            length:   20
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
+            
+        datax:
+            type:     text
+            nullable: true
+

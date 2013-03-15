@@ -1,0 +1,38 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\Org:
+    type:  entity
+    table: org
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: string
+            generator: { strategy: NONE }
+            
+    fields:
+        desc1:
+            column: desc1
+            type: string
+            nullable: true
+        desc2:
+            type: string
+            nullable: true
+        city:
+            type: string
+            nullable: true
+        state:
+            type: string
+            nullable: true
+        status:
+            type: string
+            nullable: false
+        datax:
+            type: text
+            nullable: true
+
+    manyToOne:
+        parent:
+            targetEntity: Org
+            nullable: true
+            joinColumn:
+                name:          parent_id
+                referencedColumnName: id

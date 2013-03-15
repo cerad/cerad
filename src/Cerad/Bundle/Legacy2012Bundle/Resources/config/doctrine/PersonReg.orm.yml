@@ -1,0 +1,63 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\PersonReg:
+    type:  entity
+    table: person_reg
+    
+    changeTrackingPolicy: NOTIFY
+    
+# This was never used, just an expirment    
+#   inheritanceType: SINGLE_TABLE
+    
+#   discriminatorColumn:
+#       name:   discr
+#       type:   string
+#       length: 20
+      
+#   discriminatorMap:
+#       BASE:  PersonReg
+#       AYSOV: PersonRegAYSOV
+#       USSF:  PersonRegUSSF
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+      
+        person:
+            targetEntity: Person
+            nullable:     false
+            inversedBy:   registeredPersons
+            
+        org:
+            targetEntity: Org
+            nullable:     true
+            
+    fields:
+        regType:
+            column:   reg_type
+            type:     string
+            length:   20
+            nullable: false
+            
+        regKey:
+            column:   reg_key
+            type:     string
+            length:   40
+            nullable: false
+            unique:   true
+           
+        verified:
+            type:     string
+            length:   20
+            nullable: true
+            
+        datax:
+            type:     text
+            nullable: true
+
+        discr:
+            column:   discr
+            type:     string
+            length:   20
+            nullable: false

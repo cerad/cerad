@@ -1,0 +1,55 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\AccountOpenid:
+    type:  entity
+    table: account_openid
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    
+    manyToOne:
+        account:
+            targetEntity: Account
+            nullable: false
+            joinColumn:
+                name:         account_id
+                referencedColumnName: id
+            
+    fields:
+        identifier:
+            column:   identifier
+            type:     string
+            length:   120
+            nullable: false
+            unique:   true
+            
+        provider:
+            column:   provider
+            type:     string
+            length:   80
+            nullable: false
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: false
+            
+        displayName:
+            column:   display_name
+            type:     string
+            length:   80
+            nullable: true
+            
+        userName:
+            column:   user_name
+            type:     string
+            length:   80
+            nullable: true
+            
+        email:
+            column:   email
+            type:     string
+            length:   80
+            nullable: true

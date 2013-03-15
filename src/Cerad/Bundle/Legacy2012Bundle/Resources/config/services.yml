@@ -1,0 +1,18 @@
+services:
+  
+  cerad_legacy2012.entity_manager:
+    alias: doctrine.orm.legacy2012_entity_manager
+    
+  cerad_legacy2012.account.manager:
+    class:  Cerad\Bundle\Legacy2012Bundle\EntityRepository\AccountRepository
+    factory_service: 'cerad_legacy2012.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\Legacy2012Bundle\Entity\Account'
+      
+  cerad_legacy2012.person.manager:
+    class:  Cerad\Bundle\Legacy2012Bundle\EntityRepository\PersonRepository
+    factory_service: 'cerad_legacy2012.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\Legacy2012Bundle\Entity\Person'

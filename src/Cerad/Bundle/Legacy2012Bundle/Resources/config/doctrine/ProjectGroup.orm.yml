@@ -1,0 +1,29 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\ProjectGroup:
+    type:                 entity
+    table:                project_group
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    fields: 
+        key:
+            column:   keyx
+            type:     string
+            length:   32
+            nullable: false
+            unique:   true
+            
+        description:
+            column:   descx
+            type:     string
+            length:   80
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
+
