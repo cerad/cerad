@@ -16,3 +16,10 @@ services:
     factory_method:  'getRepository'
     arguments:  
       - 'Cerad\Bundle\Legacy2012Bundle\Entity\Person'
+      
+  cerad_legacy2012.game.manager:
+    class:  Cerad\Bundle\Legacy2012Bundle\EntityRepository\GameRepository
+    factory_service: 'cerad_legacy2012.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\Legacy2012Bundle\Entity\Event'

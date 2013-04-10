@@ -1,0 +1,35 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\ProjectField:
+    type:                 entity
+    table:                project_field
+    changeTrackingPolicy: NOTIFY
+    uniqueConstraints:
+        project_key1:
+            columns: project_id,key1
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+        project:
+            targetEntity: Project
+            nullable:     false
+    
+    fields: 
+        key1:
+            column:   key1
+            type:     string
+            length:   40
+            nullable: false
+            
+        venue:
+            column:   venue
+            type:     string
+            length:   40
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false

@@ -1,5 +1,5 @@
 <?php
-namespace Zayso\CoreBundle\Entity;
+namespace Cerad\Bundle\Legacy2012Bundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -27,10 +27,8 @@ class Event extends BaseEntity
     
     protected $datax = null;
     
-    /**  ORM\OneToMany(targetEntity="EventTeam", mappedBy="event", indexBy="type", cascade={"all"}) */
     protected $teams;
 
-    /**  ORM\OneToMany(targetEntity="EventPerson", mappedBy="event", indexBy="type", cascade={"all"}) */
     protected $persons;
     
     public function __construct()

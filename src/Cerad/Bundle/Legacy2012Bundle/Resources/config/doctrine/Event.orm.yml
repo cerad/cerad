@@ -1,0 +1,65 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\Event:
+    type:                 entity
+    table:                event
+    changeTrackingPolicy: NOTIFY
+    repositoryClass:      Cerad\Bundle\Legacy2012Bundle\EntityRepository\GameRepository
+    uniqueConstraints:
+        event_project_num_index:
+            columns: project_id,num
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+        project:
+            targetEntity: Project
+            nullable:     false
+        field:
+            targetEntity: ProjectField
+            nullable:     false
+            
+    oneToMany:
+        teams:
+            targetEntity: EventTeam
+            mappedBy:     event
+            indexBy:      type
+            
+    fields: 
+        num:
+            type:     integer
+            nullable: false
+            
+        date:
+            column:   datex
+            type:     string
+            length:   8
+            nullable: true
+            
+        time:
+            column:   timex
+            type:     string
+            length:   4
+            nullable: true
+            
+        type:
+            column:   type
+            type:     string
+            length:   20
+            nullable: false
+            
+        pool:
+            column:   pool
+            type:     string
+            length:   20
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
+            
+        datax:
+            type:     text
+            nullable: true

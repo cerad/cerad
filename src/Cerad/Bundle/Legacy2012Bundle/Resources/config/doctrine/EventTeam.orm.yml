@@ -1,0 +1,34 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\EventTeam:
+    type:                 entity
+    table:                event_team
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+        project:
+            targetEntity: Project
+            nullable:     false
+        event:
+            targetEntity: Event
+            nullable:     false
+            inversedBy:   teams
+            
+        team:
+            targetEntity: Team
+            nullable:     false
+           
+    fields: 
+            
+        type:
+            column:   type
+            type:     string
+            length:   20
+            nullable: false
+            
+        datax:
+            type:     text
+            nullable: true

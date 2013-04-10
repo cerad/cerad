@@ -26,6 +26,7 @@ class ExportCommand extends ContainerAwareCommand
     {
         $this->exportAccounts();
         $this->exportPersons();
+        $this->exportGames();
     }
     protected function exportAccounts()
     {
@@ -40,6 +41,18 @@ class ExportCommand extends ContainerAwareCommand
         $persons = $manager->findAll();
         
         echo sprintf("Persons: %d %s\n",count($persons),$persons[0]->getName());
+    }
+    protected function exportGames()
+    {
+        $manager = $this->getService('cerad_legacy2012.game.manager');
+        
+        $games = $manager->loadGamesForDate('20120706');
+        $game  = $games[0];
+        $gameHomeTeam = $game->getHomeTeam();
+        $homeTeam = $gameHomeTeam->getTeam();
+        echo sprintf("Games: %d %s %s %s %s %s\n",count($games),
+                $game->getDate(),$game->getFieldDesc(),$game->getPool(),
+                $gameHomeTeam->getType(),$homeTeam->getDesc1());
     }
 }
 

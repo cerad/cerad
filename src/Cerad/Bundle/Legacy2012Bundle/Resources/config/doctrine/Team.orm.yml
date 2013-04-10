@@ -1,0 +1,61 @@
+Cerad\Bundle\Legacy2012Bundle\Entity\Team:
+    type:                 entity
+    table:                team
+    changeTrackingPolicy: NOTIFY
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+        project:
+            targetEntity: Project
+            nullable:     false
+            
+    fields: 
+        key1: 
+            column:   key1
+            type:     string
+            nullable: true
+            
+        key2: 
+            column:   key2
+            type:     string
+            nullable: true
+            
+        desc1: 
+            column:   desc1
+            type:     string
+            nullable: true
+            
+        desc2: 
+            column:   desc2
+            type:     string
+            nullable: true
+           
+        age:
+            column:   age
+            type:     string
+            length:   20
+            nullable: true
+            
+        gender:
+            column:   gender
+            type:     string
+            length:   20
+            nullable: false
+            
+        type:
+            column:   type
+            type:     string
+            length:   20
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
+            
+        datax:
+            type:     text
+            nullable: true
