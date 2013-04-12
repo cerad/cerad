@@ -13,3 +13,12 @@ services:
         arguments:  
             - '@cerad_arbiter.schedule.manager'
            #- '@cerad_schedule.format.excel'
+           
+    cerad_arbiter.excel.reader:
+        class:  Cerad\Component\Excel\Reader
+        
+    cerad_arbiter.schedule.tourn.les.load:
+        class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\LoadLesSchedule
+#       arguments:  
+#          - '@cerad_arbiter.excel.reader'
+        
