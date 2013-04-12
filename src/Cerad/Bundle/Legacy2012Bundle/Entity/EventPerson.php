@@ -1,5 +1,6 @@
 <?php
-namespace Zayso\CoreBundle\Entity;
+
+namespace Cerad\Bundle\Legacy2012Bundle\Entity;
 
 /* =======================================
  * Assigned  - Pending  - Published - Accepted

@@ -50,9 +50,17 @@ class ExportCommand extends ContainerAwareCommand
         $game  = $games[0];
         $gameHomeTeam = $game->getHomeTeam();
         $homeTeam = $gameHomeTeam->getTeam();
-        echo sprintf("Games: %d %s %s %s %s %s\n",count($games),
+        echo sprintf("Games: %d %s %s %s %s %s ",count($games),
                 $game->getDate(),$game->getFieldDesc(),$game->getPool(),
                 $gameHomeTeam->getType(),$homeTeam->getDesc1());
+        
+        $eventPersons = $game->getEventPersons();
+        foreach($eventPersons as $eventPerson)
+        {
+            echo $eventPerson->getPersonName() . ' ';
+        }
+        echo "\n";
+        
     }
 }
 

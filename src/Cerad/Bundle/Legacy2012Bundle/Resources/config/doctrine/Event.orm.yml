@@ -26,6 +26,11 @@ Cerad\Bundle\Legacy2012Bundle\Entity\Event:
             mappedBy:     event
             indexBy:      type
             
+        persons:
+            targetEntity: EventPerson
+            mappedBy:     event
+            indexBy:      type
+           
     fields: 
         num:
             type:     integer
