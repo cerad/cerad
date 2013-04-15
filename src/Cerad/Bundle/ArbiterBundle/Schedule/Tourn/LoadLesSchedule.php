@@ -18,16 +18,19 @@ class LoadLesSchedule extends BaseLoader
         
         'homeSeed' => array('cols' => 'Home Seed', 'req' => true),
         'homeClub' => array('cols' => 'Home Club', 'req' => true),
-        'homeTeam' => array('cols' => 'Home Team', 'req' => true),
+        'homeTeam' => array('cols' => 'Home Team Full', 'req' => true),
         
         'awaySeed' => array('cols' => 'Away Seed', 'req' => true),
         'awayClub' => array('cols' => 'Away Club', 'req' => true),
-        'awayTeam' => array('cols' => 'Away Team', 'req' => true),
+        'awayTeam' => array('cols' => 'Away Team Full', 'req' => true),
       
     );
     protected function processItem($item)
     {
         $num = $item['num'] + 7000;
+        
+        $date = $item['date'];
+        $time = $item['time'];
         
         if (strlen($item['flight']) > strlen($item['bracket'])) $level = $item['flight'];
         else                                                    $level = $item['bracket'];
@@ -57,10 +60,22 @@ class LoadLesSchedule extends BaseLoader
         {
             print_r($item); die("\nFIELD\n");
         }
+        $game = array
+        (
+            'num'   => $num,
+            'date'  => $date,
+            'time'  => $time,
+            'type'  => $type,
+            'sport' => 'HFC Classic',
+            'level' => $level,
+            'site'  => $site,
+            'home'  => $homeTeam,
+            'away'  => $awayTeam,
+        );
         
-        $this->items[] = $item;
+        $this->items[] = $game;
         
-        echo sprintf("%4d %-16s %-20s %-30s %-30s\n",$num,$level,$site,$homeTeam,$awayTeam);
+        echo sprintf("%4d %8s %8s %-16s %-20s %-40s %-40s\n",$num,$date,$time,$level,$site,$homeTeam,$awayTeam);
         
         //print_r($item); die("\n");
     }

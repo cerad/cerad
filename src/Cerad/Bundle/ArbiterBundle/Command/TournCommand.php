@@ -37,9 +37,13 @@ class TournCommand extends ContainerAwareCommand
         
         $datax = $this->getParameter('datax');
         
-        $items = $loader->load($datax . '/classic/ScheduleLes20130411.xls');
+        $items = $loader->load($datax . '/classic/ScheduleLes20130415.csv');
         
         echo sprintf("Games: %d\n",count($items));
+        
+        $saver = $this->getService('cerad_arbiter.schedule.tourn.arbiter.save');
+        
+        $saver->save($datax . '/classic/ScheduleArbiter20130415.csv',$items);
     }
     /* ===========================================================================
      * Old stuff

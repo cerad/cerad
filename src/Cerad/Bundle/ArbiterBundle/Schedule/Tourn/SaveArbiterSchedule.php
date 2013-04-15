@@ -1,7 +1,6 @@
 <?php
-namespace Zayso\ArbiterBundle\Schedule;
 
-use Zayso\ArbiterBundle\Entity\Game;
+namespace Cerad\Bundle\ArbiterBundle\Schedule\Tourn;
 
 class SaveArbiterSchedule
 {
@@ -17,7 +16,7 @@ class SaveArbiterSchedule
         
         foreach($games as $game)
         {
-            $site = $game->getSite();
+            $site = $game['site'];
             $subSite = null;
             
             $info = explode(',',$site);
@@ -28,15 +27,15 @@ class SaveArbiterSchedule
             }
             $data = array
             (
-                $game->getDate(),
-                $game->getTime(),
-                $game->getGameNum(),
-                $game->getSport(),
-                $game->getLevel(),
-                $game->getHomeTeam(),
-                $game->getLevel(),
-                $game->getAwayTeam(),
-                $game->getLevel(),
+                $game['date'],
+                $game['time'],
+                $game['num'],
+                $game['sport'],
+                $game['level'],
+                $game['home'],
+                $game['level'],
+                $game['away'],
+                $game['level'],
                 $site,$subSite,
             );
             fputcsv($file,$data);

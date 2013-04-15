@@ -19,6 +19,7 @@ services:
         
     cerad_arbiter.schedule.tourn.les.load:
         class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\LoadLesSchedule
-#       arguments:  
-#          - '@cerad_arbiter.excel.reader'
+
+    cerad_arbiter.schedule.tourn.arbiter.save:
+        class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\SaveArbiterSchedule
         
