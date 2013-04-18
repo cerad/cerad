@@ -50,7 +50,10 @@ class Loader
                 {
                     if ($col == $colName)
                     {
-                        $this->map[$index] = $name;
+                        if (isset($params['plus'])) $plus = $params['plus'];
+                        else                        $plus = 0;
+                        
+                        $this->map[$index + $plus] = $name;
                         $found[$name] = true;
                     }
                 }

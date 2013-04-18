@@ -1,7 +1,5 @@
 <?php
-namespace Zayso\ArbiterBundle\Schedule;
-
-use Zayso\ArbiterBundle\Entity\Game;
+namespace Cerad\Bundle\ArbiterBundle\Schedule\Tourn;
 
 class SaveRefereeSchedule
 {
@@ -16,32 +14,30 @@ class SaveRefereeSchedule
             $this->refereeCurrent = $referee;
             fputcsv($file,array());
         }
-        switch($game->getDate())
-        {
-            case '10/19/2012': $dow = 'FRI'; break;
-            case '10/20/2012': $dow = 'SAT'; break;
-            case '10/21/2012': $dow = 'SUN'; break;
-            default:           $dow = 'DOW';
-        }
+      //switch($game->getDate())
+      //{
+      //    case '10/19/2012': $dow = 'FRI'; break;
+      //    case '10/20/2012': $dow = 'SAT'; break;
+      //    case '10/21/2012': $dow = 'SUN'; break;
+      //    default:           $dow = 'DOW';
+      //}
         
         $data = array
         (
             $referee,
             $pos,
-            $game->getGameNum(),
-            $game->getDate(),
-            $dow,
-            $game->getTime(),
-            $game->getSport(),
-            $game->getLevel(),
+            $game['num'],
+            $game['date'],
+            $game['dow'],
+            $game['time'],
+            $game['sport'],
+            $game['level'],
             '','',
-            $game->getSite(),
-            $game->getHomeTeam(),
-            $game->getAwayTeam(),
+            $game['site'],
+            $game['home'],
+            $game['away'],
         );
         fputcsv($file,$data);
-         
-        
     }
     protected $referees = array();
     
@@ -90,15 +86,15 @@ class SaveRefereeSchedule
         
         foreach($games as $game)
         {
-            $this->addPosition($game->getCR (),'CR',$game);
-            $this->addPosition($game->getAR1(),'AR',$game);
-            $this->addPosition($game->getAR2(),'AR',$game);
+            $this->addPosition($game['referee'],'CR',$game);
+            $this->addPosition($game['ar1'],    'AR',$game);
+            $this->addPosition($game['ar2'],    'AR',$game);
             
-            $referee = $this->getRefereeForTeam($game->getHomeTeam());
-            $this->addPosition($referee,'SPEC',$game);
+            //$referee = $this->getRefereeForTeam($game->getHomeTeam());
+            //$this->addPosition($referee,'SPEC',$game);
             
-            $referee = $this->getRefereeForTeam($game->getAwayTeam());
-            $this->addPosition($referee,'SPEC',$game);
+            //$referee = $this->getRefereeForTeam($game->getAwayTeam());
+            //$this->addPosition($referee,'SPEC',$game);
         }
         ksort($this->referees);
         

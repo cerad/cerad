@@ -19,7 +19,13 @@ services:
         
     cerad_arbiter.schedule.tourn.les.load:
         class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\LoadLesSchedule
+        
+    cerad_arbiter.schedule.tourn.arbiter.load:
+        class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\LoadArbiterSchedule
 
     cerad_arbiter.schedule.tourn.arbiter.save:
         class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\SaveArbiterSchedule
+        
+    cerad_arbiter.schedule.tourn.referee.save:
+        class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\SaveRefereeSchedule
         

@@ -29,7 +29,8 @@ class TournCommand extends ContainerAwareCommand
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->testLoadLesSchedule();
+      //$this->testLoadLesSchedule();
+        $this->testLoadArbiterSchedule();
     }
     protected function testLoadLesSchedule()
     {
@@ -44,6 +45,20 @@ class TournCommand extends ContainerAwareCommand
         $saver = $this->getService('cerad_arbiter.schedule.tourn.arbiter.save');
         
         $saver->save($datax . '/classic/ScheduleArbiter20130415.csv',$items);
+    }
+    protected function testLoadArbiterSchedule()
+    {
+        $loader = $this->getService('cerad_arbiter.schedule.tourn.arbiter.load');
+        
+        $datax = $this->getParameter('datax');
+        
+        $items = $loader->load($datax . '/classic/Schedule20130418.xls');
+        
+        echo sprintf("Games: %d\n",count($items));
+        
+        $saver = $this->getService('cerad_arbiter.schedule.tourn.referee.save');
+        
+        $saver->save($datax . '/classic/ScheduleReferee20130418.csv',$items);
     }
     /* ===========================================================================
      * Old stuff
