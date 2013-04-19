@@ -1,0 +1,7 @@
+cerad_tourn_index:
+  path: /
+  defaults:  { _controller: CeradTournBundle:Main:index }
+  
+cerad_tourn_welcome:
+  path: /welcome
+  defaults:  { _controller: CeradTournBundle:Main:welcome }

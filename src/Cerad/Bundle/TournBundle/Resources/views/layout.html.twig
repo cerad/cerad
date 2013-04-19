@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}Tourn Bundle{% endblock %}</title>
+    <meta name="description" content="Cerad Referee Scheduling"/>
+    <meta name="author" content="Art Hundiak"/>
+          
+{# Need this at the top to remember which account was last used to sign in #}
+{% block janrain %}{% endblock %}
+    
+{% block jquery %}{% endblock %}
+
+<!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+<body>
+{{ include('@CeradTourn/header.html.twig') }}
+<div id="layout-content">
+  {% block content %}{% endblock %}
+</div>
+
+{# Need more research on blocks #}
+{% block javascripts %}{% endblock %}
+</body>
+</html>
+
