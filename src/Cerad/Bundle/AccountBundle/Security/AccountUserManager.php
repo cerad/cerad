@@ -58,6 +58,23 @@ class AccountUserManager extends BaseUserManager
         $user->addIdentifier($identifier);
     }
 
+    /* =======================================================
+     * Mostly for testing, delete all accounts
+     */
+    public function deleteUsers()
+    {
+        $conn = $this->objectManager->getConnection();
+        $conn->executeUpdate('DELETE FROM account_identifier;');
+        $conn->executeUpdate('DELETE FROM account_user;');
+        
+        $conn->executeUpdate('ALTER TABLE account_identifier AUTO_INCREMENT = 1;');
+        $conn->executeUpdate('ALTER TABLE account_user       AUTO_INCREMENT = 1;');
+    }
+    public function canEmail($email)
+    {
+        return $this->emailCanonicalizer->canonicalize($email);
+    }
+
 }
 
 ?>

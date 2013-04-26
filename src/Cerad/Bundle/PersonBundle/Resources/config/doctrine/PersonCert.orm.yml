@@ -49,31 +49,11 @@ Cerad\Bundle\PersonBundle\Entity\PersonCert:
             nullable: true
             
         dateLastUpgraded:
-            column:   date_upgrade
+            column:   date_upgraded
             type:     date
             nullable: true
            
         upgrading:
-            type:     string
-            length:   20
-            nullable: true
-            
-        cvpa:
-            type:     string
-            length:   20
-            nullable: true
-            
-        experience:
-            type:     integer
-            nullable: true
-            
-        regYear:
-            column:   reg_year
-            type:     integer
-            nullable: true
-            
-        regOrg:
-            column:   reg_org
             type:     string
             length:   20
             nullable: true

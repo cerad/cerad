@@ -36,18 +36,20 @@ class PersonLeague extends BaseEntity
     
     protected $league;
     protected $person;
+
+    protected $cvpa;       // Child training
     
-    protected $dateFirst; // Registered or whatever
-    protected $dateLast;
-    protected $dateExpires;
+    protected $memId;      // Just the aysoid or ussfid.  No prefix
+    protected $memYear;    // FS2012 etc
+    
+    protected $memFirstRegistered; // Registered or whatever
+    protected $memLastRegistered;
+    protected $memExpires;
     
     // Probably want two objects
-    protected $dateFirstBackgroundCheck;
-    protected $dateLastBackgroundCheck;
-    protected $dateBackgroundCheckExpires;
-    
-    protected $memId;    // Just the aysoid or ussfid.  No prefix
-    protected $memYear;  // FS2012 etc
+    protected $backgroundCheckFirst;
+    protected $backgroundCheckLast;
+    protected $backgroundCheckExpires;
     
     protected $status   = 'Active'; // Active means all is well, Checking for needs to be checked
     protected $verified = 'No';     // Active means all is well, Checking for needs to be checked
@@ -58,6 +60,7 @@ class PersonLeague extends BaseEntity
     public function getId     () { return $this->id;      }
     public function getFed    () { return $this->fed;     }
     public function getRole   () { return $this->role;    }
+    public function getCvpa   () { return $this->cvpa;    }
     public function getPerson () { return $this->person;  }
     public function getLeague () { return $this->league;  }
     
@@ -74,6 +77,7 @@ class PersonLeague extends BaseEntity
     
     public function setFed    ($value) { $this->onPropertySet('fed',     $value); }
     public function setRole   ($value) { $this->onPropertySet('role',    $value); }
+    public function setCvpa   ($value) { $this->onPropertySet('cvpa',    $value); }
     public function setBadge  ($value) { $this->onPropertySet('badge',   $value); }
     public function setStatus ($value) { $this->onPropertySet('status',  $value); }
     public function setVerified($value){ $this->onPropertySet('verified',$value); }

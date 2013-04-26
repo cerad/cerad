@@ -9,10 +9,14 @@ class AccountUser extends BaseUser
 {
     protected $name;
     protected $person;      // Just a guid for now
+    protected $personGuid;  // Just a guid for now
     protected $identifiers; // Allow cascade persisting
     
     public function getName()       { return $this->name; }
     public function setName($value) { $this->name = $value; return $this; }
+    
+    public function getPersonGuid()       { return $this->personGuid; }
+    public function setPersonGuid($value) { $this->personGuid = $value; return $this; }
     
     public function getPerson()       { return $this->person; }
     public function setPerson($value) { $this->person = $value; return $this; }

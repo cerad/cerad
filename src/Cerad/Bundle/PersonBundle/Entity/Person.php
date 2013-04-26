@@ -10,7 +10,8 @@ class Person extends BaseEntity
     const GenderUnknown = 'U';
     
     protected $id;
-
+    protected $idx; // Just to help with legacy import
+    
     protected $name;
     
     protected $lastName;
@@ -55,8 +56,8 @@ class Person extends BaseEntity
     /* ======================================================================
      * Standard getter/setters
      */
-    public function getId       () { return $this->id; }
-  //public function getAge      () { return $this->age; }
+    public function getId       () { return $this->id;  }
+    public function getIdx      () { return $this->idx; }
     public function getDob      () { return $this->dob; }
     public function getName     () { return $this->name;   }
     public function getEmail    () { return $this->email;  }
@@ -72,6 +73,7 @@ class Person extends BaseEntity
     public function getNickName () { return $this->nickName;  }
     public function getFirstName() { return $this->firstName; }
 
+    public function setIdx      ($value) { $this->onPropertySet('idx',      $value); }
     public function setDob      ($value) { $this->onPropertySet('dob',      $value); }
     public function setName     ($value) { $this->onPropertySet('name',     $value); }
     public function setCity     ($value) { $this->onPropertySet('city',     $value); }

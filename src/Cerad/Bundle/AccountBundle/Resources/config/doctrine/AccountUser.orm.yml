@@ -22,7 +22,7 @@ Cerad\Bundle\AccountBundle\Entity\AccountUser:
            #length:   40
             nullable: true
             
-        person:
+        personGuid:
             column:   person_guid
             type:     string
             length:   32

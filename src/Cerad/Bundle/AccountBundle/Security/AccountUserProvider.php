@@ -1,7 +1,10 @@
 <?php
 namespace Cerad\Bundle\AccountBundle\Security;
 
-use FOS\UserBundle\Security\UserProvider as BaseUserprovider;
+use FOS\UserBundle\Security\UserProvider as BaseUserProvider;
+
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserInterface as SecurityUserInterface;
 
 /* ===============================================
  * Want to avoid having any special interface just for janrain or oauth2
@@ -9,24 +12,39 @@ use FOS\UserBundle\Security\UserProvider as BaseUserprovider;
  */
 class AccountUserProvider extends BaseUserProvider
 {
+    public function __construct($userManager, $personManager = null)
+    {
+        parent::__construct($userManager);
+        
+        $this->personManager = $personManager;
+    }
+
     protected function findUser($username)
     {
         // Check AccountUser
         $user = $this->userManager->findUserByUsernameOrEmail($username);
-        if ($user) return;
         
-        return $this->userManager->findUserByIdentifier($username);
+        if (!$user) $user = $this->userManager->findUserByIdentifier($username);
+        
+        if (!$user) {
+            throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
+        }
  
-        // Check AccountIdentifier
-        // Maybe move to UserManager?
-        $qb = $this->userManager->repository->createQueryBuilder('user');
-        $qb->leftJoin('user.identifiers','identifier');
-        $qb->where('identifier.identifier = ?1');
-        $qb->setParameter(1,$username);
+        // Load in person
+        if (!$this->personManager) return $user;
         
-        return $qb->getQuery()->getOneOrNullResult();
+        $person = $this->personManager->find($user->getPersonGuid());
+        
+        $user->setPerson($person);
+        
+        return $user;
+        //die($person->getName());
     }
-    
+    public function refreshUserx(SecurityUserInterface $user)
+    {
+        //die('refresh');
+        return $user;
+    }
 }
 
 ?>

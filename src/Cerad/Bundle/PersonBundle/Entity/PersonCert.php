@@ -1,7 +1,6 @@
 <?php
 namespace Cerad\Bundle\PersonBundle\Entity;
 
-
 class PersonCert extends BaseEntity
 {
     const FedAYSO = 'AYSO';
@@ -33,27 +32,12 @@ class PersonCert extends BaseEntity
     protected $badgex;  // As set by user
     protected $badge;   // As set by administrator
     
-    protected $experience;
     protected $dateFirstCertified;
     protected $dateLastUpgraded;
     protected $upgrading;
-    
-    protected $cvpa;     // Yes if taken safe haven or other required, maybe background check
-    
-    // Move this to PersonReg object
-    protected $regYear;  // Year last registered
-    protected $regOrg;   // State or region currently certified/registered in?
  
-    protected $status   = 'Checking'; // Active means all is well, Checking for needs to be checked
-    protected $verified = 'No';       // Active means all is well, Checking for needs to be checked
-    
-    /* =================================================================
-     * Here is where we start to lose some of the generic stuff
-     * Maybe this should be in the plans after all?
-     */
-    protected $levelDiv;
-    protected $levelCenter;
-    protected $levelAssist;
+    protected $status   = 'Checking';
+    protected $verified = 'No';
     
     /* =================================================================
      * Accessors
@@ -68,13 +52,9 @@ class PersonCert extends BaseEntity
 
     public function getStatus  () { return $this->status;  }
     public function getVerified() { return $this->verified;}
-    public function getCvpa    () { return $this->cvpa;    }
-    public function getRegYear () { return $this->regYear; }
-    public function getRegOrg  () { return $this->regOrg;  }
     
     public function getDateFirstCertified () { return $this->dateFirstCertified;  }
     public function getDateLastUpgraded()    { return $this->dateLastUpgraded;    }
-    public function getExperience()          { return $this->experience;          }
     public function getUpgrading()           { return $this->upgrading;           }
     
     public function getIdentifier() { return $this->identifier; }
@@ -84,13 +64,9 @@ class PersonCert extends BaseEntity
     public function setBadge  ($value) { $this->onPropertySet('badge',   $value); }
     public function setStatus ($value) { $this->onPropertySet('status',  $value); }
     public function setVerified($value){ $this->onPropertySet('verified',$value); }
-    public function setCvpa   ($value) { $this->onPropertySet('cvpa',    $value); }
-    public function setRegYear($value) { $this->onPropertySet('regYear', $value); }
-    public function setRegOrg ($value) { $this->onPropertySet('regOrg',  $value); }
     
     public function setDateFirstCertified($value) { $this->onPropertySet('dateFirstCertified',$value); }
     public function setDateLastUpgraded  ($value) { $this->onPropertySet('dateLastUpgraded',  $value); }
-    public function setExperience        ($value) { $this->onPropertySet('experience',        $value); }
     public function setUpgrading         ($value) { $this->onPropertySet('upgrading',         $value); }
     
     public function setBadgex($badge) 
@@ -120,8 +96,14 @@ class PersonCert extends BaseEntity
         
         return $cert;
     }
+    // Calc based on cert date
+    public function getExperience()          
+    {
+        return $this->experience;
+    }
+
     /* ====================================================================
-     * Keep going bavk and forth on identifier
+     * Keep going back and forth on identifier
      * It really shoud be globally unique for a person
      * However it does cause pain when dealing with the prefix
      * 

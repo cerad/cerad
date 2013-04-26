@@ -37,6 +37,8 @@ class PersonReg extends BaseEntity
     public function setMemYear($memYear)  { return $this->set('mem_year',$memYear); }
     public function getMemYear()          { return $this->get('mem_year'); }
     
+    public function getSafeHaven()        { return $this->get('safe_haven'); }
+    
     /* ==============================================================
      * Org might be optional for some types of certs
      */

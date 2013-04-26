@@ -8,7 +8,13 @@ services:
             
     cerad_account.user_provider:
         class: Cerad\Bundle\AccountBundle\Security\AccountUserProvider
-        arguments: ['@fos_user.user_manager']
+        arguments: 
+            - '@fos_user.user_manager'
+            - '@cerad_person.manager'
+        
+    cerad_account.user_encoder:
+        class: Cerad\Bundle\AccountBundle\Security\AccountUserEncoder
+        arguments: [%cerad_account_master_password%]
         
     cerad_account.user_manager:
         class: Cerad\Bundle\AccountBundle\Security\AccountUserManager

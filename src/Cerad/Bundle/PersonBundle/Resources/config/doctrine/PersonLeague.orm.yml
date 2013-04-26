@@ -39,10 +39,16 @@ Cerad\Bundle\PersonBundle\Entity\PersonLeague:
             length:   40
             nullable: false
             
+        cvpa:
+            column:   cvpa
+            type:     string
+            length:   20
+            nullable: true
+            
         memId:
             column:   mem_id
             type:     string
-            length:   20
+            length:   40
             nullable: true
 
         memYear:
@@ -50,22 +56,37 @@ Cerad\Bundle\PersonBundle\Entity\PersonLeague:
             type:     string
             length:   20
             nullable: true
-             
-        dateFirst:
-            column:   date_first
+            
+        memFirstRegistered:
+            column:   mem_first
             type:     date
             nullable: true
             
-        dateLast:
-            column:   date_last
+        memLastRegistered:
+            column:   mem_last
             type:     date
             nullable: true
             
-        dateExpires:
-            column:   date_expires
+        memExpires:
+            column:   mem_expires
             type:     date
             nullable: true
             
+        backgroundCheckFirst:
+            column:   bc_first
+            type:     date
+            nullable: true
+            
+        backgroundCheckLast:
+            column:   bc_last
+            type:     date
+            nullable: true
+            
+        backgroundCheckExpires:
+            column:   bc_expires
+            type:     date
+            nullable: true
+           
         verified:
             type:     string
             length:   20

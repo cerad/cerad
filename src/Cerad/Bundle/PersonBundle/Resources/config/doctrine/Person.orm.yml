@@ -27,6 +27,9 @@ Cerad\Bundle\PersonBundle\Entity\Person:
 #           mappedBy:     person
              
     fields:
+        idx:
+            type: integer
+            
         name:
             column:   name
             type:     string

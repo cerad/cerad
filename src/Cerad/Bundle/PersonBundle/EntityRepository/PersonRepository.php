@@ -42,5 +42,19 @@ class PersonRepository extends EntityRepository
         $repo = $this->_em->getRepository($this->getPersonLeagueClassName());
         return $repo->findAll(array('identifier' => $identifier));
     }
+    /* ==============================================================
+     * Clear out person tables for debugging
+     */
+    public function deletePersons()
+    {
+        $conn = $this->_em->getConnection();
+        $conn->executeUpdate('DELETE FROM person_league;');
+        $conn->executeUpdate('DELETE FROM person_cert;');
+        $conn->executeUpdate('DELETE FROM person;');
+        
+        $conn->executeUpdate('ALTER TABLE person_league AUTO_INCREMENT = 1;');
+        $conn->executeUpdate('ALTER TABLE person_cert   AUTO_INCREMENT = 1;');
+    }
+
 }
 ?>
