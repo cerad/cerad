@@ -1,0 +1,90 @@
+/* =====================================================
+ * Core shared styles
+ */
+
+/* =====================================================
+ * Some global stuff
+
+/* This breaks the Janrain div */
+divx
+{
+    margin-left: 5px;
+}
+/* #layout-content */
+p
+{
+    width: 700px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    
+}
+h1,h2,h3
+{
+    margin:  0 0 0 5px;
+    padding: 5px;
+}
+table
+{
+    margin: 2px;
+}
+/* ========================================================
+ * Account Person List
+ */
+table.account-person-list
+{
+    margin-top: 10px;
+}
+
+/* ========================================================
+ * Bit of janrain styling
+ */
+div.janrainContent
+{
+    margin: 5px;
+}
+
+/* ========================================================
+ * Rained out text alerts
+ */
+div.text-alerts
+{
+    width: 700px;
+    margin-left: 10px;
+}
+div.text-alerts p
+{
+    margin-bottom: 5px;
+    
+}
+/* ========================================================
+ * Form based signin
+ */
+div.account-signin
+{
+    font-size: 1.0em;
+    padding: 5px; 
+    margin:  5px; 
+    border:  2px solid black; 
+    max-width: 700px;    
+}
+div.account-signin label
+{
+    margin-left:  2px;  
+    margin-right: 2px;  
+}
+div.account-signin ul
+{
+    margin-left: 5px;  
+    color:       red;
+}
+/* ==========================================================
+ * Search forms
+ */
+div.schedule-search
+{
+    margin: 5px 5px 10px 5px;
+}
+div.schedule-list
+{
+    margin: 5px;
+}

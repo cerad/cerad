@@ -1,0 +1,96 @@
+/* =====================================================
+ * Focus only on the layout stuff
+ * #layout-body is defined but not styles here
+ */
+ 
+/* ===========================================
+ * Header
+ */
+#layout-header 
+{
+    width:     100%;
+    background:white; /* fcf */
+    overflow:  hidden;/* contain floats*/
+    padding:   0px 0px 0px 0px; /* Was 5 */
+    min-width: 500px;
+}
+#layout-header p 
+{
+    margin:     5px;
+    font-size: 15px; /* Different browsers default to different heights */
+}
+#layout-header div
+{
+    padding: 0;
+}
+#layout-header .logo1 { float:left;  margin: 0; }
+#layout-header .logo2 { float:right; margin: 0; }
+
+#layout-header .inner-block 
+{
+    overflow:   hidden; /* make a rectangular block between floats, blocks left/right overflow */
+    zoom:       1.0;    /* same effect for IE7 and under*/
+
+    color:      red;
+    background: white;
+ /* height:     500px;*/ /* Otherwise might drop down, matches height of logo */
+}
+/* ==============================================
+ * Top Menu
+ */
+#layout-top-menu
+{
+    height:    20px;
+    width:     100%;
+    min-width: 500px;
+
+    overflow:  hidden; /* Contains floats */
+
+    background-color: blue;
+}
+#layout-top-menu ul
+{
+    list-style-type:  none;
+    overflow:         hidden;
+    font-size:        14px; /* Need here for Firefox */
+    background-color: blue;
+    padding-left:     4px;
+    padding-right:    4px;
+    padding-top:      2px;
+}
+#layout-top-menu ul li
+{
+    display:   inline;
+}
+#layout-top-menu ul li a
+{
+    font-weight:      bold;
+    color:            black;
+    background-color: lightgreen;
+    text-align:       center;
+    text-decoration:  none;
+    padding-right:    2px;
+    padding-left:     2px;
+}
+#layout-top-menu ul li a:hover
+{
+    background-color: yellow; /* #7A991A; */
+}
+#layout-top-menu .inner-block 
+{
+    overflow:   hidden; /* make a rectangular block between floats, blocks left/right overflow */
+    zoom:       1.0;    /* same effect for IE7 and under*/
+    background: red;
+}
+/* ==================================================
+ * Content Layout
+ * 
+ * Was putting in global styles for things like a but found out that the
+ * layout-content was overriding
+ */
+#layout-content
+{
+    background-color: white;
+    margin-left: 0px;
+}
+

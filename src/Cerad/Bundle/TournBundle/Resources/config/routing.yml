@@ -5,3 +5,47 @@ cerad_tourn_index:
 cerad_tourn_welcome:
   path: /welcome
   defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_home:
+  path: /home
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_textalerts:
+  path: /textalerts
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_contact:
+  path: /contact
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_schedule:
+  path: /schedule
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_schedule_team_list:
+  path: /schedule/team
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_schedule_my_list:
+  path: /schedule/my
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_schedule_referee_list:
+  path: /schedule/referee
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_schedule_poolplay:
+  path: /schedule/poolplay
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_schedule_playoffs:
+  path: /schedule/playoffs
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_schedule_results:
+  path: /schedule/results
+  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_account_signin:
+  path: /signin
+  defaults:  { _controller: CeradTournBundle:Main:welcome }

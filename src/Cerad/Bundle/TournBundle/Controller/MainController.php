@@ -3,19 +3,24 @@ namespace Cerad\Bundle\TournBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class MainController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $tplData = array();
-        
-        return $this->render('@CeradTourn/index.html.twig', $tplData);
+        $tplData['last_username'] = $request->getSession()->get(SecurityContext::LAST_USERNAME);
+        $tplData['csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
+         
+        return $this->render('@CeradTourn/welcome.html.twig', $tplData);
     }
-    public function welcomeAction()
+    public function welcomeAction(Request $request)
     {
         $tplData = array();
-        
+        $tplData['last_username'] = $request->getSession()->get(SecurityContext::LAST_USERNAME);
+        $tplData['csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
+     
         return $this->render('@CeradTourn/welcome.html.twig', $tplData);
     }
     public function homeAction()

@@ -1,0 +1,28 @@
+/* =====================================================
+ * Keep things really simple
+ */
+html, body, div, p, ul, li, a
+{
+    background-color: white;
+    margin:         0;
+    padding:        0;
+    border:         0;
+    font-size:      100%;
+    font:           inherit;
+    vertical-align: baseline;
+}
+fieldset, form, label, legend 
+{
+    background-color: white;
+    margin:         0;
+    padding:        0;
+    border:         0;
+    font-size:      100%;
+    font:           inherit;
+    vertical-align: baseline; 
+}
+img
+{
+    display: block;
+    border:  none
+}
