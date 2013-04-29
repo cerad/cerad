@@ -18,7 +18,19 @@ class AccountUserProvider extends BaseUserProvider
         
         $this->personManager = $personManager;
     }
+    protected function addPersonToUser($user)
+    {
+        // Load in person
+        if (!$this->personManager) return;
 
+        // Null searches cause problems
+        $guid = $user->getPersonGuid();
+        if (!$guid) return;
+        
+        $person = $this->personManager->find($guid);
+        
+        $user->setPerson($person);        
+    }
     protected function findUser($username)
     {
         // Check AccountUser
@@ -30,19 +42,16 @@ class AccountUserProvider extends BaseUserProvider
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
  
-        // Load in person
-        if (!$this->personManager) return $user;
-        
-        $person = $this->personManager->find($user->getPersonGuid());
-        
-        $user->setPerson($person);
+        $this->addPersonToUser($user);
         
         return $user;
-        //die($person->getName());
     }
-    public function refreshUserx(SecurityUserInterface $user)
+    public function refreshUser(SecurityUserInterface $user)
     {
-        //die('refresh');
+        $user = parent::refreshUser($user);
+        
+        $this->addPersonToUser($user);
+        
         return $user;
     }
 }

@@ -79,7 +79,7 @@ class ExportCommand extends ContainerAwareCommand
         $account->setEmail($email); 
         $account->setName($person->getPersonName());
         
-        $account->setPerson($this->persons[$person->getId()]);
+        $account->setPersonGuid($this->persons[$person->getId()]);
         
         $account->setEnabled(true);
         
