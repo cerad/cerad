@@ -1,2 +1,16 @@
 services:
   
+    cerad_tourn.schedule.manager:
+        class:  Cerad\Bundle\TournBundle\Schedule\ScheduleManager
+        arguments:  
+            - '@cerad.project.repository'
+            - '@cerad.level.repository'
+            - '@cerad.field.repository'
+            - '@cerad.game.repository'
+            
+    cerad_tourn.schedule.import:
+        class:  Cerad\Bundle\TournBundle\Schedule\ScheduleImport
+        arguments:  
+            - '@cerad_tourn.schedule.manager'
+
+  

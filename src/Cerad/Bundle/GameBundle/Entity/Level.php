@@ -35,7 +35,7 @@ class Level extends BaseEntity
     
     protected $div;         // D1 vs D2, Primeir, AYSO Extra etc
     protected $age;         // U12, O30
-    protected $gender;      // B/G/C/M/F
+    protected $sex;         // B/G/C/M/F
     
     protected $status;
     
@@ -48,6 +48,8 @@ class Level extends BaseEntity
     public function getDomain()    { return $this->domain; }
     public function getDomainSub() { return $this->domainSub; }
     public function getName()      { return $this->name;  }
+    public function getAge ()      { return $this->age;   }
+    public function getSex ()      { return $this->sex;   }
     
     public function getLink()      { return $this->link;  }
     public function getStatus()    { return $this->status;  }
@@ -56,6 +58,9 @@ class Level extends BaseEntity
     public function setDomain   ($value) { $this->onPropertySet('domain',   $value); }
     public function setDomainSub($value) { $this->onPropertySet('domainSub',$value); }
     public function setName     ($value) { $this->onPropertySet('name',     $value); }
+    
+    public function setAge      ($value) { $this->onPropertySet('age',     $value); }
+    public function setSex      ($value) { $this->onPropertySet('sex',     $value); }
     
     public function setStatus   ($value) { $this->onPropertySet('status',   $value); }
     public function setLink     ($value) { $this->onPropertySet('link',     $value); }
@@ -87,6 +92,9 @@ class Level extends BaseEntity
         
         if (isset($params['status'])) $item->setStatus($params['status']);
         else                          $item->setStatus('Active');
+        
+        if (isset($params['age'])) $item->setAge($params['age']);
+        if (isset($params['sex'])) $item->setSex($params['sex']);
         
         $item->setHash(self::genHash($params));
         

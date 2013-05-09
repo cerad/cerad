@@ -6,7 +6,8 @@ services:
         alias: doctrine.orm.games_entity_manager
         
 # ==============================================================
-#   My Managers
+# My Managers
+# These are obsolete and should be removed
     cerad.game.manager:
         class:  Cerad\Bundle\GameBundle\Manager\GameManager
         arguments:  

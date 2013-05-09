@@ -75,12 +75,13 @@ class Loader
             }
         }
     }
-    public function load($inputFileName)
+    public function load($inputFileName, $worksheetName = null)
     {
         $reader = $this->excel->load($inputFileName);
 
-        $ws = $reader->getSheet(0);
-
+        if ($worksheetName) $ws = $reader->getSheetByName($worksheetName);
+        else                $ws = $reader->getSheet(0);
+        
         $rows = $ws->toArray();
         
         $header = array_shift(&$rows);
@@ -99,6 +100,10 @@ class Loader
     protected function processItem($item)
     {
         print_r($item); die("\n");
+    }
+    protected function processTime($time)
+    {
+        return \PHPExcel_Style_NumberFormat::toFormattedString($time,'hh:mm:ss');
     }
 }
 ?>

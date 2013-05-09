@@ -53,7 +53,7 @@ Cerad\Bundle\GameBundle\Entity\Level:
             length:   8
             nullable: true
             
-        gender:
+        sex:
             column:   sex
             type:     string
             length:   8
