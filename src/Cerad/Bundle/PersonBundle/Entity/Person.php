@@ -41,6 +41,7 @@ class Person extends BaseEntity
     
     protected $certs;
     protected $leagues;
+    protected $persons;
     
     protected $plans;
     
@@ -49,6 +50,7 @@ class Person extends BaseEntity
         $this->certs   = new ArrayCollection();
         $this->plans   = new ArrayCollection();
         $this->leagues = new ArrayCollection();
+        $this->persons = new ArrayCollection();
         
         // Simple 32 char string, not really a guid but oh well
         $this->id = strtoupper(md5(uniqid('zayso',true)));
@@ -153,6 +155,16 @@ class Person extends BaseEntity
         $league->setPerson($this);
     }
     public function getLeagues() { return $this->leagues(); }
+    
+    /* ====================================================
+     * Persons
+     */
+    public function addPerson($person)
+    {
+        $this->persons[] = $person;
+        $league->setMaster($this);
+    }
+    public function getPersons() { return $this->persons(); }
  
     /* ====================================================
      * Project Plans

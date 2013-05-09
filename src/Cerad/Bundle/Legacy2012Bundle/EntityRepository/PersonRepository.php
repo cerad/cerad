@@ -16,5 +16,12 @@ class PersonRepository extends EntityRepository
     public function getDatabaseConnection() { return $this->_em->getConnection(); }
     public function getEventManager      () { return $this->_em->getEventManager(); }
 
+    protected $personPersonClassName = 'Cerad\Bundle\Legacy2012Bundle\Entity\PersonPerson';
+    
+    public function findAllPersonPersons()
+    {
+        $repo = $this->_em->getRepository($this->personPersonClassName);
+        return $repo->findAll();
+    }
 }
 ?>

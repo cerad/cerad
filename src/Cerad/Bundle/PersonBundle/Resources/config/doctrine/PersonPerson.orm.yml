@@ -1,0 +1,33 @@
+Cerad\Bundle\PersonBundle\Entity\PersonPerson:
+    type:  entity
+    table: person_person
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+        master:
+            targetEntity: Person
+            inversedBy:   persons
+        slave:
+            targetEntity: Person
+
+    fields:      
+        role:
+            column:   role
+            type:     string
+            length:   20
+            nullable: false
+
+        verified:
+            type:     string
+            length:   20
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false

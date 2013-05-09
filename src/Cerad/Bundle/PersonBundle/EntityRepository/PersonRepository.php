@@ -21,10 +21,12 @@ class PersonRepository extends EntityRepository
     public function getPersonClassName      () { return $this->_entityName; }
     public function getPersonCertClassName  () { return $this->_entityName . 'Cert';   }
     public function getPersonLeagueClassName() { return $this->_entityName . 'League'; }
+    public function getPersonPersonClassName() { return $this->_entityName . 'Person'; }
     
     public function newPerson()       { $className = $this->getPersonClassName      (); return new $className(); }
     public function newPersonCert()   { $className = $this->getPersonCertClassName  (); return new $className(); }
     public function newPersonLeague() { $className = $this->getPersonLeagueClassName(); return new $className(); }
+    public function newPersonPerson() { $className = $this->getPersonPersonClassName(); return new $className(); }
     
     /* =============================================================
      * Load all certs for a given identifier
@@ -48,10 +50,12 @@ class PersonRepository extends EntityRepository
     public function deletePersons()
     {
         $conn = $this->_em->getConnection();
+        $conn->executeUpdate('DELETE FROM person_person;');
         $conn->executeUpdate('DELETE FROM person_league;');
         $conn->executeUpdate('DELETE FROM person_cert;');
         $conn->executeUpdate('DELETE FROM person;');
         
+        $conn->executeUpdate('ALTER TABLE person_person AUTO_INCREMENT = 1;');
         $conn->executeUpdate('ALTER TABLE person_league AUTO_INCREMENT = 1;');
         $conn->executeUpdate('ALTER TABLE person_cert   AUTO_INCREMENT = 1;');
     }

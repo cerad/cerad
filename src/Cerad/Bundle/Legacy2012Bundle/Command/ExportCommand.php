@@ -28,6 +28,7 @@ class ExportCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->exportPersons();
+        $this->exportPersonPersons();
         $this->exportAccounts();
 //      $this->exportGames();
     }
@@ -79,7 +80,9 @@ class ExportCommand extends ContainerAwareCommand
         $account->setEmail($email); 
         $account->setName($person->getPersonName());
         
-        $account->setPersonGuid($this->persons[$person->getId()]);
+        $person2016 = $this->persons[$person->getId()];
+      //die($person2016->getId());
+        $account->setPersonGuid($person2016->getId());
         
         $account->setEnabled(true);
         
@@ -187,12 +190,19 @@ class ExportCommand extends ContainerAwareCommand
                 $manager->persist($cert);
             }
         }
+        // Every person relates to themselves
+        $personPerson = $manager->newPersonPerson();
+        $personPerson->setMaster($person);
+        $personPerson->setSlave ($person);
+        $manager->persist($personPerson);
+        
         // Persist
         $manager->persist($person);
         $manager->flush();
         
         // Tuck the guid away
-        $this->persons[$person2012->getId()] = $person->getId();
+      //$this->persons[$person2012->getId()] = $person->getId();
+        $this->persons[$person2012->getId()] = $person;
         
         return;
     }
@@ -210,6 +220,35 @@ class ExportCommand extends ContainerAwareCommand
         }
         echo sprintf("Persons: %d %s\n",count($person2012s),$person2012s[0]->getName());
     }
+    protected function exportPersonPersons()
+    {
+        $manager2012 = $this->getService('cerad_legacy2012.person.manager');
+        $personPerson2012s = $manager2012->findAllPersonPersons();
+        
+        $manager = $this->getService('cerad_person.manager');
+       
+        foreach($personPerson2012s as $personPerson2012)
+        {
+            $masterId = $personPerson2012->getPerson1()->getId();
+            $slaveId  = $personPerson2012->getPerson2()->getId();
+            if ($masterId != $slaveId)
+            {
+                $master = $this->persons[$masterId];
+                $slave  = $this->persons[$slaveId];
+                $role   = $personPerson2012->getRelation();
+                
+                $personPerson = $manager->newPersonPerson();
+                $personPerson->setMaster($master);
+                $personPerson->setSlave ($slave);
+                $personPerson->setRole  ($role);
+                $manager->persist($personPerson);
+            }
+        }
+        $manager->flush();
+    }
+    /* ==================================================================
+     * Game stuff
+     */
     protected function exportGames()
     {
         $manager = $this->getService('cerad_legacy2012.game.manager');
