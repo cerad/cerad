@@ -52,13 +52,13 @@ class ScheduleImport extends BaseLoader
        
         // Level processing
         $sex =   substr($item['level'],2,1);
-        $age = (integer)$item['level'];
+        $age = 'U' . (integer)$item['level'];
         
         switch($age)
         {
-            case 10: $duration = 50; break;
-            case 12: $duration = 60; break;
-            case 14: $duration = 70; break;
+            case 'U10': $duration = 50; break;
+            case 'U12': $duration = 60; break;
+            case 'U14': $duration = 70; break;
             default:
                 print_r($item); die('*** AGE ***');
         }

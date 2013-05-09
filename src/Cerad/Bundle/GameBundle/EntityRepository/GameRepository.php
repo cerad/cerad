@@ -110,18 +110,20 @@ class GameRepository extends BaseRepository
         $domainSubs = $qb->getArrayForParam($params,'domainSubs');
         $levels     = $qb->getArrayForParam($params,'levels');
 
+        $ages      = $qb->getArrayForParam($params,'ages');
         $teams     = $qb->getArrayForParam($params,'teams');
         $fields    = $qb->getArrayForParam($params,'fields');
+        $genders   = $qb->getArrayForParam($params,'genders');
         $statuses  = $qb->getArrayForParam($params,'statuses');
         
+        $dates       = isset($params['dates' ])      ? $params['dates' ]:      null; // 2013-01-20
         $date1       = isset($params['date1' ])      ? $params['date1' ]:      null; // 2013-01-20
         $date2       = isset($params['date2' ])      ? $params['date2' ]:      null;
         $date1On     = isset($params['date1On'])     ? $params['date1On']:     null;
         $date2On     = isset($params['date2On'])     ? $params['date2On']:     null;
         $date1After  = isset($params['date1After'])  ? $params['date1After']:  null;
         $date2Before = isset($params['date2Before']) ? $params['date2Before']: null;
-       
-        $dates = array();
+   
         $time1 = ' 00:00:00';
         $time2 = ' 23:59:59';
        
@@ -186,6 +188,8 @@ class GameRepository extends BaseRepository
         $qb->andWhereEq('gameTeamLevel.domain',   $domains);
         $qb->andWhereEq('gameTeamLevel.domainSub',$domainSubs);
         $qb->andWhereEq('gameTeamLevel.name',     $levels);
+        $qb->andWhereEq('gameTeamLevel.age',      $ages);
+        $qb->andWhereEq('gameTeamLevel.sex',      $genders);
         $qb->andWhereEq('gameTeam.name',          $teams);
         
       //die($qb->getDQL());
@@ -212,7 +216,8 @@ class GameRepository extends BaseRepository
     {
         if (!count($gameIds)) return array();
         
-        return $this->findBy(array('id' => $gameIds));
+        return $this->findBy(array('id' => $gameIds),array('dtBeg' => 'ASC'));
+        
         // return $this->findBy(array('id' => $gameIds), array('dtBeg' => 'ASC')); //,'game.field.name' => 'ASC'));
         
         // Build query
@@ -232,8 +237,8 @@ class GameRepository extends BaseRepository
 
         $qb->andWhereEq('game.id',$gameIds);
         
-      //$qb->addOrderBy('game.dtBeg');  // DATE and TIME should be usable here
-      //$qb->addOrderBy('game.field');
+        $qb->addOrderBy('game.dtBeg');  // DATE and TIME should be usable here
+        $qb->addOrderBy('game.field');
        
         $games = $qb->getQuery()->getResult();
         

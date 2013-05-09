@@ -32,7 +32,7 @@ cerad_tourn_schedule_my_list:
   
 cerad_tourn_schedule_referee_list:
   path: /schedule/referee
-  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  defaults:  { _controller: CeradTournBundle:Schedule:referee }
   
 cerad_tourn_schedule_poolplay:
   path: /schedule/poolplay

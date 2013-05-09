@@ -21,7 +21,7 @@ class QueryBuilder extends DoctrineQueryBuilder
             {
                 return $qb->andWhere($qb->expr()->in($name, $value));
             }
-            $value = $value[0];
+            $value = array_shift($value); //$value[0];
         }
         // Just a plain old scaler
         if (is_object($value)) $value = $value->getId();
