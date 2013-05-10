@@ -58,9 +58,13 @@ cerad_tourn_account_signin:
   path: /signin
   defaults:  { _controller: CeradTournBundle:Main:welcome }
   
+cerad_tourn_account_create:
+  path: /account/create
+  defaults:  { _controller: CeradTournBundle:Account:create }
+  
 cerad_tourn_account_edit:
     pattern:  /account/edit/{id}
-    defaults: { _controller: CeradTournBundle:Main:welcome, id: 0 }
+    defaults: { _controller: CeradTournBundle:Account:create, id: 0 }
     requirements:
         id: \d+
         

@@ -28,4 +28,11 @@ services:
         tags:
             - { name: form.type, alias: schedule_referee_assign }
 
+    cerad_tourn.account.create.formtype:
+        class:  Cerad\Bundle\TournBundle\Form\Type\Account\CreateFormType
+        arguments:  
+            - '@cerad_tourn.schedule.manager'
+        tags:
+            - { name: form.type, alias: cerad_tourn_account_create }
+
   
