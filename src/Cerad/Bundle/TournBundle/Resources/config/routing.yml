@@ -8,7 +8,7 @@ cerad_tourn_welcome:
   
 cerad_tourn_home:
   path: /home
-  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  defaults:  { _controller: CeradTournBundle:Main:home }
   
 cerad_tourn_textalerts:
   path: /textalerts
@@ -34,6 +34,12 @@ cerad_tourn_schedule_referee_list:
   path: /schedule/referee
   defaults:  { _controller: CeradTournBundle:Schedule:referee }
   
+cerad_tourn_schedule_referee_assign:
+  path: /schedule/referee/assign/{id}
+  defaults:  { _controller: CeradTournBundle:Schedule:assign, id: 0 }
+  requirements:
+    id: \d+
+  
 cerad_tourn_schedule_poolplay:
   path: /schedule/poolplay
   defaults:  { _controller: CeradTournBundle:Main:welcome }
@@ -45,7 +51,22 @@ cerad_tourn_schedule_playoffs:
 cerad_tourn_schedule_results:
   path: /schedule/results
   defaults:  { _controller: CeradTournBundle:Main:welcome }
-  
+
+# ==============================================================
+# Not entirely sure about this
 cerad_tourn_account_signin:
   path: /signin
   defaults:  { _controller: CeradTournBundle:Main:welcome }
+  
+cerad_tourn_account_edit:
+    pattern:  /account/edit/{id}
+    defaults: { _controller: CeradTournBundle:Main:welcome, id: 0 }
+    requirements:
+        id: \d+
+        
+cerad_tourn_person_person_edit:
+    pattern:  /person-person/edit/{id}
+    defaults: { _controller: CeradTournBundle:Main:welcome, id: 0 }
+    requirements:
+        id: \d+
+

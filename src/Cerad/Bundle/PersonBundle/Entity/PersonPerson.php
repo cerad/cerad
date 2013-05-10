@@ -36,5 +36,17 @@ class PersonPerson extends BaseEntity
     public function setStatus  ($value) { $this->onPropertySet('status',  $value); }
     public function setVerified($value) { $this->onPropertySet('verified',$value); }
     
+    public function isPrimary()
+    {
+        return $this->role == self::RolePrimary ? true : false;
+    }
+    public function isFamily()
+    {
+        return $this->role == self::RoleFamily ? true : false;
+    }
+    public function isPeer()
+    {
+        return $this->role == self::RolePeer ? true : false;
+    }
 }
 ?>

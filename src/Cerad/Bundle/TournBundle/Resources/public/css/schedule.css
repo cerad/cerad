@@ -1,0 +1,42 @@
+
+td.schedule-games-list-game
+{
+    text-align: center;
+}
+td.schedule-games-list-dow
+{
+    text-align: center;
+}
+td.schedule-games-list-time
+{
+    text-align: right;
+    width: 75px;
+}
+td.schedule-games-list-field
+{
+    text-align: left;
+    width: 75px;
+}
+td.schedule-games-list-pool
+{
+    text-align: left;
+    width:      75px;
+    
+}
+td.schedule-games-list-div
+{
+    text-align: left;
+    width:      100px;
+    
+}
+td.schedule-games-list-teams
+{
+    text-align: left;
+    width:      200px;
+    
+}
+td.schedule-games-list-officials
+{
+    text-align: left;
+    width:      200px;
+}

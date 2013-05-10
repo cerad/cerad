@@ -7,16 +7,16 @@ class ScheduleImport extends BaseLoader
 {
     protected $record = array
     (
-        'num'      => array('cols' => 'Num',  'req' => true),
-        'dow'      => array('cols' => 'DOW',  'req' => true),
-        'time'     => array('cols' => 'Time', 'req' => true),
+        'num'      => array('cols' => 'GAME #','req' => true),
+        'dow'      => array('cols' => 'DAY',   'req' => true),
+        'time'     => array('cols' => 'TIME',  'req' => true),
         
-        'level'    => array('cols' => 'Level',   'req' => true),
-        'field'    => array('cols' => 'Field',   'req' => true),
-        'type'     => array('cols' => 'Type',    'req' => true),
+        'level'    => array('cols' => 'GROUP', 'req' => true),
+        'field'    => array('cols' => 'FIELD', 'req' => true),
+        'type'     => array('cols' => 'TYPE',  'req' => true),
         
-        'homeTeam' => array('cols' => 'Home Team', 'req' => true),
-        'awayTeam' => array('cols' => 'Away Team', 'req' => true),
+        'homeTeam' => array('cols' => 'HOME',  'req' => true),
+        'awayTeam' => array('cols' => 'AWAY',  'req' => true),
     );
     protected $params;
     

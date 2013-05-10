@@ -9,14 +9,16 @@ class ScheduleManager
     public $levelManager;
     public $fieldManager;
     public $gameManager;
+    public $personManager;
     
-    public function __construct($projectManager,$levelManager,$fieldManager,$gameManager)
+    public function __construct($projectManager,$levelManager,$fieldManager,$gameManager,$personManager)
     {
         $this->projectManager = $projectManager;
         $this->levelManager   = $levelManager;
         $this->fieldManager   = $fieldManager;
         $this->gameManager    = $gameManager;
-    }
+        $this->personManager  = $personManager;
+   }
     /* =================================================================
      * Still not sure about having individual managers etc
      * Do some traffic directing here
@@ -52,6 +54,14 @@ class ScheduleManager
     public function loadGames($params = array())
     {
         return $this->gameManager->loadGames($params);
+    }
+    public function loadGame($id)
+    {
+        return $this->gameManager->find($id);
+    }
+    public function loadPerson($id)
+    {
+        return $this->personManager->find($id);
     }
 }
 ?>

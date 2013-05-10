@@ -122,7 +122,7 @@ class Person extends BaseEntity
         $this->certs[] = $cert;
         $cert->setPerson($this);
     }
-    public function getCerts() { return $this->certs(); }
+    public function getCerts() { return $this->certs; }
     
     public function getCertRefereeUSSF()
     {
@@ -144,7 +144,7 @@ class Person extends BaseEntity
                 return $cert;
             }
         }
-        return null;
+        return PersonCert::createRefereeAYSO();
     }
     /* ====================================================
      * Leagues
@@ -154,17 +154,28 @@ class Person extends BaseEntity
         $this->leagues[] = $league;
         $league->setPerson($this);
     }
-    public function getLeagues() { return $this->leagues(); }
+    public function getLeagues() { return $this->leagues; }
     
+    public function getVolunteerAYSO()
+    {
+        foreach($this->leagues as $league)
+        {
+            if (($league->getFed() == PersonLeague::FedAYSO) && ($league->getRole() == PersonLeague::RoleVolunteer))
+            {
+                return $league;
+            }
+        }
+        return PersonLeague::createVolunteerAYSO();
+    }
     /* ====================================================
      * Persons
      */
     public function addPerson($person)
     {
         $this->persons[] = $person;
-        $league->setMaster($this);
+        $person->setMaster($this);
     }
-    public function getPersons() { return $this->persons(); }
+    public function getPersons() { return $this->persons; }
  
     /* ====================================================
      * Project Plans

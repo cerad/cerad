@@ -25,10 +25,10 @@ class MainController extends Controller
     }
     public function homeAction()
     {
-        die('homeAction');
         $tplData = array();
+        $tplData['account'] = $this->getUser();
         
-        return $this->render('@project/home.html.twig', $tplData);
+        return $this->render('@CeradTourn/home.html.twig', $tplData);
     }
     public function userHeaderAction()
     {

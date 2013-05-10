@@ -32,6 +32,8 @@ class AccountUser extends BaseUser
         $this->identifiers[] = $identifier;
         $identifier->setAccount($this);
     }
+    public function getIdentifiers() { return $this->identifiers; }
+    
     /* ======================================================
      * This is a bit hokaay but in general one could expect that the
      * user knows something about it's identifiers

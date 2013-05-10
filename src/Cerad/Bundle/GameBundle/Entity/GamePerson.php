@@ -11,6 +11,7 @@ class GamePerson extends BaseEntity
     
     protected $game;
     protected $person;  // Link to an unique person, probable use guid
+    protected $personx; // Temp storage for posted value
     
     protected $slot; // 1-5 for arbiter
     protected $role; // Referee, AR1 etc
@@ -22,6 +23,7 @@ class GamePerson extends BaseEntity
     protected $league;
     
     protected $status; // Created, published, notified, accepted
+    protected $statusx;
     
     protected $fee;
     protected $workflow;  // Getting paid
@@ -34,8 +36,20 @@ class GamePerson extends BaseEntity
     public function getEmail () { return $this->email;  }
     public function getPhone () { return $this->phone;  }
     public function getBadge () { return $this->badge;  }
+    public function getPerson() { return $this->person; }
     public function getLeague() { return $this->league; }
     public function getStatus() { return $this->status; }
+    
+    public function getPersonx() 
+    { 
+        if ($this->personx) return $this->personx; 
+        return $this->person;
+    }
+    public function getStatusx() 
+    { 
+        if ($this->statusx) return $this->statusx; 
+        return $this->status;
+    }
 
     public function setGame  ($value) { $this->onPropertySet('game',  $value); }
     public function setSlot  ($value) { $this->onPropertySet('slot',  $value); } 
@@ -44,8 +58,12 @@ class GamePerson extends BaseEntity
     public function setEmail ($value) { $this->onPropertySet('email', $value); }
     public function setPhone ($value) { $this->onPropertySet('phone', $value); }
     public function setBadge ($value) { $this->onPropertySet('badge', $value); }
+    public function setPerson($value) { $this->onPropertySet('person',$value); }
     public function setLeague($value) { $this->onPropertySet('league',$value); }
     public function setStatus($value) { $this->onPropertySet('status',$value); }
+    
+    public function setPersonx($value){ $this->personx = $value; }
+    public function setStatusx($value){ $this->statusx = $value; }
     
     static public function create($params)
     {
@@ -67,6 +85,8 @@ class GamePerson extends BaseEntity
         
         return $item;
     }
+    public function setUserModified() {}
+    
     /* =========================================
      * Debugging
      */

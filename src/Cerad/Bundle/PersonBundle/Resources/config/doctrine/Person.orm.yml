@@ -22,6 +22,11 @@ Cerad\Bundle\PersonBundle\Entity\Person:
             mappedBy:     person
             cascade:      ['all']
             
+        persons:
+            targetEntity: PersonPerson
+            mappedBy:     master
+            cascade:      ['all']
+           
 #       plans:
 #           targetEntity: Cerad\TournBundle\Entity\OfficialPlans
 #           mappedBy:     person

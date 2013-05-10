@@ -7,7 +7,8 @@ services:
             - '@cerad.level.repository'
             - '@cerad.field.repository'
             - '@cerad.game.repository'
-            
+            - '@cerad_person.repository'
+      
     cerad_tourn.schedule.import:
         class:  Cerad\Bundle\TournBundle\Schedule\ScheduleImport
         arguments:  
@@ -19,5 +20,12 @@ services:
             - '@cerad_tourn.schedule.manager'
         tags:
             - { name: form.type, alias: schedule_referee_search }
+            
+    cerad_tourn.schedule.referee.assign.formtype:
+        class:  Cerad\Bundle\TournBundle\Form\Type\Schedule\Referee\AssignFormType
+        arguments:  
+            - '@cerad_tourn.schedule.manager'
+        tags:
+            - { name: form.type, alias: schedule_referee_assign }
 
   
