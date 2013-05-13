@@ -57,6 +57,10 @@ class AccountUserManager extends BaseUserManager
     {
         $user->addIdentifier($identifier);
     }
+    public function findUserByPerson($person)
+    {
+        return $this->findUserBy(array('personGuid' => $person));
+    }
 
     /* =======================================================
      * Mostly for testing, delete all accounts

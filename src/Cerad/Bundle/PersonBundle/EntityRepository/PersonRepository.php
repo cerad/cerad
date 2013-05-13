@@ -37,12 +37,28 @@ class PersonRepository extends EntityRepository
         return $repo->findAll(array('identifier' => $identifier));
     }
     /* =============================================================
-     * Load all certs for a given identifier
+     * Load all leagues for a given identifier
      */
     public function loadPersonLeaguesForIdentifier($identifier)
     {
         $repo = $this->_em->getRepository($this->getPersonLeagueClassName());
         return $repo->findAll(array('identifier' => $identifier));
+    }
+    /* =============================================================
+     * Load all league for a given mem_id
+     * 8 digit ayso vol id
+     */
+    public function loadPersonLeagueForMemId($id)
+    {
+        $repo = $this->_em->getRepository($this->getPersonLeagueClassName());
+        
+        $leagues = $repo->findBy(array('memId' => $id));
+        
+        // die('Find ' . $id . ' ' . count($leagues));
+        
+        if (count($leagues) == 1) return $leagues[0];
+        
+        return null;
     }
     /* ==============================================================
      * Clear out person tables for debugging

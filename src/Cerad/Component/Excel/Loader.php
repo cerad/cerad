@@ -84,7 +84,7 @@ class Loader
         
         $rows = $ws->toArray();
         
-        $header = array_shift(&$rows);
+        $header = array_shift($rows);
         
         $this->processHeaderRow($header);
         

@@ -28,7 +28,7 @@ class ScheduleController extends Controller
         $searchData['sports']   = array('Soccer');
         $searchData['statuses'] = array();
         
-        $searchData['dates'] = array('2013-05-17','2013-05-19');
+        $searchData['dates'] = array('2013-05-17','2013-05-18','2013-05-19');
         
         // Pull from session if nothing was passed
         $sessionSearchData = $request->getSession()->get('ScheduleSearchData');

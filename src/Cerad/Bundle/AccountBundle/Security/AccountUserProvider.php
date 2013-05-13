@@ -9,6 +9,9 @@ use Symfony\Component\Security\Core\User\UserInterface as SecurityUserInterface;
 /* ===============================================
  * Want to avoid having any special interface just for janrain or oauth2
  * 
+ * An optional personManager will attach any person
+ * Also allows signing in by membership id.
+ * 
  */
 class AccountUserProvider extends BaseUserProvider
 {
@@ -38,6 +41,16 @@ class AccountUserProvider extends BaseUserProvider
         
         if (!$user) $user = $this->userManager->findUserByIdentifier($username);
         
+        // Check for unique league id
+        if (!$user && $this->personManager)
+        {
+            $league = $this->personManager->loadPersonLeagueForMemId($username);
+            if ($league)
+            {
+                $user = $this->userManager->findUserByPerson($league->getPerson()->getId());
+            }
+          //else die('no league');
+        }
         if (!$user) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
