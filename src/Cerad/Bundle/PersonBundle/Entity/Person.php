@@ -175,7 +175,18 @@ class Person extends BaseEntity
         $this->persons[] = $person;
         $person->setMaster($this);
     }
-    public function getPersons() { return $this->persons; }
+    public function getPersons() 
+    { 
+        return $this->persons;
+        
+        // Create the primary entity on the fly?
+        $primaryPerson = new PersonPerson();
+        $primaryPerson->setMaster($this);
+        $primaryPerson->setSlave ($this);
+        $primaryPerson->setRole  (PersonPerson::RolePrimary);
+         
+        return array_merge(array($primaryPerson,$this->persons)); 
+    }
  
     /* ====================================================
      * Project Plans

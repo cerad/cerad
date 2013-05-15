@@ -44,10 +44,10 @@ class AccountUserProvider extends BaseUserProvider
         // Check for unique league id
         if (!$user && $this->personManager)
         {
-            $league = $this->personManager->loadPersonLeagueForMemId($username);
-            if ($league)
+            $person = $this->personManager->loadPersonForLeagueMemId($username);
+            if ($person)
             {
-                $user = $this->userManager->findUserByPerson($league->getPerson()->getId());
+                $user = $this->userManager->findUserByPerson($person->getId());
             }
           //else die('no league');
         }

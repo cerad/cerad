@@ -37,28 +37,66 @@ class PersonRepository extends EntityRepository
         return $repo->findAll(array('identifier' => $identifier));
     }
     /* =============================================================
-     * Load all leagues for a given identifier
+     * Load all league for a given identifier
+     * Identifiers are unique
      */
-    public function loadPersonLeaguesForIdentifier($identifier)
+    public function loadPersonLeagueForIdentifier($identifier)
     {
         $repo = $this->_em->getRepository($this->getPersonLeagueClassName());
-        return $repo->findAll(array('identifier' => $identifier));
+        return $repo->findOneBy(array('identifier' => $identifier));
+    }
+    public function loadPersonForLeagueIdentifier($identifier)
+    {
+        $repo = $this->_em->getRepository($this->getPersonLeagueClassName());
+        $league = $repo->findOneBy(array('identifier' => $identifier));
+        if ($league) return $league->getPerson();
+        return null;
     }
     /* =============================================================
-     * Load all league for a given mem_id
+     * Load all league for a given membership id
      * 8 digit ayso vol id
+     * For now, these membership id's are unique
      */
     public function loadPersonLeagueForMemId($id)
     {
         $repo = $this->_em->getRepository($this->getPersonLeagueClassName());
-        
-        $leagues = $repo->findBy(array('memId' => $id));
-        
-        // die('Find ' . $id . ' ' . count($leagues));
-        
-        if (count($leagues) == 1) return $leagues[0];
-        
+        return $repo->findOneBy(array('memId' => $id));
+    }
+    public function loadPersonForLeagueMemId($id)
+    {
+        $repo = $this->_em->getRepository($this->getPersonLeagueClassName());
+        $league = $repo->findOneBy(array('memId' => $id));
+        if ($league) return $league->getPerson();
         return null;
+    }
+    /* ==============================================================
+     * Eiether creates a new person or loads an existing one
+     */
+    public function createOrLoadPerson($params)
+    {
+        $personLeague = null;
+        
+        // Have to have a league identifier
+        if (isset($params['aysoid']))
+        {
+            // AYSOV12345678
+            $identifier = $params['aysoid'];
+            $personLeague = loadPersonLeagueForIdentifier($identifier);
+            if (!$personLeague)
+            {
+                // Make one
+                $personLeague = $this->createPersonLeagueVolunteerAYSO();
+                $personLeague->setLeague('AYSOR0894');
+                $personLeague->setMemId ('12344321');
+                
+            }
+        }
+    }
+    public function createPersonLeagueVolunteerAYSO()
+    {
+        $personLeagueClassName = $this->getPersonLeagueClassName();
+        $personLeague = $personLeagueClassName::createVolunteerAYSO();
+        return $personLeague;
     }
     /* ==============================================================
      * Clear out person tables for debugging

@@ -5,13 +5,19 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PersonRepositoryTest extends WebTestCase
 {
-    protected $managerId = 'cerad.person.repository';
+    protected $managerId = 'cerad_person.repository';
     
-    public function testService()
+    protected function getManager()
     {
         $client = static::createClient();
 
         $manager = $client->getContainer()->get($this->managerId);
+
+        return $manager;
+    }
+    public function testService()
+    {
+        $manager = $this->getManager();
         
         $this->assertEquals('Cerad\Bundle\PersonBundle\EntityRepository\PersonRepository', get_class($manager));
         
@@ -19,12 +25,11 @@ class PersonRepositoryTest extends WebTestCase
         $this->assertEquals('Cerad\Bundle\PersonBundle\Entity\Person',      $manager->getPersonClassName());
         $this->assertEquals('Cerad\Bundle\PersonBundle\Entity\PersonCert',  $manager->getPersonCertClassName());
         $this->assertEquals('Cerad\Bundle\PersonBundle\Entity\PersonLeague',$manager->getPersonLeagueClassName());
+        $this->assertEquals('Cerad\Bundle\PersonBundle\Entity\PersonPerson',$manager->getPersonPersonClassName());
     }
     public function testCreate()
     {
-        $client = static::createClient();
-
-        $manager = $client->getContainer()->get($this->managerId);
+        $manager = $this->getManager();
         
         $person = $manager->newPerson();
         $person->setName('Joe Blow');
@@ -54,20 +59,20 @@ class PersonRepositoryTest extends WebTestCase
         $manager->persist($person);
         $manager->flush();
                 
-        return $personId;
+        return array('personId' => $personId);
         
     }
     /**
      * @depends testCreate
      */
-    public function testLoadPerson($personId)
+    public function testLoadPerson($data)
     {
+        $personId = $data['personId'];
+        
         // Verify depends works as expected
         $this->assertEquals(32, strlen($personId));
-        
-        $client = static::createClient();
 
-        $manager = $client->getContainer()->get($this->managerId);
+        $manager = $this->getManager();
         
         $this->assertEquals(32, strlen($personId));
          
@@ -77,23 +82,46 @@ class PersonRepositoryTest extends WebTestCase
         $personCert = $person->getCertRefereeAYSO();
         $this->assertEquals(13, strlen($personCert->getIdentifier()));
 
-        return $personCert->getIdentifier();
+        $data['identifier'] = $personCert->getIdentifier();
+        
+        return $data;
     }
     /**
      * @depends testLoadPerson
      */
-    public function testLoadPersonCerts($identifier)
+    public function testLoadPersonCerts($data)
     {
+        $identifier = $data['identifier'];
+        
         // Verify depends works as expected
         $this->assertEquals(13, strlen($identifier));
-        
-        $client = static::createClient();
 
-        $manager = $client->getContainer()->get($this->managerId);
+        $manager = $this->getManager();
         
         $certs = $manager->loadPersonCertsForIdentifier($identifier);
         
         $this->assertGreaterThan(0,count($certs));
+        
+        return $data;
+    }
+    /**
+     * @depends testLoadPersonCerts
+     */
+    public function testDeletePerson($data)
+    {
+        // Verify depends works as expected
+        $personId = $data['personId'];
+        $this->assertEquals(32, strlen($personId));
+        
+        $manager = $this->getManager(); // $client->getContainer()->get($this->managerId);
+        $person = $manager->find($personId);
+        $manager->remove($person);
+        $manager->flush();
+        
+        $person = $manager->find($personId);
+        $this->assertEquals(null,$person);
+        
+        echo sprintf("\nPerson %s\n",$personId);
     }
 }
 ?>

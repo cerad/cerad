@@ -3,6 +3,12 @@ Cerad\Bundle\PersonBundle\Entity\PersonLeague:
     table: person_league
     changeTrackingPolicy: NOTIFY
     
+    uniqueConstraints:
+       person_league_identifier_index:
+           columns: identifier
+       person_mem_id_index:
+           columns: mem_id
+    
     id:
         id:
             type: integer
