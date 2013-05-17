@@ -4,12 +4,14 @@ namespace Cerad\Bundle\TournBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+// Used by AuthenticationListener to log user in with LoginManager
+use FOS\UserBundle\FOSUserEvents;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+
 class AccountController extends Controller
 {
     public function createAction(Request $request)
     {   
-        $manager = $this->get('cerad_tourn.schedule.manager');
-        
         $item = array
         (
             'userName'         => null,
@@ -33,18 +35,32 @@ class AccountController extends Controller
         $form = $this->createForm($formType,$item);
         
         // Check post
+        // print_r($_POST);
         if ($request->getMethod() == 'POST')
         {
             $form->bind($request);
 
             if ($form->isValid())
             {
-                $item = $form->getData(); print_r($item); //die( 'POSTED');
+                // var_dump($_POST);
+                $item = $form->getData(); // print_r($item); //die( 'POSTED');
                 
                 $account = $this->create($item);
+                if ($account)
+                {
+                    $response = $this->redirect($this->generateUrl('cerad_tourn_home'));
+                    
+                    $dispatcher = $this->get('event_dispatcher');
+                    
+                    $dispatcher->dispatch(
+                            FOSUserEvents::REGISTRATION_COMPLETED, 
+                            new FilterUserResponseEvent($account, $request, $response)
+                    );
+                    return $response;
+                }
                 //return $this->redirect($this->generateUrl('cerad_tourn_schedule_referee_list'));
             }
-            //else die("Not valid");
+            //else die("Not valid " . $form->getErrorsAsString());
         }
         $tplData = array();
         $tplData['form'] = $form->createView();
@@ -103,5 +119,37 @@ class AccountController extends Controller
         return $account;
         
     }
+    /*
+     * array(2) { 
+     * ["cerad_tourn_account_create"]=> array(11) { 
+     *   ["userName"]=> string(10) "ahundiak03" 
+     *   ["personEmail"]=> string(20) "ahundiak@gmail.com03" 
+     *   ["userPass"]=> array(2) { ["pass1"]=> string(3) "zzz" ["pass2"]=> string(3) "zzz" } 
+     *   ["aysoVolunteerId"]=> string(8) "12340003" 
+     *   ["aysoRegionId"]=> string(3) "123" 
+     *   ["aysoRefereeBadge"]=> string(8) "Advanced" 
+     *   ["personFirstName"]=> string(6) "Arthur" 
+     *   ["personLastName"]=> string(7) "Hundiak" 
+     *   ["personNickName"]=> string(5) "Art03" 
+     *   ["personPhone"]=> string(12) "256.457.5943" 
+     *   ["_token"]=> string(40) "050600bffb4b6be7324efb66016e7df9903b4c8c" } 
+     *   ["accountCreate"]=> string(20) "Create Zayso Account" } Valid
+     */
+    /*
+    Array ( 
+     * [cerad_tourn_account_create] => Array ( 
+     *   [userName] => ahundiak03 
+     *   [personEmail] => ahundiak@gmail.com03 
+     *   [userPass] => Array ( [pass1] => zzz [pass2] => zzz ) 
+     *   [aysoVolunteerId] => 12340003 
+     *   [aysoRegionId] => 894 
+     *   [aysoRefereeBadge] => Advanced 
+     *   [personFirstName] => Arthur 
+     *   [personLastName] => Hundiak 
+     *   [personNickName] => Art03 
+     *   [personPhone] => 256.457.5943 
+     *   [_token] => 57b328cb17bd0e1332b81157ddc906a51f16ee63 ) 
+     *   [accountCreate] => Create Zayso Account ) 
+      */      
 }
 ?>

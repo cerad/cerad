@@ -96,6 +96,14 @@ class PersonRepository extends EntityRepository
                 
             $personLeague->setLeague($params['aysoRegionId']);
             
+            // Always have primary person person
+            $personPerson = $this->newPersonPerson();
+            $personPerson->setRolePrimary();
+            $personPerson->setMaster($person);
+            $personPerson->setSlave ($person);
+            $personPerson->setVerified('Yes');
+            $person->addPerson($personPerson);
+          
             // Referee badge
             if (isset($params['aysoRefereeBadge']))
             {
