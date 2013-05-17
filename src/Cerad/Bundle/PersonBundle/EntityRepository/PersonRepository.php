@@ -75,23 +75,58 @@ class PersonRepository extends EntityRepository
     public function createOrLoadPerson($params)
     {
         $personLeague = null;
+        $person       = null;
         
         // Have to have a league identifier
-        if (isset($params['aysoid']))
+        if (isset($params['aysoVolunteerId']))
         {
             // AYSOV12345678
-            $identifier = $params['aysoid'];
-            $personLeague = loadPersonLeagueForIdentifier($identifier);
-            if (!$personLeague)
-            {
-                // Make one
-                $personLeague = $this->createPersonLeagueVolunteerAYSO();
-                $personLeague->setLeague('AYSOR0894');
-                $personLeague->setMemId ('12344321');
+            $identifier = $params['aysoVolunteerId'];
+            $personLeague = $this->loadPersonLeagueForIdentifier($identifier);
+            
+            // No updated is the person exists
+            if ($personLeague) return $personLeague->getPerson();
+            
+            // Make one
+            $person = $this->newPerson();
+            $personLeague = $person->getVolunteerAYSO();
+            $person->addLeague($personLeague);
+                 
+            $personLeague->setMemId (substr($identifier,5));
                 
+            $personLeague->setLeague($params['aysoRegionId']);
+            
+            // Referee badge
+            if (isset($params['aysoRefereeBadge']))
+            {
+                $badge = $params['aysoRefereeBadge'];
+                $cert  = $person->getCertRefereeAYSO();  // Creates one if needed
+                $person->addCert($cert);
+                
+                $cert->setIdentifier($identifier);
+                $cert->setBadgex($badge);
             }
         }
+        // Check other possible leagues
+        if (!$person) return null;
+        
+        // Update Person
+        $person->setFirstName($params['personFirstName']);
+        $person->setLastName ($params['personLastName']);
+        $person->setNickName ($params['personNickName']);
+        $person->setEmail    ($params['personEmail']);
+        $person->setPhone    ($params['personPhone']);
+      
+        if ($params['personNickName']) $name = $params['personNickName']  . ' ' . $params['personLastName'];
+        else                           $name = $params['personFirstName'] . ' ' . $params['personLastName'];
+        
+        $person->setName($name);
+        
+        return $person;
     }
+    /* =================================================
+     * Probably do not need, use person->getVolunteerAYSO
+     */
     public function createPersonLeagueVolunteerAYSO()
     {
         $personLeagueClassName = $this->getPersonLeagueClassName();

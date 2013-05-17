@@ -12,15 +12,18 @@ class AccountController extends Controller
         
         $item = array
         (
-            'userName'  => null,
-            'userPass'  => null,
-            'aysoid'    => null,
-            'region'    => null,
-            'firstName' => null,
-            'lastName'  => null,
-            'nickName'  => null,
-            'phone'     => null,
-            'email'     => null,
+            'userName'         => null,
+            'userPass'         => null,
+            
+            'aysoVolunteerId'  => null,
+            'aysoRegionId'     => null,
+            'aysoRefereeBadge' => null,
+            
+            'personFirstName'  => null,
+            'personLastName'   => null,
+            'personNickName'   => null,
+            'personPhone'      => null,
+            'personEmail'      => null,
         );
                 
         // Build the form
@@ -38,6 +41,7 @@ class AccountController extends Controller
             {
                 $item = $form->getData(); print_r($item); //die( 'POSTED');
                 
+                $account = $this->create($item);
                 //return $this->redirect($this->generateUrl('cerad_tourn_schedule_referee_list'));
             }
             //else die("Not valid");
@@ -50,6 +54,54 @@ class AccountController extends Controller
     public function editAction(Request $request, $id = 0)
     {
         return $this->redirect($this->generateUrl('cerad_tourn_home'));
+    }
+    /* =========================================================================
+     * This is where the actual account/person gets created
+     */
+    protected function create($item)
+    {
+        $personManager  = $this->get('cerad_person.manager');
+        $accountManager = $this->get('fos_user.user_manager');
+        
+        // Canacolize email
+        $item['personEmail'] = $accountManager->canEmail($item['personEmail']);
+        
+        // Get the person
+        $person = $personManager->createOrLoadPerson($item);
+        if (!$person) return null;
+        
+        // Need to make sure the email is not in use for an existing user
+        // Or use the inputed email which implies a mismatch
+        //$account = $accountManager->findUserByUsernameOrEmail($person->getEmail());
+        //if ($account)
+        //{
+            //return null;
+        //}
+        // The account
+        $account = $accountManager->createUser();
+
+        // User name stays the same
+        $account->setUsername     ($item['userName']);
+        $account->setPlainPassword($item['userPass']);
+        
+        // Which email?
+        $account->setEmail($person->getEmail()); 
+        $account->setEmail($item['personEmail']);
+        
+        $account->setName ($person->getName());
+        
+        $account->setPersonGuid($person->getId());
+        
+        $account->setEnabled(true);
+    
+        // Persist
+        $personManager->persist($person);
+        $personManager->flush();
+        
+        $accountManager->updateUser($account,true);
+        
+        return $account;
+        
     }
 }
 ?>

@@ -78,6 +78,10 @@ class AccountUserManager extends BaseUserManager
     {
         return $this->emailCanonicalizer->canonicalize($email);
     }
+    public function canUsername($username)
+    {
+        return $this->usernameCanonicalizer->canonicalize($username);
+    }
 
 }
 

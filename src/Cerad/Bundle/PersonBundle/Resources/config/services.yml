@@ -43,6 +43,11 @@ services:
             - '@cerad_person.manager'
             - 'admin'
             
+    cerad_person.phone.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\PhoneFormType
+        tags:
+            - { name: form.type, alias: cerad_person_phone }
+            
     cerad_person.ayso_region_id.form_type:
         class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RegionIDFormType
         tags:

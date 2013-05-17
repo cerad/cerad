@@ -22,12 +22,10 @@ class CreateFormType extends AbstractType
     {
         $notBlank = new NotBlank();
         
-        $builder->add('userName', 'text',  array(
-            'label' => 'Zayso User Name', 
-            'attr' => array('size' => 40),
-      //    'constraints' => new UserNameConstraint(),
-        ));
-        
+        $builder->add('userName', 'cerad_account_username');
+        $builder->add('userPass', 'cerad_account_password');
+        $builder->add('personEmail', 'cerad_account_email');
+        /*
         $builder->add('userPass', 'repeated', array(
             'type'     => 'password',
             'label'    => 'Zayso Password',
@@ -40,18 +38,16 @@ class CreateFormType extends AbstractType
             
             'first_name'  => 'pass1',
             'second_name' => 'pass2', // form.userPass.pass1
-        ));
-        $builder->add('firstName', 'text', array('label' => 'AYSO First Name', 'constraints' => $notBlank));
-        $builder->add('lastName',  'text', array('label' => 'AYSO Last Name',  'constraints' => $notBlank));
-        $builder->add('nickName',  'text', array('label' => 'Nick Name',       'required' => false,));
-
-        $builder->add('email', 'email', array('label' => 'Email','attr' => array('size' => 35)));
+        ));*/
+        $builder->add('personFirstName', 'text', array('label' => 'AYSO First Name', 'constraints' => $notBlank));
+        $builder->add('personLastName',  'text', array('label' => 'AYSO Last Name',  'constraints' => $notBlank));
+        $builder->add('personNickName',  'text', array('label' => 'Nick Name',       'required' => false,));
         
-        $builder->add('phone', 'text',  array('label' => 'Cell Phone', 'attr' => array('size' => 20), 'required' => false,));
+        $builder->add('personPhone', 'cerad_person_phone',  array('required' => false,));
         
-        // AYSO Stuff
-        $builder->add('aysoid', 'cerad_person_ayso_volunteer_id',  array('label' => 'AYSO Vol ID'));
-        $builder->add('region', 'cerad_person_ayso_region_id',     array('label' => 'AYSO Region Number'));
-        $builder->add('badge',  'cerad_person_ayso_referee_badge', array('label' => 'AYSO Referee Badge'));
+        // AYSO Stuff (labels etc can be overridden)
+        $builder->add('aysoVolunteerId', 'cerad_person_ayso_volunteer_id');
+        $builder->add('aysoRegionId',    'cerad_person_ayso_region_id');
+        $builder->add('aysoRefereeBadge','cerad_person_ayso_referee_badge');
     }
 }

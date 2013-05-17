@@ -27,6 +27,37 @@ class PersonRepositoryTest extends WebTestCase
         $this->assertEquals('Cerad\Bundle\PersonBundle\Entity\PersonLeague',$manager->getPersonLeagueClassName());
         $this->assertEquals('Cerad\Bundle\PersonBundle\Entity\PersonPerson',$manager->getPersonPersonClassName());
     }
+    public function testCreateOrLoadPerson()
+    {
+        $item = array
+        (
+          //'userName'  => null,
+          //'userPass'  => null,
+            
+            'aysoVolunteerId'  => 'AYSOV99437977',
+            'aysoRegionId'     => 'AYSOR0894',
+            'aysoRefereeBadge' => 'Advanced',
+            
+            'personFirstName'  => 'Arthur',
+            'personLastName'   => 'Hundiak',
+            'personNickName'   => 'Arty',
+            'personPhone'      => '2564575943',
+            'personEmail'      => 'ahundiak@gmail.com',
+        );
+        $manager = $this->getManager();
+        $person  = $manager->createOrLoadPerson($item);
+        
+        $this->assertEquals('Art Hundiak', $person->getName());
+       
+        // Test create
+        $item['aysoVolunteerId'] = 'AYSOV99437978';
+        $item['personNickName']  = 'Arty';
+        
+        $person  = $manager->createOrLoadPerson($item);
+        
+        $this->assertEquals('Arty Hundiak', $person->getName());
+         
+    }
     public function testCreate()
     {
         $manager = $this->getManager();

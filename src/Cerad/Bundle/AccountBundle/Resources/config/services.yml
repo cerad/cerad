@@ -6,6 +6,21 @@ services:
         tags:
             - { name: form.type, alias: cerad_account_registration }
             
+    cerad_account.username.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\UsernameFormType
+        tags:
+            - { name: form.type, alias: cerad_account_username }
+            
+    cerad_account.email.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\EmailFormType
+        tags:
+            - { name: form.type, alias: cerad_account_email }
+            
+    cerad_account.password.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\PasswordFormType
+        tags:
+            - { name: form.type, alias: cerad_account_password }
+           
     cerad_account.user_provider:
         class: Cerad\Bundle\AccountBundle\Security\AccountUserProvider
         arguments: 
@@ -21,3 +36,17 @@ services:
         parent:   fos_user.user_manager.default
         arguments:
             - 'Cerad\Bundle\AccountBundle\Entity\AccountIdentifier'
+
+    cerad_account.username.validator:
+        class: Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueUsernameValidator
+        arguments: 
+            - '@fos_user.user_manager'
+        tags:
+            - { name: validator.constraint_validator, alias: cerad_account_username_validator }
+
+    cerad_account.email.validator:
+        class: Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueEmailValidator
+        arguments: 
+            - '@fos_user.user_manager'
+        tags:
+            - { name: validator.constraint_validator, alias: cerad_account_email_validator }            
