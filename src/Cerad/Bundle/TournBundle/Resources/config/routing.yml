@@ -73,4 +73,14 @@ cerad_tourn_person_person_edit:
     defaults: { _controller: CeradTournBundle:Main:welcome, id: 0 }
     requirements:
         id: \d+
+        
+# ==============================================================
+# Some testing stuff
+cerad_tourn_test_form1:
+  path: /test/form1
+  defaults:  { _controller: CeradTournBundle:Test:form1 }
+  
+cerad_tourn_test_simple:
+  path: /test/simple
+  defaults:  { _controller: CeradTournBundle:Test:simple }
 

@@ -1,0 +1,28 @@
+{% extends '@CeradTourn/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+   <link rel="stylesheet" href="{{ asset('bundles/ceradtourn/css/forms.css') }}" media="all" />
+{% endblock %}
+   
+{% block content %}
+<form 
+    id   ="cerad_tourn_test_form1_form"
+    class="cerad_tourn_form" 
+    action="{{ path('cerad_tourn_test_form1') }}" 
+    method="post" 
+    {{ form_enctype(form) }}
+ >
+    <fieldset><legend><span>Form 1 Info</span></legend>
+        {{ form_row(form.zzz)  }}
+        {{ form_row(form.xxx)  }}
+    </fieldset>
+    <fieldset>
+        <div class="cerad_tourn_form_controls">
+            <span>Some text</span>
+            <input type="submit" name="testForm1" value="Submit" />
+        </div>
+    </fieldset>
+<div style="display: none;">{{ form_rest(form) }}</div>
+</form>
+{% endblock %}
