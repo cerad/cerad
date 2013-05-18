@@ -40,14 +40,14 @@ class TestController extends Controller
                 
                 $session->set('cerad_tourn_test_form1',$item);
                 
-                return $this->redirect($this->generateUrl('cerad_tourn_test_form1'));
+                return $this->redirect($this->generateUrl('cerad_tourn_test_form1_success'));
             }
             else 
             {
                 $item = $form->getData();
                 $item['invalid'] = true;
                 $session->set('cerad_tourn_test_form1',$item);
-                return $this->redirect($this->generateUrl('cerad_tourn_test_form1'));
+                return $this->redirect($this->generateUrl('cerad_tourn_test_form1_failure'));
             }
         }
         else 
@@ -57,7 +57,7 @@ class TestController extends Controller
                 // Need the bind for isValid to work, CSRF will always generate error
                 $form->bind($item);
                 $form->isValid(); 
-                print_r($form->getErrorsAsString());
+                //print_r($form->getErrorsAsString());
             }
         }
 

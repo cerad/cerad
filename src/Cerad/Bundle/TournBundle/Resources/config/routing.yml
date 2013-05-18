@@ -80,6 +80,14 @@ cerad_tourn_test_form1:
   path: /test/form1
   defaults:  { _controller: CeradTournBundle:Test:form1 }
   
+cerad_tourn_test_form1_success:
+  path: /test/form1-success
+  defaults:  { _controller: CeradTournBundle:Test:form1 }
+  
+cerad_tourn_test_form1_failure:
+  path: /test/form1-failure
+  defaults:  { _controller: CeradTournBundle:Test:form1 }
+  
 cerad_tourn_test_simple:
   path: /test/simple
   defaults:  { _controller: CeradTournBundle:Test:simple }
