@@ -28,7 +28,9 @@ class CurlCommand extends ContainerAwareCommand
     }
     protected function testForm1()
     {
+        // Local and remote both give the same results
         $host = 'http://local.zayso.org';
+        $host = 'http://zayso.org';
         $sub  = '/natgames2014';
         $url  = '/test/form1';
         $post = array('xxx' => 'xxx', 'zzz' => 'zzz');
