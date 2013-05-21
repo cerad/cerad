@@ -17,9 +17,17 @@ class MainController extends Controller
     }
     public function welcomeAction(Request $request)
     {
+        $item = array(
+            'username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
+            'password' => null,
+        );
+        $signinForm = $this->createForm($this->get('cerad_account.signin.formtype'),$item);
+        
         $tplData = array();
         $tplData['last_username'] = $request->getSession()->get(SecurityContext::LAST_USERNAME);
         $tplData['csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
+        $tplData['signinForm']    = $signinForm->createView();
+        
      
         return $this->render('@CeradTourn/welcome.html.twig', $tplData);
     }

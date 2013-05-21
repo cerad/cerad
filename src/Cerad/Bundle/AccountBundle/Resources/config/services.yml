@@ -20,6 +20,11 @@ services:
         class: Cerad\Bundle\AccountBundle\Form\Type\PasswordFormType
         tags:
             - { name: form.type, alias: cerad_account_password }
+            
+    cerad_account.signin.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\SigninFormType
+        tags:
+            - { name: form.type, alias: cerad_account_signin }
            
     cerad_account.user_provider:
         class: Cerad\Bundle\AccountBundle\Security\AccountUserProvider
