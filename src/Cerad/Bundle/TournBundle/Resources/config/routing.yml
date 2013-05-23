@@ -55,12 +55,28 @@ cerad_tourn_schedule_results:
 # ==============================================================
 # Not entirely sure about this
 cerad_tourn_account_signin:
-  path: /signin
+  path: /account/signin
   defaults:  { _controller: CeradTournBundle:Main:welcome }
   
+cerad_tourn_account_signin_form:
+  path: /account/signin-form
+  defaults:  { _controller: CeradTournBundle:Account:signinForm }
+  
 cerad_tourn_account_create:
-  path: /register
+  path: /account/create
   defaults:  { _controller: CeradTournBundle:Account:create }
+  
+cerad_tourn_account_create_success:
+  path: /account/create-success
+  defaults:  { _controller: CeradTournBundle:Account:create }
+  
+cerad_tourn_account_create_failure:
+  path: /account/create-failure
+  defaults:  { _controller: CeradTournBundle:Account:create }
+  
+cerad_tourn_account_create_form:
+  path: /account/create-form
+  defaults:  { _controller: CeradTournBundle:Account:createForm }
   
 cerad_tourn_account_edit:
     pattern:  /account/edit/{id}

@@ -14,7 +14,9 @@ class VolunteerIDFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // Do the double transformer to handle errors
         $builder->addModelTransformer(new VolunteerIDTransformer());
+        $builder->addViewTransformer (new VolunteerIDTransformer());
     }
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {

@@ -19,7 +19,8 @@ class RegionIDFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addModelTransformer(new RegionIDTransformer());
-    }
+        $builder->addViewTransformer (new RegionIDTransformer());
+   }
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

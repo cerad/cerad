@@ -3,6 +3,7 @@ namespace Cerad\Bundle\TournBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\SecurityContext;
 
 // Used by AuthenticationListener to log user in with LoginManager
 use FOS\UserBundle\FOSUserEvents;
@@ -10,6 +11,69 @@ use FOS\UserBundle\Event\FilterUserResponseEvent;
 
 class AccountController extends Controller
 {
+    public function signinFormAction(Request $request)
+    {
+        $item = array(
+            'username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
+            'password' => null,
+        );
+        $signinForm = $this->createForm($this->get('cerad_account.signin.formtype'),$item);
+        
+        $tplData = array();
+        $tplData['signinForm']    = $signinForm->createView();
+        return $this->render('@CeradTourn/account/signin_form.html.twig', $tplData);
+    }
+    public function genCreateForm(Request $request)
+    {   
+        // Basic item
+        $item = array
+        (
+            'userName'         => null,
+            'userPass'         => null,
+            
+            'aysoVolunteerId'  => null,
+            'aysoRegionId'     => null,
+            'aysoRefereeBadge' => null,
+            
+            'personFirstName'  => null,
+            'personLastName'   => null,
+            'personNickName'   => null,
+            'personPhone'      => null,
+            'personEmail'      => null,
+            
+            'invalid'          => false, // If true then need to validate and get errors
+        );
+        // Merge session data
+        if ($request->getSession()->has('cerad_tourn_account_create'))
+        {
+            $item = array_merge($item,$request->getSession()->get('cerad_tourn_account_create'));
+        }
+                 
+        // Build the form
+        $formType = $this->get('cerad_tourn.account.create.formtype');
+        $form = $this->createForm($formType,$item);
+
+        // Check post
+        if ($request->isMethod('POST')) return $form;
+        
+        // Trick to regenerate errors
+        if ($item['invalid']) 
+        {
+            // Need the bind for isValid to work, CSRF will always generate error
+            $form->bind($item);
+            $form->isValid(); 
+            //print_r($form->getErrorsAsString());
+        }
+        return $form;
+    }    
+    public function createFormAction(Request $request)
+    {
+        $form = $this->genCreateForm($request);
+                
+        $tplData = array();
+        $tplData['form'] = $form->createView();
+        return $this->render('@CeradTourn/account/create_form.html.twig', $tplData);
+    }
     public function createAction(Request $request)
     {   
         $item = array
@@ -26,25 +90,25 @@ class AccountController extends Controller
             'personNickName'   => null,
             'personPhone'      => null,
             'personEmail'      => null,
-        );
-                
-        // Build the form
-        $formType = $this->get('cerad_tourn.account.create.formtype');
-        
+        );        
         // The form itself
-        $form = $this->createForm($formType,$item);
+        $form = $this->genCreateForm($request);
         
         // Check post
-        // print_r($_POST);
-        if ($request->getMethod() == 'POST')
+        if ($request->isMethod('POST'))
         {
-            $form->bind($request);
+            // Submit with a response will be depreciated in 3.x
+            // $form->submit($request->request->get($form->getName()));
+            $form->submit($request);
 
             if ($form->isValid())
             {
-                // var_dump($_POST);
-                $item = $form->getData(); // print_r($item); //die( 'POSTED');
+                $item = $form->getData();
+                $item['invalid'] = false;
                 
+                $request->getSession()->set('cerad_tourn_account_create',$item);
+                
+                // Make the actual account
                 $account = $this->create($item);
                 if ($account)
                 {
@@ -53,18 +117,25 @@ class AccountController extends Controller
                     $dispatcher = $this->get('event_dispatcher');
                     
                     $dispatcher->dispatch(
-                            FOSUserEvents::REGISTRATION_COMPLETED, 
+                            FOSUserEvents::REGISTRATION_COMPLETED,
                             new FilterUserResponseEvent($account, $request, $response)
                     );
                     return $response;
                 }
-                //return $this->redirect($this->generateUrl('cerad_tourn_schedule_referee_list'));
+                // Need to handle account creation errors or at least send an email
+                else return $this->redirect($this->generateUrl('cerad_tourn_account_create_failure'));
+                 
             }
-            //else die("Not valid " . $form->getErrorsAsString());
+            else 
+            {
+                $item = $form->getData();
+                $item['invalid'] = true;
+                $request->getSession()->set('cerad_tourn_account_create',$item);
+                return $this->redirect($this->generateUrl('cerad_tourn_account_create_failure'));
+            }
         }
         $tplData = array();
         $tplData['form'] = $form->createView();
-        
         return $this->render('@CeradTourn/account/create.html.twig', $tplData);
     }
     public function editAction(Request $request, $id = 0)
