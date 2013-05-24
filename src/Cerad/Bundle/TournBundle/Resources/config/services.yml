@@ -45,4 +45,8 @@ services:
         tags:
             - { name: form.type, alias: cerad_tourn_test_form1 }
 
-  
+    cerad_tourn.project:
+        class:  Cerad\Bundle\TournBundle\Model\Project
+        arguments:  
+            - '%cerad_tourn_project%'
+     

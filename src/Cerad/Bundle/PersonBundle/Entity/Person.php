@@ -186,7 +186,15 @@ class Person extends BaseEntity
          
         return array_merge(array($primaryPerson,$this->persons)); 
     }
- 
+    public function getPerson($personx)
+    {
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            if ($person->getSlave()->getId() == $personx->getId()) return $person;
+        }
+        return null;
+    }
     /* ====================================================
      * Project Plans
      */
@@ -199,6 +207,8 @@ class Person extends BaseEntity
     
     public function getPlan($projectKey)
     {
+        if (is_object($projectKey)) $projectKey = $projectKey->getKey();
+        
         foreach($this->plans as $plan)
         {
             if ($plan->getProjectKey() == $projectKey)

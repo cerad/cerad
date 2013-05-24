@@ -24,17 +24,34 @@ class MainController extends Controller
         $signinForm = $this->createForm($this->get('cerad_account.signin.formtype'),$item);
         
         $tplData = array();
-        $tplData['last_username'] = $request->getSession()->get(SecurityContext::LAST_USERNAME);
-        $tplData['csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
+      //$tplData['last_username'] = $request->getSession()->get(SecurityContext::LAST_USERNAME);
+      //$tplData['csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
         $tplData['signinForm']    = $signinForm->createView();
         
      
         return $this->render('@CeradTourn/welcome.html.twig', $tplData);
     }
+    public function getAccountPerson()
+    { 
+        // Must have a person
+        $account = $this->getUser();
+        if (!is_object($account)) return null;
+        
+        $person = $account->getPerson();
+        if (!is_object($person)) return null;
+
+        return $person;
+    }
     public function homeAction()
     {
+        // Must have an account and person
+        if (!$this->getAccountPerson())
+        {
+            return $this->redirect($this->generateUrl('cerad_tourn_welcome'));  
+        }
         $tplData = array();
         $tplData['account'] = $this->getUser();
+        $tplData['project'] = $this->get('cerad_tourn.project');
         
         return $this->render('@CeradTourn/home.html.twig', $tplData);
     }

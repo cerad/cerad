@@ -35,7 +35,7 @@ class PersonRepositoryTest extends WebTestCase
         $personPlan = new PersonPlan();
         $personPlan->setPlanProperties($project['plan']);
         
-        $this->assertEquals('no', $personPlan->attending);
+        $this->assertEquals('na', $personPlan->attending);
         
         $personPlan->attending = 'yes';
         $this->assertEquals('yes', $personPlan->attending);

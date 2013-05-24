@@ -149,9 +149,17 @@ class PersonRepository extends EntityRepository
     public function createPersonPlan($project,$person,$persist = false)
     {
         $personPlan = $this->newPersonPlan();
-        $personPlan->setPlanProperties($project['plan']);
-        $personPlan->setProjectKey($project['info']['key']);
         
+        if (is_object($project))
+        {
+            $personPlan->setProjectKey    ($project->getKey());
+            $personPlan->setPlanProperties($project->getPlan());
+        }
+        else
+        {
+            $personPlan->setPlanProperties($project['plan']);
+            $personPlan->setProjectKey    ($project['info']['key']);            
+        }
         if ($person) $person->addPlan($personPlan);
         
         if ($persist) $this->persist($personPlan);

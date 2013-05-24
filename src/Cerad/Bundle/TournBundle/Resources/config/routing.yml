@@ -54,21 +54,23 @@ cerad_tourn_schedule_results:
 
 # ==============================================================
 # Person stuff
+# Need to add personId at some point
+
 cerad_tourn_person_plan:
-  path: /person/plan
-  defaults:  { _controller: CeradTournBundle:Person:plan }
+  path: /person/plan/{id}
+  defaults:  { _controller: CeradTournBundle:Person:plan, id: null }
   
 cerad_tourn_person_plan_success:
-  path: /person/plan-success
-  defaults:  { _controller: CeradTournBundle:Person:plan }
+  path: /person/plan-success{id}
+  defaults:  { _controller: CeradTournBundle:Person:plan, id: null }
   
 cerad_tourn_person_plan_failure:
-  path: /person/plan-failure
-  defaults:  { _controller: CeradTournBundle:Person:plan }
+  path: /person/plan-failure/{id}
+  defaults:  { _controller: CeradTournBundle:Person:plan, id: null }
   
 cerad_tourn_person_plan_form:
-  path: /person/plan-form
-  defaults:  { _controller: CeradTournBundle:Person:planForm }
+  path: /person/plan-form/{id}
+  defaults:  { _controller: CeradTournBundle:Person:planForm, id: null }
   
 # ==============================================================
 # Not entirely sure about this
