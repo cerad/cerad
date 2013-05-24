@@ -53,6 +53,24 @@ cerad_tourn_schedule_results:
   defaults:  { _controller: CeradTournBundle:Main:welcome }
 
 # ==============================================================
+# Person stuff
+cerad_tourn_person_plan:
+  path: /person/plan
+  defaults:  { _controller: CeradTournBundle:Person:plan }
+  
+cerad_tourn_person_plan_success:
+  path: /person/plan-success
+  defaults:  { _controller: CeradTournBundle:Person:plan }
+  
+cerad_tourn_person_plan_failure:
+  path: /person/plan-failure
+  defaults:  { _controller: CeradTournBundle:Person:plan }
+  
+cerad_tourn_person_plan_form:
+  path: /person/plan-form
+  defaults:  { _controller: CeradTournBundle:Person:planForm }
+  
+# ==============================================================
 # Not entirely sure about this
 cerad_tourn_account_signin:
   path: /account/signin

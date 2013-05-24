@@ -20,11 +20,13 @@ class PersonRepository extends EntityRepository
     // Nice to make this configurable
     public function getPersonClassName      () { return $this->_entityName; }
     public function getPersonCertClassName  () { return $this->_entityName . 'Cert';   }
+    public function getPersonPlanClassName  () { return $this->_entityName . 'Plan';   }
     public function getPersonLeagueClassName() { return $this->_entityName . 'League'; }
     public function getPersonPersonClassName() { return $this->_entityName . 'Person'; }
     
     public function newPerson()       { $className = $this->getPersonClassName      (); return new $className(); }
     public function newPersonCert()   { $className = $this->getPersonCertClassName  (); return new $className(); }
+    public function newPersonPlan()   { $className = $this->getPersonPlanClassName  (); return new $className(); }
     public function newPersonLeague() { $className = $this->getPersonLeagueClassName(); return new $className(); }
     public function newPersonPerson() { $className = $this->getPersonPersonClassName(); return new $className(); }
     
@@ -140,6 +142,21 @@ class PersonRepository extends EntityRepository
         $personLeagueClassName = $this->getPersonLeagueClassName();
         $personLeague = $personLeagueClassName::createVolunteerAYSO();
         return $personLeague;
+    }
+    /* =================================================
+     * Create new project person
+     */
+    public function createPersonPlan($project,$person,$persist = false)
+    {
+        $personPlan = $this->newPersonPlan();
+        $personPlan->setPlanProperties($project['plan']);
+        $personPlan->setProjectKey($project['info']['key']);
+        
+        if ($person) $person->addPlan($personPlan);
+        
+        if ($persist) $this->persist($personPlan);
+        
+        return $personPlan;
     }
     /* ==============================================================
      * Clear out person tables for debugging

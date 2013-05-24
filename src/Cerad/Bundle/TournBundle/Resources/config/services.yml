@@ -34,6 +34,11 @@ services:
             - '@cerad_tourn.schedule.manager'
         tags:
             - { name: form.type, alias: cerad_tourn_account_create }
+            
+    cerad_tourn.person_plan.formtype:
+        class:  Cerad\Bundle\TournBundle\Form\Type\Person\PlanFormType
+        tags:
+            - { name: form.type, alias: cerad_tourn_person_plan }
 
     cerad_tourn.test.form1.formtype:
         class:  Cerad\Bundle\TournBundle\Form\Type\Test\Form1FormType

@@ -39,11 +39,10 @@ class Person extends BaseEntity
     protected $verified  = 'No';
     protected $status    = 'Active';
     
+    protected $plans;
     protected $certs;
     protected $leagues;
     protected $persons;
-    
-    protected $plans;
     
     public function __construct()
     {
@@ -200,12 +199,11 @@ class Person extends BaseEntity
     
     public function getPlan($projectKey)
     {
-        die('person.getPlan');
-        foreach($this->certs as $cert)
+        foreach($this->plans as $plan)
         {
-            if (($cert->getFed() == PersonCert::FedUSSF) && ($cert->getRole() == PersonCert::RoleReferee))
+            if ($plan->getProjectKey() == $projectKey)
             {
-                return $cert;
+                return $plan;
             }
         }
         return null;

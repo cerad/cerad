@@ -1,0 +1,34 @@
+Cerad\Bundle\PersonBundle\Entity\PersonPlan:
+    type:  entity
+    table: person_plan
+   #changeTrackingPolicy: NOTIFY
+   #Need unique constraint
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+      
+        person:
+            targetEntity: Person
+            inversedBy:   plans
+             
+    fields:
+        projectKey:
+            column:   project_key
+            type:     string
+            length:   40
+            nullable: false
+            
+        plan:
+            column:   plan
+            type:     array
+            nullable: false
+            
+# need some dates
+
+        status:
+            type:     string
+            length:   20
+            nullable: false
