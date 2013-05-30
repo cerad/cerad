@@ -49,4 +49,10 @@ services:
         class:  Cerad\Bundle\TournBundle\Model\Project
         arguments:  
             - '%cerad_tourn_project%'
+            
+    cerad_tourn.twig.extension:
+        class:  Cerad\Bundle\TournBundle\Twig\TournExtension
+        tags:
+            - { name: twig.extension }
+
      
