@@ -8,9 +8,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueUsername;
+use Cerad\Bundle\AccountBundle\Validator\Constraints\UsernameUnique;
 
-class UsernameFormType extends AbstractType
+class UsernameUniqueFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,7 +23,7 @@ class UsernameFormType extends AbstractType
             'attr'            => array('size' => 30),
             'constraints'     => array(
                 new Assert\NotNull(array('message' => 'User Name is required')), 
-                new UniqueUsername(),
+                new UsernameUnique(),
             )
         ));
     }

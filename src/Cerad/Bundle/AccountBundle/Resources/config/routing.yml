@@ -1,0 +1,21 @@
+cerad_account_password_reset:
+  path: /password-reset
+  defaults:  { _controller: CeradAccountBundle:Password:resetRequest }
+  
+cerad_account_password_reset_request:
+  path: /password-reset/request
+  defaults:  { _controller: CeradAccountBundle:Password:resetRequest }
+  
+cerad_account_password_reset_email_sent:
+  path: /password-reset/email-sent
+  defaults:  { _controller: CeradAccountBundle:Password:emailSent }
+  
+# The fos user route will grab the action
+cerad_account_password_reset_reset:
+  path: /password-reset/reset/{token}
+  defaults:  { _controller: CeradAccountBundle:Password:resetReset }
+  
+# Grab this here so my action is run
+# fos_user_resetting_reset:
+#   path: /password-reset/reset/{token}
+#   defaults:  { _controller: CeradAccountBundle:Password:resetReset }

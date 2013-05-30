@@ -76,7 +76,7 @@ cerad_tourn_person_plan_form:
 # Not entirely sure about this
 cerad_tourn_account_signin:
   path: /account/signin
-  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  defaults:  { _controller: CeradTournBundle:Account:signin }
   
 cerad_tourn_account_signin_form:
   path: /account/signin-form

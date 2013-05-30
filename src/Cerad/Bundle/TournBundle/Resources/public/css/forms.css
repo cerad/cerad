@@ -8,6 +8,13 @@ form.zayso_register_form {
   vertical-align: baseline;
   width: 700px; }
 
+form.zayso_password_reset_form {
+  margin-left: 10px;
+  padding: 0;
+  border: thin black solid;
+  vertical-align: baseline;
+  width: 700px; }
+
 fieldset {
   border: medium solid lime;
   /*

@@ -6,11 +6,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints as Assert;
 
-use Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueEmail;
+use Cerad\Bundle\AccountBundle\Validator\Constraints\UsernameExisting;
 
-class EmailFormType extends AbstractType
+class UsernameExistingFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,16 +19,16 @@ class EmailFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'label'           => 'User Email (unique)',
+            'label'           => 'User Name or Email or AYSOID',
             'attr'            => array('size' => 30),
             'constraints'     => array(
-                new Email(array('message' => 'Invalid email')), 
-                new UniqueEmail(),
+                new Assert\NotNull(array('message' => 'User Name is required')), 
+                new UsernameExisting(),
             )
         ));
     }
     public function getParent() { return 'text'; }
-    public function getName()   { return 'cerad_account_email'; }
+    public function getName()   { return 'cerad_account_username_existing'; }
 }
 
 ?>

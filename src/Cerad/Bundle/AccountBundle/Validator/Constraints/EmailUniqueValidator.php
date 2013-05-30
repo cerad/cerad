@@ -4,7 +4,7 @@ namespace Cerad\Bundle\AccountBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class UniqueUsernameValidator extends ConstraintValidator
+class EmailUniqueValidator extends ConstraintValidator
 {
     protected $manager;
     

@@ -3,15 +3,15 @@ namespace Cerad\Bundle\AccountBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-class UniqueEmail extends Constraint
+class UsernameUnique extends Constraint
 {
   //public $message = 'The string "%string%" contains an illegal character: it can only contain letters or numbers.';
 
-    public $message = 'Email already in use.';
+    public $message = 'User name must be unique.';
     
     public function validatedBy()
     {
-        return 'cerad_account_email_validator';
+        return 'cerad_account_username_unique';
     }
 }
 

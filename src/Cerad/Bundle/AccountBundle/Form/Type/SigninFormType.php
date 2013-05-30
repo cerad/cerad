@@ -17,7 +17,7 @@ class SigninFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', 'text',      array('label' => 'User Name or Email or AYSOID', 'attr' => array('size' => 30)))
+            ->add('username', 'cerad_account_username_existing')
             ->add('password', 'password',  array('label' => 'Zayso Password',  'attr' => array('size' => 30)))
         ;
     }
