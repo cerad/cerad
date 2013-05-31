@@ -7,7 +7,7 @@ class UsernameExisting extends Constraint
 {
   //public $message = 'The string "%string%" contains an illegal character: it can only contain letters or numbers.';
 
-    public $message = 'User name must does not exist.';
+    public $message = 'User name does not exist.';
     
     public function validatedBy()
     {

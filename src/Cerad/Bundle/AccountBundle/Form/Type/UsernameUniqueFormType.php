@@ -28,7 +28,7 @@ class UsernameUniqueFormType extends AbstractType
         ));
     }
     public function getParent() { return 'text'; }
-    public function getName()   { return 'cerad_account_username'; }
+    public function getName()   { return 'cerad_account_username_unique'; }
 }
 
 ?>

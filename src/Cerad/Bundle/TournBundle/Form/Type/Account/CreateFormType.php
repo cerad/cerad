@@ -22,9 +22,9 @@ class CreateFormType extends AbstractType
     {
         $notBlank = new NotBlank();
         
-        $builder->add('userName', 'cerad_account_username');
-        $builder->add('userPass', 'cerad_account_password');
-        $builder->add('personEmail', 'cerad_account_email');
+        $builder->add('userName',    'cerad_account_username_unique');
+        $builder->add('userPass',    'cerad_account_password');
+        $builder->add('personEmail', 'cerad_account_email_unique');
         /*
         $builder->add('userPass', 'repeated', array(
             'type'     => 'password',
