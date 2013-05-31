@@ -52,6 +52,8 @@ services:
             
     cerad_tourn.twig.extension:
         class:  Cerad\Bundle\TournBundle\Twig\TournExtension
+        arguments:  
+            - '@cerad_tourn.project'
         tags:
             - { name: twig.extension }
 

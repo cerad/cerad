@@ -4,12 +4,16 @@ namespace Cerad\Bundle\TournBundle\Twig;
 class TournExtension extends \Twig_Extension
 {
     protected $env;
+    protected $project;
     
     public function getName()
     {
         return 'cerad_schedule_extension';
     }
-    
+    public function __construct($project)
+    {
+        $this->project = $project;
+    }
     public function initRuntime(\Twig_Environment $env)
     {
         parent::initRuntime($env);
@@ -22,8 +26,14 @@ class TournExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(            
-            'cerad_tourn_show_header'   => new \Twig_Function_Method($this, 'showHeader'),
+            'cerad_tourn_show_header' => new \Twig_Function_Method($this, 'showHeader'),
+            
+            'cerad_tourn_get_project_description' => new \Twig_Function_Method($this, 'getProjectDescription'),
         );
+    }
+    public function getProjectDescription()
+    {
+        return $this->project->getDesc();
     }
     public function showHeader()
     {
