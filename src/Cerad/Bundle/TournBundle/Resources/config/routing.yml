@@ -16,7 +16,7 @@ cerad_tourn_textalerts:
   
 cerad_tourn_contact:
   path: /contact
-  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  defaults:  { _controller: CeradTournBundle:Main:contact }
   
 cerad_tourn_schedule:
   path: /schedule
@@ -28,7 +28,7 @@ cerad_tourn_schedule_team_list:
   
 cerad_tourn_schedule_my_list:
   path: /schedule/my
-  defaults:  { _controller: CeradTournBundle:Main:welcome }
+  defaults:  { _controller: CeradTournBundle:Schedule:my }
   
 cerad_tourn_schedule_referee_list:
   path: /schedule/referee
@@ -36,21 +36,23 @@ cerad_tourn_schedule_referee_list:
   
 cerad_tourn_schedule_referee_assign:
   path: /schedule/referee/assign/{id}
-  defaults:  { _controller: CeradTournBundle:Schedule:assign, id: 0 }
+  defaults:  { _controller: CeradTournBundle:Referee:assign, id: 0 }
   requirements:
     id: \d+
+
+# ===================================================
+# Results
+cerad_tourn_results_poolplay:
+  path: /results/poolplay
+  defaults:  { _controller: CeradTournBundle:Results:poolplay }
   
-cerad_tourn_schedule_poolplay:
-  path: /schedule/poolplay
-  defaults:  { _controller: CeradTournBundle:Main:welcome }
+cerad_tourn_results_playoffs:
+  path: /results/playoffs
+  defaults:  { _controller: CeradTournBundle:Results:playoffs }
   
-cerad_tourn_schedule_playoffs:
-  path: /schedule/playoffs
-  defaults:  { _controller: CeradTournBundle:Main:welcome }
-  
-cerad_tourn_schedule_results:
-  path: /schedule/results
-  defaults:  { _controller: CeradTournBundle:Main:welcome }
+cerad_tourn_results_champions:
+  path: /results/champions
+  defaults:  { _controller: CeradTournBundle:Results:champions }
 
 # ==============================================================
 # Person stuff

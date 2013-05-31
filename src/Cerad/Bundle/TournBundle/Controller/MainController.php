@@ -50,7 +50,7 @@ class MainController extends Controller
     {
         $tplData = array();
         
-        return $this->render('@project/contact.html.twig', $tplData);
+        return $this->render('@CeradTourn/contact.html.twig', $tplData);
     }
     public function classesAction()
     {

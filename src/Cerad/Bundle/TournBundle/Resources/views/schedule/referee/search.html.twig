@@ -1,0 +1,40 @@
+{% if searchForm is defined  %}
+{% set form = searchForm     %}
+<div class="schedule-search">
+<form action="{{ path('cerad_tourn_schedule_referee_list') }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="width: 1000px;">
+<tr>
+<td colspan="2">
+<table>
+<tr>
+    <td style="width: 200px;"><table border="1"><tr>
+    {% for item in form.dates %}
+        <td align="center">{{ form_label(item) }}<br />{{ form_widget(item) }}</td>
+    {% endfor %}
+    <tr></table></td>
+    
+    <td style="width: 200px;"><table border="1"><tr>
+    {% for item in form.ages %}
+        <td align="center">{{ form_label(item) }}<br />{{ form_widget(item) }}</td>
+    {% endfor %}
+    <tr></table></td>
+    
+    <td style="width: 200px;"><table border="1"><tr>
+    {% for item in form.genders %}
+        <td align="center">{{ form_label(item) }}<br />{{ form_widget(item) }}</td>
+    {% endfor %}
+    <tr></table></td>
+    
+</tr>
+</table>
+</td>
+</tr><tr>
+</tr>
+<tr>
+    <td colspan="8" align="right"><input type="submit" name="schSearchSubmit" value="Search" /></td>
+</tr>
+</table>
+<div style="display: none;">{{ form_rest(form) }}</div>
+</form>        
+</div>
+{% endif %}

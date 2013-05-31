@@ -1,0 +1,12 @@
+{% extends '@CeradTourn/layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+  <link rel="stylesheet" href="{{  asset('bundles/ceradtourn/css/schedule.css')}}"  media="all" />
+{% endblock %}
+  
+{% block content %}
+<h3>Playoff Games and Results</h3>
+{# include('@CeradTourn/schedule/referee/search.html.twig') #}
+{# include('@CeradTourn/schedule/referee/games.html.twig')  #}
+{% endblock %}
