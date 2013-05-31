@@ -8,7 +8,7 @@ cerad_tourn_welcome:
   
 cerad_tourn_home:
   path: /home
-  defaults:  { _controller: CeradTournBundle:Main:home }
+  defaults:  { _controller: CeradTournBundle:Home:home }
   
 cerad_tourn_textalerts:
   path: /textalerts

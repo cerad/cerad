@@ -5,34 +5,42 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 
-class MainController extends Controller
+class HomeController extends Controller
 {
-    public function indexAction(Request $request)
-    {
-        return $this->redirect($this->generateUrl('cerad_tourn_welcome'));
-            
-        $tplData = array();
-        $tplData['last_username'] = $request->getSession()->get(SecurityContext::LAST_USERNAME);
-        $tplData['csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
-         
-        return $this->render('@CeradTourn/welcome.html.twig', $tplData);
+    public function getAccountPerson()
+    { 
+        // Must have a person
+        $account = $this->getUser();
+        if (!is_object($account)) return null;
+        
+        $person = $account->getPerson();
+        if (!is_object($person)) return null;
+
+        return $person;
     }
-    public function welcomeAction(Request $request)
+    public function homeAction()
     {
-        $item = array(
-            'username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
-            'password' => null,
-        );
-        $signinForm = $this->createForm($this->get('cerad_account.signin.formtype'),$item);
+        // Must have an account and person
+        $person = $this->getAccountPerson();
+        if (!$person)
+        {
+            return $this->redirect($this->generateUrl('cerad_tourn_welcome'));  
+        }
+        // Also make sure have a project record
+        $project = $this->get('cerad_tourn.project');
+        $personPlan = $person->getPlan($project);
         
+        if (!$personPlan)
+        {
+            return $this->redirect($this->generateUrl('cerad_tourn_person_plan'));              
+        }
+       
+        // Just display
         $tplData = array();
-      //$tplData['last_username'] = $request->getSession()->get(SecurityContext::LAST_USERNAME);
-      //$tplData['csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
-        $tplData['signinForm']    = $signinForm->createView();
+        $tplData['account'] = $this->getUser();
+        $tplData['project'] = $this->get('cerad_tourn.project');
         
-     
-      //return $this->render('CeradTournBundle::welcome.html.twig', $tplData);
-        return $this->render('@CeradTourn/welcome.html.twig', $tplData);
+        return $this->render('@CeradTourn/home.html.twig', $tplData);
     }
     public function userHeaderAction()
     {

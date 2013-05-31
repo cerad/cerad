@@ -90,9 +90,12 @@ class PersonController extends Controller
 
             if ($form->isValid())
             {
-                // Persist
+                // Consider checking if "Will Attend" have been answered.
+                // Maybe a constraint?
                 $personPlan = $form->getData();
-                $personManager  = $this->get('cerad_person.manager');
+                
+                // Persist
+                $personManager  = $this->get('cerad_person.manager');   
                 $personManager->persist($personPlan);
                 $personManager->flush();
 
@@ -100,7 +103,6 @@ class PersonController extends Controller
                 $request->getSession()->remove('cerad_tourn_person_plan');
                 
                 // Redirect
-              //return $this->redirect($this->generateUrl('cerad_tourn_person_plan_success'));
                 return $this->redirect($this->generateUrl('cerad_tourn_home'));
             }
             else 

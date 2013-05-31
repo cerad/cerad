@@ -1,14 +1,14 @@
 /* ==========================================================
  * Forms stuff
  */
-form.zayso_register_form {
+form.zayso_form1 {
   margin-left: 10px;
   padding: 0;
   border: thin black solid;
   vertical-align: baseline;
   width: 700px; }
 
-form.zayso_password_reset_form {
+form.zayso_form2 {
   margin-left: 10px;
   padding: 0;
   border: thin black solid;
@@ -16,7 +16,7 @@ form.zayso_password_reset_form {
   width: 700px; }
 
 fieldset {
-  border: medium solid lime;
+  border: thin solid black;
   /*
   border-style: solid;
   border-width: medium;
@@ -43,6 +43,18 @@ fieldset div label {
   font-weight: bold;
   line-height: 0.9;
   width: 40%;
+  text-align: left;
+  margin-top: 5px;
+  margin-right: 15px;
+  padding-left: 0px 0px 0px 0px; }
+
+form.zayso_form2 fieldset div label {
+  color: #666;
+  float: left;
+  font-size: 1.0em;
+  font-weight: bold;
+  line-height: 0.9;
+  width: 50%;
   text-align: left;
   margin-top: 5px;
   margin-right: 15px;
@@ -85,10 +97,10 @@ fieldset div textarea {
   max-width: 550px; }
 
 /* Submit */
-fieldset div.controls {
+fieldset div.zayso_form_controls {
   background: none; }
 
-fieldset div.controls input {
+fieldset div.zayso_form_controls input {
   /*background: url(../images/ir-submit-create-profile.png) no-repeat 0 0;*/
   float: right; 
   width: auto;
