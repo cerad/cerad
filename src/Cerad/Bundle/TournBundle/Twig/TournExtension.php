@@ -28,12 +28,17 @@ class TournExtension extends \Twig_Extension
         return array(            
             'cerad_tourn_show_header' => new \Twig_Function_Method($this, 'showHeader'),
             
+            'cerad_tourn_get_project_title'       => new \Twig_Function_Method($this, 'getProjectTitle'),
             'cerad_tourn_get_project_description' => new \Twig_Function_Method($this, 'getProjectDescription'),
         );
     }
     public function getProjectDescription()
     {
         return $this->project->getDesc();
+    }
+    public function getProjectTitle()
+    {
+        return $this->project->getTitle();
     }
     public function showHeader()
     {
