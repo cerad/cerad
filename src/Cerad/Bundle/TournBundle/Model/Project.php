@@ -16,6 +16,8 @@ class Project
     {
         $this->config = $config;
     }
+    public function getInfo()  { return $this->config['info']; }
+    
     public function getKey()   { return $this->config['info']['key'];   }
     public function getTitle() { return $this->config['info']['title']; }
     public function getDesc()  { return $this->config['info']['desc'];  }

@@ -75,6 +75,10 @@ class Project extends BaseEntity
     
     static function genHash($params)
     {
+        // Allow for project specific keys such as AYSOS5Games2013
+        if (isset($params['key']) && $params['key']) return $params['key'];
+        
+        // Generate it
         $paramsx = array($params['sport'],$params['domain'],$params['domainSub'],$params['season']);
         
         return self::hash($paramsx);
@@ -92,6 +96,8 @@ class Project extends BaseEntity
         if (isset($params['status'])) $item->setStatus($params['status']);
         else                          $item->setStatus('Active');
         
+        if (isset($params['desc'])) $item->setDesc($params['desc']);
+       
         $item->setHash(self::genHash($params));
         
         return $item;
