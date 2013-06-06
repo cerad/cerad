@@ -75,7 +75,7 @@ class Project extends BaseEntity
     
     static function genHash($params)
     {
-        // Allow for project specific keys such as AYSOS5Games2013
+        // Allow for project specific keys such as AYSOS5Games2013 or AYSONationalGames2014
         if (isset($params['key']) && $params['key']) return $params['key'];
         
         // Generate it
