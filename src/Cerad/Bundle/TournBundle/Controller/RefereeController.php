@@ -29,7 +29,9 @@ class RefereeController extends Controller
         $searchData['sports']   = array($project->getSport());
         $searchData['statuses'] = array();
         
-        $searchData['dates'] = array('2013-06-14','2013-06-15','2013-06-16');
+        // Pull from the project
+        $searchData['dates'] = array('2013-06-14');
+      //$searchData['dates'] = array('2013-06-14','2013-06-15','2013-06-16');
         
         // Pull from session if nothing was passed
         $sessionSearchData = $request->getSession()->get('ScheduleSearchData');
