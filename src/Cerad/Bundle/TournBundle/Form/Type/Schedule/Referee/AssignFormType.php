@@ -5,7 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Component\Form\Event\DataEvent;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvents;
@@ -27,7 +27,7 @@ class AssignPersonSubscriber implements EventSubscriberInterface
         return array(FormEvents::PRE_SET_DATA => 'preSetData');
     }
 
-    public function preSetData(DataEvent $event)
+    public function preSetData(FormEvent $event)
     {
         $gamePerson = $event->getData();
         $form       = $event->getForm();
@@ -90,6 +90,7 @@ class AssignPersonSubscriber implements EventSubscriberInterface
             'required'      => false,
             'empty_value'   => $emptyValue,
             'empty_data'    => false,
+            'auto_initialize' => false,
             'choices'       => $officialsPickList,
         )));
         
@@ -102,6 +103,7 @@ class AssignPersonSubscriber implements EventSubscriberInterface
             'empty_value'   => false,
             'empty_data'    => false,
             'choices'       => $statusPickList,
+            'auto_initialize' => false,
         )));
         
         // Done

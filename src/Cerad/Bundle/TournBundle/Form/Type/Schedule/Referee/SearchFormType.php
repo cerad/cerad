@@ -134,10 +134,10 @@ class SearchFormType extends AbstractType
     protected $manager;
     protected $params;
 
-    public function __construct($manager,$params = array())
+    public function __construct($manager,$project)
     {
         $this->manager = $manager;
-        $this->params  = $params;        
+        $this->project  = $project;        
     }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -149,7 +149,7 @@ class SearchFormType extends AbstractType
         $builder->add('dates', 'choice', array(
             'label'         => 'Days of Week',
             'required'      => true,
-            'choices'       => $this->dates, // Fri = Label
+            'choices'       => $this->project->getDates(), //dates, // Fri = Label
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'cerad-checkbox-all'),
@@ -157,7 +157,7 @@ class SearchFormType extends AbstractType
         $builder->add('ages', 'choice', array(
             'label'         => 'Ages',
             'required'      => true,
-            'choices'       => $this->ages,
+            'choices'       => $this->project->getAges(),
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'cerad-checkbox-all'),
@@ -165,12 +165,11 @@ class SearchFormType extends AbstractType
         $builder->add('genders', 'choice', array(
             'label'         => 'Genders',
             'required'      => true,
-            'choices'       => $this->genders,
+            'choices'       => $this->project->getGenders(),
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'cerad-checkbox-all'),
         ));
- 
     }
     protected $genders = array
     (
@@ -187,10 +186,10 @@ class SearchFormType extends AbstractType
     );
     protected $dates = array
     (
-        'ALL'      => 'All', 
-        '2013-05-17' => 'Fri', 
-        '2013-05-18' => 'Sat', 
-        '2013-05-19' => 'Sun'
+        'All'      => 'All', 
+        '2013-06-14' => 'Fri', 
+        '2013-06-15' => 'Sat', 
+        '2013-06-16' => 'Sun'
     );
 }
 ?>

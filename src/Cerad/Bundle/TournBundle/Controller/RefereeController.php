@@ -10,12 +10,13 @@ class RefereeController extends Controller
     public function refereeAction(Request $request)
     {   
         $manager = $this->get('cerad_tourn.schedule.manager');
+        $project = $this->get('cerad_tourn.project');
         
         // Build the search parameter information
         $searchData = array();
         
-        $searchData['domains']    = array('AYSOA5B');
-        $searchData['domainSubs'] = array('Games');
+        $searchData['domains']    = array($project->getDomain());
+        $searchData['domainSubs'] = array($project->getDomainSub());
         
         $searchData['ages']    = array();
         $searchData['genders'] = array();
@@ -24,11 +25,11 @@ class RefereeController extends Controller
         $searchData['teams' ]  = array();
         $searchData['fields']  = array();
         
-        $searchData['seasons']  = array('SP2013');
-        $searchData['sports']   = array('Soccer');
+        $searchData['seasons']  = array($project->getSeason());
+        $searchData['sports']   = array($project->getSport());
         $searchData['statuses'] = array();
         
-        $searchData['dates'] = array('2013-05-17','2013-05-18','2013-05-19');
+        $searchData['dates'] = array('2013-06-14','2013-06-15','2013-06-16');
         
         // Pull from session if nothing was passed
         $sessionSearchData = $request->getSession()->get('ScheduleSearchData');
@@ -44,7 +45,7 @@ class RefereeController extends Controller
         // Check post
         if ($request->getMethod() == 'POST')
         {
-            $searchForm->bindRequest($request);
+            $searchForm->bind($request);
 
             if ($searchForm->isValid())
             {

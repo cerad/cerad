@@ -18,6 +18,7 @@ services:
         class:  Cerad\Bundle\TournBundle\Form\Type\Schedule\Referee\SearchFormType
         arguments:  
             - '@cerad_tourn.schedule.manager'
+            - '@cerad_tourn.project'
         tags:
             - { name: form.type, alias: schedule_referee_search }
             
