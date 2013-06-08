@@ -144,12 +144,14 @@ class SearchFormType extends AbstractType
         // For dynamic fields
         $subscriber = new SearchFormTypeSubscriber($builder->getFormFactory(),$this->manager,$this->params);
         $builder->addEventSubscriber($subscriber);
-            
+
+        $all = array('All' => 'All');
+        
         // Dates
         $builder->add('dates', 'choice', array(
             'label'         => 'Days of Week',
             'required'      => true,
-            'choices'       => $this->project->getDates(), //dates, // Fri = Label
+            'choices'       => array_merge($all,$this->project->getDates()), // Fri = label, 2013-06-14 = value
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'cerad-checkbox-all'),
@@ -157,7 +159,7 @@ class SearchFormType extends AbstractType
         $builder->add('ages', 'choice', array(
             'label'         => 'Ages',
             'required'      => true,
-            'choices'       => $this->project->getAges(),
+            'choices'       => array_merge($all,$this->project->getAges()),
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'cerad-checkbox-all'),
@@ -165,7 +167,7 @@ class SearchFormType extends AbstractType
         $builder->add('genders', 'choice', array(
             'label'         => 'Genders',
             'required'      => true,
-            'choices'       => $this->project->getGenders(),
+            'choices'       => array_merge($all,$this->project->getGenders()),
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'cerad-checkbox-all'),

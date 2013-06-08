@@ -39,12 +39,16 @@ cerad_tourn_schedule_referee_assign:
   defaults:  { _controller: CeradTournBundle:Referee:assign, id: 0 }
   requirements:
     id: \d+
+    
+cerad_tourn_schedule_game_report:
+  path: /schedule/game/report/{id}
+  defaults:  { _controller: CeradTournBundle:Game:report }
 
 # ===================================================
 # Results
 cerad_tourn_results_poolplay:
-  path: /results/poolplay
-  defaults:  { _controller: CeradTournBundle:Results:poolplay }
+  path: /results/poolplay/{div}/{poolFilter}
+  defaults:  { _controller: CeradTournBundle:Results:poolplay, div: null, poolFilter: null }
   
 cerad_tourn_results_playoffs:
   path: /results/playoffs

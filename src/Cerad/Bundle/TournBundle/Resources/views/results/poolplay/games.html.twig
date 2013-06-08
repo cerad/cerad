@@ -1,0 +1,72 @@
+<div class="schedule-games-list">
+    <table id="schedule" border="1" style="max-widthx: 850px;">
+    <thead>
+        <tr><th colspan="20">Game Schedule - Count: {{ games | length }}</th></tr>
+        <tr>
+            <th>Game</th>
+            <th>DOW</th>
+            <th>Time</th>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Div Pool</th>
+            <th>Home / Away Teams</th>
+            <th>Officials</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="10">
+                Field Pell  = Pellissippi (about 15 minutes from Ball Camp)<br />
+                Field BC/NB = Ball Camp/Nicholas Ball Park (right next to each other)
+            </td>
+        </tr>
+        {% for game in games %}
+        <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
+            <td class="schedule-games-list-game">
+                {% if 0 %}
+                <a href="{{ path('cerad_tourn_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
+                {% else %}
+                {{ game.num }}
+                {% endif %}
+            </td>
+            <td class="schedule-games-list-dow"  >{{ game.dtBeg.format('D'    ) }}</td>
+            <td class="schedule-games-list-time" >{{ game.dtBeg.format('g:i A') }}</td>    
+            <td class="schedule-games-list-field">{{ game.field.name      }}</td>
+            <td class="schedule-games-list-pool" >{{ game.pool            }}
+            <td class="schedule-games-list-div"  >{{ game.level.name      }}
+            </td>
+           <td class="schedule-games-list-teams"><table>
+                {% for gameTeam in game.teams %}
+                    <tr><td>{{ gameTeam.score }}</td><td>{{ gameTeam.name }}</td></tr>
+                {% endfor %}
+            </table></td>
+            <td class="schedule-games-list-officials"><table class="game-officials-list">
+                {% for gamePerson in game.persons  %}
+                <tr>
+                    <td><a href="{{ path('cerad_tourn_schedule_referee_assign', { 'id': game.id }) }}">{{ gamePerson.role }}:</a></td>
+                    <td class="game-person-status-{{ gamePerson.status }}">{{ gamePerson.name }} </td>
+                </tr>
+                {% endfor %}
+            </table></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+{# block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function() 
+    {
+        $('#schedule').dataTable(
+        {
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "aaSorting": [[ 2, "asc" ],[ 5, "asc" ],[ 4, "asc" ]]
+        });
+    });
+</script>
+{% endblock #}

@@ -82,6 +82,35 @@ class GameTeam extends BaseEntity
         return $item;
     }
     /* =========================================
+     * Game report information is stored in the conduct array
+     */
+    protected $teamReport = null;
+    
+    public function getReport()
+    {
+        if ($this->teamReport) return $this->teamReport;
+        
+        $data = $this->getConduct();
+        if (!is_array($data)) $data = array();
+        
+        $this->teamReport = new TeamReport();
+        
+        $this->teamReport->setData($data);
+        
+        return $this->teamReport;
+    }
+    public function saveReport($teamReport = null)
+    {
+        if (!$teamReport) $teamReport = $this->teamReport;
+    
+        if (!$teamReport) return;
+        
+        $data = $teamReport->getData();
+        
+        $this->setConduct($data);
+    }
+    
+    /* =========================================
      * Debugging
      */
     public function __toString()

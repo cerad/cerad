@@ -8,6 +8,9 @@ services:
             - '@cerad.field.repository'
             - '@cerad.game.repository'
             - '@cerad_person.repository'
+            
+    cerad_tourn.results.manager:
+        class:  Cerad\Bundle\TournBundle\Schedule\ResultsManager
       
     cerad_tourn.schedule.import:
         class:  Cerad\Bundle\TournBundle\Schedule\ScheduleImport

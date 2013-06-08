@@ -101,7 +101,7 @@ class GameRepository extends BaseRepository
      * Kick off one or more queries to get ids
      */
     public function loadGameIds($params)
-    {   
+    {  
         $qb = $this->createQueryBuilder('game');
         
         $seasons    = $qb->getArrayForParam($params,'seasons');
@@ -109,6 +109,9 @@ class GameRepository extends BaseRepository
         $domains    = $qb->getArrayForParam($params,'domains');
         $domainSubs = $qb->getArrayForParam($params,'domainSubs');
         $levels     = $qb->getArrayForParam($params,'levels');
+        
+        $projects   = $qb->getArrayForParam($params,'projects');
+        $gameTypes  = $qb->getArrayForParam($params,'gameTypes');
 
         $ages      = $qb->getArrayForParam($params,'ages');
         $teams     = $qb->getArrayForParam($params,'teams');
@@ -116,7 +119,8 @@ class GameRepository extends BaseRepository
         $genders   = $qb->getArrayForParam($params,'genders');
         $statuses  = $qb->getArrayForParam($params,'statuses');
         
-        $dates       = isset($params['dates' ])      ? $params['dates' ]:      null; // 2013-01-20
+        $dates     = $qb->getArrayForParam($params,'dates');
+        
         $date1       = isset($params['date1' ])      ? $params['date1' ]:      null; // 2013-01-20
         $date2       = isset($params['date2' ])      ? $params['date2' ]:      null;
         $date1On     = isset($params['date1On'])     ? $params['date1On']:     null;
@@ -163,6 +167,7 @@ class GameRepository extends BaseRepository
             $date1 .= $time1;
             $date2 .= $time2;
         }
+        
         // Build query
         
         $qb->addSelect('distinct game.id');
@@ -181,8 +186,10 @@ class GameRepository extends BaseRepository
         
         $qb->andWhereEq('gameField.name',$fields);
         $qb->andWhereEq('game.status',   $statuses);
+        $qb->andWhereEq('game.pool',     $gameTypes); // Hack, PP SF etc
         
         $qb->andWhereEq('gameProject.season',$seasons);
+        $qb->andWhereEq('gameProject.hash',  $projects);
         
         $qb->andWhereEq('gameTeamLevel.sport',    $sports);
         $qb->andWhereEq('gameTeamLevel.domain',   $domains);
@@ -191,8 +198,6 @@ class GameRepository extends BaseRepository
         $qb->andWhereEq('gameTeamLevel.age',      $ages);
         $qb->andWhereEq('gameTeamLevel.sex',      $genders);
         $qb->andWhereEq('gameTeam.name',          $teams);
-        
-      //die($qb->getDQL());
         
         $items = $qb->getQuery()->getArrayResult(); // print_r($items); die('loadGameIds');
         $ids = array();
