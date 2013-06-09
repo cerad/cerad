@@ -2,3 +2,9 @@
 cerad_person_ayso_volunteer_region:
     pattern: /ayso/volunteer-region
     defaults: { _controller: CeradPersonBundle:Person:aysoVolRegion }
+
+# Assume this gets called with a prefix such as person
+cerad_person_person_add:
+  path: /person/add
+  defaults:  { _controller: CeradPersonBundle:PersonPerson:add }
+  

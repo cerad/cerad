@@ -78,6 +78,10 @@ cerad_tourn_person_plan_form:
   path: /person/plan-form/{id}
   defaults:  { _controller: CeradTournBundle:Person:planForm, id: null }
   
+cerad_tourn_person_person_add:
+  path: /person/person/add
+  defaults:  { _controller: CeradTournBundle:PersonPerson:add }
+ 
 # ==============================================================
 # Not entirely sure about this
 cerad_tourn_account_signin:

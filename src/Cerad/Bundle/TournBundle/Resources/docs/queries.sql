@@ -35,7 +35,7 @@ from game_person
 left join game on game.id = game_person.game_id
 left join project on project.id = game.project_id
 left join person on person.id = game_person.person_id
-where project.hash = 'AYSOS5Games2013' and game.num = 165
+where project.hash = 'AYSOS5Games2013' and game.num = 224
 ;
 
 # delete a game
