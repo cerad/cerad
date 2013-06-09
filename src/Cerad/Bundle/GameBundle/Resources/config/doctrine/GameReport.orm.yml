@@ -1,0 +1,30 @@
+Cerad\Bundle\GameBundle\Entity\GameReport:
+    type:  entity
+    table: game_report
+    
+    changeTrackingPolicy: NOTIFY
+
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    oneToOne:
+          
+        game:
+            targetEntity: Game
+            inversedBy:   report
+            nullable:     false
+      
+    fields:
+                    
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: false
+            
+        text:
+            column:   textx
+            type:     text
+            nullable: true

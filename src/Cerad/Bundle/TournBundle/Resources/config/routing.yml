@@ -40,8 +40,8 @@ cerad_tourn_schedule_referee_assign:
   requirements:
     id: \d+
     
-cerad_tourn_schedule_game_report:
-  path: /schedule/game/report/{id}
+cerad_tourn_game_report:
+  path: /game/report/{num}
   defaults:  { _controller: CeradTournBundle:Game:report }
 
 # ===================================================

@@ -5,12 +5,20 @@ class GameRepository extends BaseRepository
 {
     // Nice to make this configurable
     public function getGameClassName      () { return $this->_entityName; }
-    public function getGameTeamClassName  () { return $this->_entityName . 'Team';   }
+    public function getGameReportClassName() { return $this->_entityName . 'Report'; }
+
     public function getGamePersonClassName() { return $this->_entityName . 'Person'; }
     
+    public function getGameTeamClassName      () { return $this->_entityName . 'Team';   }
+    public function getGameTeamReportClassName() { return $this->_entityName . 'TeamReport'; }
+    
     public function newGame()       { return new $this->getGameClassName      (); }
-    public function newGameTeam()   { return new $this->getGameTeamClassName  (); }
+    public function newGameReport() { return new $this->getGameReportClassName(); }
+    
     public function newGamePerson() { return new $this->getGamePersonClassName(); }
+   
+    public function newGameTeam()       { return new $this->getGameTeamClassName  (); }
+    public function newGameTeamReport() { return new $this->getGameTeamReportClassName  (); }
     
     public function createGame($params = array())       
     { 

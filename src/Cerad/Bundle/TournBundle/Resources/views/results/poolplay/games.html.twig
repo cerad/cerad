@@ -1,72 +1,66 @@
-<div class="schedule-games-list">
-    <table id="schedule" border="1" style="max-widthx: 850px;">
-    <thead>
-        <tr><th colspan="20">Game Schedule - Count: {{ games | length }}</th></tr>
+    <table border = "1">
+        <tr><th colspan="16">Game Pool Results - {{ poolKey }}</th></tr>
+        <tr><td colspan="16">GS=Goals Scored, SP=Sportsmanship, YC=Caution, RC=Sendoff, CE=Coach Expelled, PE=Points Earned</td></tr>
         <tr>
-            <th>Game</th>
-            <th>DOW</th>
-            <th>Time</th>
-            <th>Field</th>
-            <th>Type</th>
-            <th>Div Pool</th>
-            <th>Home / Away Teams</th>
-            <th>Officials</th>
+            <td>Num</td>
+            <td>Game</td>
+            <td>Report</td>
+            <td>DOW Time</td>
+            <td>Field</td>
+            <td>Pool</td>
+            <td>Home/Away Team</td>
+            <td>GS</td>
+            <td>SP</td>
+            <td>YC</td>
+            <td>RC</td>
+            <td>CE</td>
+            <td>PE</td>
         </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td colspan="10">
-                Field Pell  = Pellissippi (about 15 minutes from Ball Camp)<br />
-                Field BC/NB = Ball Camp/Nicholas Ball Park (right next to each other)
-            </td>
-        </tr>
-        {% for game in games %}
-        <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
-            <td class="schedule-games-list-game">
-                {% if 0 %}
-                <a href="{{ path('cerad_tourn_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
-                {% else %}
-                {{ game.num }}
-                {% endif %}
-            </td>
-            <td class="schedule-games-list-dow"  >{{ game.dtBeg.format('D'    ) }}</td>
-            <td class="schedule-games-list-time" >{{ game.dtBeg.format('g:i A') }}</td>    
-            <td class="schedule-games-list-field">{{ game.field.name      }}</td>
-            <td class="schedule-games-list-pool" >{{ game.pool            }}
-            <td class="schedule-games-list-div"  >{{ game.level.name      }}
-            </td>
-           <td class="schedule-games-list-teams"><table>
-                {% for gameTeam in game.teams %}
-                    <tr><td>{{ gameTeam.score }}</td><td>{{ gameTeam.name }}</td></tr>
-                {% endfor %}
-            </table></td>
-            <td class="schedule-games-list-officials"><table class="game-officials-list">
-                {% for gamePerson in game.persons  %}
-                <tr>
-                    <td><a href="{{ path('cerad_tourn_schedule_referee_assign', { 'id': game.id }) }}">{{ gamePerson.role }}:</a></td>
-                    <td class="game-person-status-{{ gamePerson.status }}">{{ gamePerson.name }} </td>
-                </tr>
-                {% endfor %}
-            </table></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-    </table>
-</div>
-{# block javascripts %}
-<script type="text/javascript">
-    $(document).ready(function() 
-    {
-        $('#schedule').dataTable(
-        {
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "aaSorting": [[ 2, "asc" ],[ 5, "asc" ],[ 4, "asc" ]]
-        });
-    });
-</script>
-{% endblock #}
+        {% set even = false %}
+        {% for game in pool.games %}
+        
+        {% if even %}
+            <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}" style="background-color: cyan;">
+        {% else %}
+            <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
+        {% endif %}
+            
+{% if is_granted('ROLE_ADMIN') %}
+    <td rowspan="2"><a href="{{ path('cerad_tourn_game_report', { num: game.num }) }}">{{ game.num }}</a></td>
+{% else %}
+    <td>{{ game.getNum() }}</td>
+{%endif %}
+            <td rowspan="2">{{ game.status         }}</td>
+            <td rowspan="2">{{ game.report.status  }}</td>
+            <td rowspan="2">{{ game.dtBeg.format('D'    ) }} {{ game.dtBeg.format('g:i A') }}</td>
+            <td rowspan="2">{{ game.field.name     }}</td>
+            <td rowspan="2">{{ game.level.name     }}</td>
+            
+            {% set homeTeam = game.homeTeam %}
+            {% set awayTeam = game.awayTeam %}
+            
+            {% set homeTeamReport = homeTeam.report %}
+            {% set awayTeamReport = awayTeam.report %}
+            
+            
+            <td>{{ homeTeam.name }}</td>
+            <td align="center">{{ homeTeamReport.goalsScored     }}</td>
+            <td align="center">{{ homeTeamReport.sportsmanship   }}</td>
+            <td align="center">{{ homeTeamReport.playerWarnings  }}</td>
+            <td align="center">{{ homeTeamReport.playerEjections }}</td>
+            <td align="center">{{ homeTeamReport.coachEjections  }}</td>
+            <td align="center">{{ homeTeamReport.pointsEarned    }}</td>
+       </tr>
+       {% if even %}<tr style="background-color: cyan;">{% else %}<tr>{% endif %}
+            <td>{{ awayTeam.name }}</td>
+            <td align="center">{{ awayTeamReport.goalsScored     }}</td>
+            <td align="center">{{ awayTeamReport.sportsmanship   }}</td>
+            <td align="center">{{ awayTeamReport.playerWarnings  }}</td>
+            <td align="center">{{ awayTeamReport.playerEjections }}</td>
+            <td align="center">{{ awayTeamReport.coachEjections  }}</td>
+            <td align="center">{{ awayTeamReport.pointsEarned    }}</td>
+       </tr>
+    {% if even %}{% set even = false %}{% else %}{%set even = true %}{%endif%}
+    {% endfor %}       
+</table>
+

@@ -28,7 +28,15 @@ Cerad\Bundle\GameBundle\Entity\Game:
             targetEntity: GamePerson
             mappedBy:     game
             indexBy:      slot
-            cascade:      ['all']     
+            cascade:      ['all']
+            
+    oneToOne:
+            
+        report:
+            targetEntity: GameReport
+            mappedBy:     game
+            nullable:     true
+            cascade:      ['all']
     
     manyToOne:
       

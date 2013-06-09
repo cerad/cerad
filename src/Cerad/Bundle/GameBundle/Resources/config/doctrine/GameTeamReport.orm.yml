@@ -1,0 +1,95 @@
+Cerad\Bundle\GameBundle\Entity\GameTeamReport:
+    type:  entity
+    table: game_team_report
+    
+    changeTrackingPolicy: NOTIFY
+
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    oneToOne:
+          
+        team:
+            targetEntity: GameTeam
+            inversedBy:   report
+            nullable:     false
+      
+    fields:
+                    
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: true
+            
+        goalsScored:
+          column:   goals_scored
+          type:     integer
+          nullable: true
+          
+        goalsAllowed:
+          column:   goals_allowed
+          type:     integer
+          nullable: true
+          
+        sportsmanship:
+          column:   sportsmanship
+          type:     integer
+          nullable: true
+          
+        fudgeFactor:
+          column:   fudge_factor
+          type:     integer
+          nullable: true
+          
+        pointsEarned:
+          column:   points_earned
+          type:     integer
+          nullable: true
+          
+        pointsMinus:
+          column:   points_minus
+          type:     integer
+          nullable: true
+          
+        playerWarnings:
+          column:   player_warnings
+          type:     integer
+          nullable: true
+          
+        playerEjections:
+          column:   player_ejections
+          type:     integer
+          nullable: true
+          
+        coachWarnings:
+          column:   coach_warnings
+          type:     integer
+          nullable: true
+          
+        coachEjections:
+          column:   coach_ejections
+          type:     integer
+          nullable: true
+
+        benchWarnings:
+          column:   bench_warnings
+          type:     integer
+          nullable: true
+          
+        benchEjections:
+          column:   bench_ejections
+          type:     integer
+          nullable: true
+          
+        specWarnings:
+          column:   spec_warnings
+          type:     integer
+          nullable: true
+          
+        specEjections:
+          column:   spec_ejections
+          type:     integer
+          nullable: true

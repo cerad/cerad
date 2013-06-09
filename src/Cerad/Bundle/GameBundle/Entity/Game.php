@@ -31,6 +31,8 @@ class Game extends BaseEntity
     protected $rules;    // Game specific rules
     protected $billTo;
     
+    protected $report;   // One to one to GameReport
+    
     protected $teams;    // Game teams
     protected $persons;  // Game persons (officials usually)
     
@@ -195,6 +197,48 @@ class Game extends BaseEntity
             echo $team . "\n";
         }
         return ob_get_clean();
+    }
+    /* ====================================================
+     * Not sure if I want to go here or not
+     * Usefull for grabbing some read only stuff
+     * 
+     * A wrapper might be better, right now only need for game report
+     * 
+     * These are not needed as of yet
+     */
+    public function getFieldDesc()
+    {
+        $field = $this->getField();
+        if ($field) return $field->getName();
+        return null;
+    }
+    public function getLevelDesc()
+    {
+        $level = $this->getLevel();
+        if ($level) return $level->getName();
+        return null;
+    }
+    // Need these for read only form submissions
+    public function setFieldDesc($value) { return $this; }
+    public function setLevelDesc($value) { return $this; }
+    
+    public function setReport($report)
+    {
+        $this->onPropertySet('report',$report);
+        
+        if ($report) $report->setGame($this);
+        
+        return $this;
+    }
+    public function getReport()
+    {
+        if (!$this->report)
+        {
+            // Default status, setting takes care of the linking
+            $report = new GameReport();
+            $this->setReport($report);
+        }
+        return $this->report;
     }
 }
 ?>

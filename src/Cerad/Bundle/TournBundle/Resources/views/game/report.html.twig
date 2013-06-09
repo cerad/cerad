@@ -1,0 +1,48 @@
+{% extends '@CeradTourn/layout.html.twig' %}
+
+{% block content %}
+<h3>Game Report: 
+{{ game.dtBeg.format('D') }}, {{ game.dtBeg.format('g:i A') }},
+{{ game.field.name }}, {{ game.level.name }}, #{{ game.num }}
+</h3>
+<form action="{{ path('cerad_tourn_game_report', { 'num': game.num }) }}" method="post" {{ form_enctype(form) }}>
+    
+{% set homeTeamItem = game.homeTeam %}
+{% set awayTeamItem = game.awayTeam %}
+{% set homeTeamForm = form.homeTeam.report %}
+{% set awayTeamForm = form.awayTeam.report %}
+<table border="1" style="width: 500px;">
+    <tr><td>&nbsp;</td><td>{{ homeTeamItem.role }}</td><td>{{ awayTeamItem.role }}</td></tr>
+    <tr><td>&nbsp;</td><td>{{ homeTeamItem.name }}</td><td>{{ awayTeamItem.name }}</td></tr>
+    <tr><td>Goals Scored</td><td>{{ form_widget(homeTeamForm.goalsScored) }}</td><td>{{ form_widget(awayTeamForm.goalsScored) }}</td></tr>
+    
+    <tr><td>Player Cautions</td><td>{{ form_widget(homeTeamForm.playerWarnings)  }}</td><td>{{ form_widget(awayTeamForm.playerWarnings)  }}</td></tr>
+    <tr><td>Player Sendoffs</td><td>{{ form_widget(homeTeamForm.playerEjections) }}</td><td>{{ form_widget(awayTeamForm.playerEjections) }}</td></tr>
+    <tr><td>Player Sendoffs</td><td>{{ form_widget(homeTeamForm.coachEjections)  }}</td><td>{{ form_widget(awayTeamForm.coachEjections)  }}</td></tr>
+    <tr><td>Sportsmanship  </td><td>{{ form_widget(homeTeamForm.sportsmanship)   }}</td><td>{{ form_widget(awayTeamForm.sportsmanship)   }}</td></tr>
+    <tr><td>Fudge Factor   </td><td>{{ form_widget(homeTeamForm.fudgeFactor)     }}</td><td>{{ form_widget(awayTeamForm.fudgeFactor)     }}</td></tr>
+    <tr><td>Points Earned  </td><td>{{ form_widget(homeTeamForm.pointsEarned)    }}</td><td>{{ form_widget(awayTeamForm.pointsEarned)    }}</td></tr>
+</table>  
+<div style="padding-left: 5px;">
+    {{ form_widget(form.report.text) }}
+</div>
+        
+<div style="padding-left: 5px;">
+    <a href="{{ path('cerad_tourn_results_poolplay') }}">Back to Results</a>
+    <a href="{{ path('cerad_tourn_results_playoffs') }}">Back to Playoffs</a>
+    {{ form_widget(form.status) }}
+    {# form_widget(form.pointsApplied)  #}
+    {{ form_widget(form.report.status) }}  
+    {% if is_granted('ROLE_SCORER') %}
+        <input type="submit" name="gameReport" value="Save"  />
+    {% endif %}
+</div>
+    
+<div style="display: none;">{{ form_rest(form) }}</div>        
+</form>
+<ul style="padding: 5px; margin: 0px; list-style-type: disc;">
+    <li style="margin-left: 20px;">Enter score and othe info then press Save</li>
+    <li style="margin-left: 20px;">Points earned will be calculated</li>
+    <li style="margin-left: 20px;">Status fields will update themselves</li>
+</ul>
+{% endblock %}

@@ -65,3 +65,11 @@ services:
         factory_method:  'getRepository'
         arguments:  
             - 'Cerad\Bundle\GameBundle\Entity\Game'
+
+# ========================================================
+# Game Forms
+    cerad_game.report.form_type:
+        class: Cerad\Bundle\GameBundle\Form\Type\Game\Report\GameFormType
+        tags:
+            - { name: form.type, alias: cerad_game_report_game }
+

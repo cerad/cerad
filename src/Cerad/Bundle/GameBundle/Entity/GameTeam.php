@@ -33,6 +33,7 @@ class GameTeam extends BaseEntity
     protected $conduct;  // Misconduct etc, sendoff caution sportsmanship
     
     protected $status;   // Really need? Maybe for workflow
+    protected $report;
     
     public function getId()      { return $this->id;      }
     public function getSlot()    { return $this->slot;    }
@@ -84,32 +85,24 @@ class GameTeam extends BaseEntity
     /* =========================================
      * Game report information is stored in the conduct array
      */
-    protected $teamReport = null;
-    
+    public function setReport($report)
+    {
+        $this->onPropertySet('report',$report);
+        
+        if ($report) $report->setTeam($this);
+        
+        return $this;
+    }
     public function getReport()
     {
-        if ($this->teamReport) return $this->teamReport;
-        
-        $data = $this->getConduct();
-        if (!is_array($data)) $data = array();
-        
-        $this->teamReport = new TeamReport();
-        
-        $this->teamReport->setData($data);
-        
-        return $this->teamReport;
-    }
-    public function saveReport($teamReport = null)
-    {
-        if (!$teamReport) $teamReport = $this->teamReport;
-    
-        if (!$teamReport) return;
-        
-        $data = $teamReport->getData();
-        
-        $this->setConduct($data);
-    }
-    
+        if (!$this->report)
+        {
+            // Default status, setting takes care of the linking
+            $report = new GameTeamReport();
+            $this->setReport($report);
+        }
+        return $this->report;
+    }    
     /* =========================================
      * Debugging
      */

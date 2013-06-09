@@ -1,0 +1,18 @@
+<table border="1">
+    <tr><td>&nbsp;</td>
+    {% for age in ages %}
+        <td align="center">{{ age }}</td>
+    {% endfor %}
+    </tr>
+    {% for gender,genderDesc in genders %}
+    <tr><td>{{ genderDesc }}</td>
+        {% for age in ages %}
+        <td>
+            {% for px,py in { 'All' : ''} %}
+                <a href="{{ path(route, { 'div': age ~ gender, 'poolFilter' : py}) }}">{{ px }}</a>
+            {% endfor %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>

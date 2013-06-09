@@ -7,84 +7,11 @@
   
 {% block content %}
 <h3>Pool Play Games and Results</h3>
-<table border="1">
-    <tr><td>&nbsp;</td>
-    {% for age in ages %}
-        <td align="center">{{ age }}</td>
-    {% endfor %}
-    </tr>
-    {% for gender,genderDesc in genders %}
-    <tr><td>{{ genderDesc }}</td>
-        {% for age in ages %}
-        <td>
-            {% for px,py in { 'All' : ''} %}
-                <a href="{{ path(route, { 'div': age ~ gender, 'poolFilter' : py}) }}">{{ px }}</a>
-            {% endfor %}
-        </td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-</table>
+{% include('@CeradTourn/results/poolplay/select.html.twig') %}
+<br />
 
-<div>
-    {% for poolKey, pool in pools %}
-    <table border = "1">
-        <tr><th colspan="16">Game Pool Results - {{ poolKey }}</th></tr>
-        <tr><td colspan="16">PA=Points Applied, GS=Goals Scored, PE=Points Earned, PM=Minus Points</td></tr>
-        <tr>
-            <td>Game</td>
-            <td>Status 1</td>
-            <td>Status 2</td>
-            <td>PA</td>
-            <td>DOW Time</td>
-            <td>Field</td>
-            <td>Pool</td>
-            <td>Home Team</td>
-            <td>GS</td>
-            <td>PM</td>
-            <td>PE</td>
-            <td>&nbsp;</td>
-            <td>PE</td>
-            <td>PM</td>
-            <td>GS</td>
-            <td>Away Team</td>
-        </tr>
-        {% for game in pool.games %}
-        
-        <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
-{% if is_granted('ROLE_ADMIN') %}
-    <td><a href="{{ path('cerad_tourn_schedule_game_report', { id: game.id }) }}">{{ game.num }}</a></td>
-{% else %}
-    <td>{{ game.getNum() }}</td>
-{%endif %}
-            <td>{{ game.getNum()       }}</td>
-            <td>{{ game.status         }}</td>
-            <td>{# game.reportStatus   #}</td>
-            <td>{# game.pointsApplied  #}</td>
-            <td>{{ game.dtBeg.format('D'    ) }} {{ game.dtBeg.format('g:i A') }}</td>
-            <td>{{ game.field.name     }}</td>
-            <td>{{ game.level.name     }}</td>
-            
-            {% set homeTeamRel = game.homeTeam %}
-            {% set awayTeamRel = game.awayTeam %}
-            
-            {# set homeTeam    = homeTeamRel.team %}
-            {% set awayTeam    = awayTeamRel.team #}
-            
-            <td>{{ homeTeamRel.name       }}</td>
-            <td>{# homeTeamRel.report.goalsScored     }}</td>
-            <td>{{ homeTeamRel.report.pointsMinus     }}</td>
-            <td>{{ homeTeamRel.report.pointsEarned    #}</td>
-            <td>&nbsp;</td>
-            <td>{# awayTeamRel.report.pointsEarned    }}</td>
-            <td>{{ awayTeamRel.report.pointsMinus     }}</td>
-            <td>{{ awayTeamRel.report.goalsScored     #}</td>
-            <td>{{ awayTeamRel.name       }}</td> #}
-        </tr>
-        {% endfor %}       
-    </table>
-    {% endfor %}
-</div>
-{# include('@CeradTourn/schedule/referee/search.html.twig') #}
-{% include('@CeradTourn/schedule/referee/games.html.twig')  %}
+{% for poolKey, pool in pools %}
+  {% include('@CeradTourn/results/poolplay/games.html.twig') %}
+  <br />
+{% endfor %}
 {% endblock %}

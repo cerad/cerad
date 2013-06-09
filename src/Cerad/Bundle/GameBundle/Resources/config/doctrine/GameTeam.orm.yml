@@ -9,7 +9,13 @@ Cerad\Bundle\GameBundle\Entity\GameTeam:
             type: integer
             generator: { strategy: AUTO }
             
-    oneToMany:
+    oneToOne:
+            
+        report:
+            targetEntity: GameTeamReport
+            mappedBy:     team
+            nullable:     true
+            cascade:      ['all']
     
     manyToOne:
       
