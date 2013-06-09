@@ -1,0 +1,4 @@
+cerad_tourn_admin:
+  path: /admin
+  defaults:  { _controller: CeradTournAdminBundle:Main:index }
+
