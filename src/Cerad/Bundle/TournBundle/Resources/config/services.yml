@@ -11,6 +11,8 @@ services:
             
     cerad_tourn.results.manager:
         class:  Cerad\Bundle\TournBundle\Schedule\ResultsManager
+        arguments:  
+            - '@cerad.game.repository'
       
     cerad_tourn.schedule.import:
         class:  Cerad\Bundle\TournBundle\Schedule\ScheduleImport

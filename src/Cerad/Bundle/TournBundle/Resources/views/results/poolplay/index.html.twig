@@ -13,5 +13,7 @@
 {% for poolKey, pool in pools %}
   {% include('@CeradTourn/results/poolplay/games.html.twig') %}
   <br />
+  {% include('@CeradTourn/results/poolplay/teams.html.twig') %}
+  <br />
 {% endfor %}
 {% endblock %}

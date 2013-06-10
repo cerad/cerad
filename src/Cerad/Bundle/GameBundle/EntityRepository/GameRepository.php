@@ -12,6 +12,11 @@ class GameRepository extends BaseRepository
     public function getGameTeamClassName      () { return $this->_entityName . 'Team';   }
     public function getGameTeamReportClassName() { return $this->_entityName . 'TeamReport'; }
     
+    // Might want team repository
+    public function getTeamClassName      () { return 'Cerad\Bundle\GameBundle\Entity\Team';   }
+    public function getTeamReportClassName() { return 'Cerad\Bundle\GameBundle\Entity\TeamReport'; }
+   
+    // Simple object new
     public function newGame()       { return new $this->getGameClassName      (); }
     public function newGameReport() { return new $this->getGameReportClassName(); }
     
@@ -20,6 +25,15 @@ class GameRepository extends BaseRepository
     public function newGameTeam()       { return new $this->getGameTeamClassName  (); }
     public function newGameTeamReport() { return new $this->getGameTeamReportClassName  (); }
     
+    public function newTeam()       { return new $this->getTeamClassName      (); }
+    
+    public function newTeamReport() 
+    { 
+        $className = $this->getTeamReportClassName();
+        return new $className(); 
+    }
+    
+    // More elobrate object creation
     public function createGame($params = array())       
     { 
         $entityClassName = $this->_entityName;

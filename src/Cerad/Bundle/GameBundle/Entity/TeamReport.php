@@ -7,83 +7,81 @@ namespace Cerad\Bundle\GameBundle\Entity;
  * 
  * Also used for pool teams for summary information
  */
-class TeamReport
-{
-    protected $data = array();
+class TeamReport extends GameTeamReport
+{  
+    protected $gamesWon;
+    protected $gamesTotal;
+    protected $gamesPlayed;
+    protected $winPercent;
     
-    protected function setReportProp($name,$value)
-    {
-        $this->data[$name] = $value;
-    }
-    protected function addReportProp($name,$value)
-    {
-        $value += $this->getReportProp($name);
-        $this->setReportProp($name,$value); 
-    }
-    protected function getReportProp($name)
-    {
-        if (isset($this->data[$name])) return $this->data[$name];
-        return null;
-    }
+    protected $goalsScoredMax;  // Limit to 3 per game
+    protected $goalsAllowedMax; // Limit to 5 per game
     
-    public function setPointsEarned($value) { $this->setReportProp('pointsEarned',$value); }
-    public function addPointsEarned($value) { $this->addReportProp('pointsEarned',$value); }
-    public function getPointsEarned(){ return $this->getReportProp('pointsEarned'); }
+    // Name should actually be a link to a pool team
+    protected $teamName; 
+    public function getTeamName()       { return $this->teamName; }
+    public function setTeamName($value) { return $this->onPropertySet('teamName',$value); }
     
-    public function setPointsMinus($value) { $this->setReportProp('pointsMinus',$value); }
-    public function addPointsMinus($value) { $this->addReportProp('pointsMinus',$value); }
-    public function getPointsMinus(){ return $this->getReportProp('pointsMinus'); }
+    public function setGamesPlayed($value) { return $this->onPropertySet('gamesPlayed',$value); }
+    public function addGamesPlayed($value) { return $this->onPropertyAdd('gamesPlayed',$value); }
+    public function getGamesPlayed()       { return $this->gamesPlayed; }
     
-    public function setGoalsScored($value) { $this->setReportProp('goalsScored',$value); }
-    public function addGoalsScored($value) { $this->addReportProp('goalsScored',$value); }
-    public function getGoalsScored(){ return $this->getReportProp('goalsScored'); }
-    
-    public function setGoalsAllowed($value) { $this->setReportProp('goalsAllowed',$value); }
-    public function addGoalsAllowed($value) { $this->addReportProp('goalsAllowed',$value); }
-    public function getGoalsAllowed(){ return $this->getReportProp('goalsAllowed'); }
-    
-    public function setCautions($value) { $this->setReportProp('cautions',$value); }
-    public function addCautions($value) { $this->addReportProp('cautions',$value); }
-    public function getCautions() {return $this->getReportProp('cautions'); }
-    
-    public function setSendoffs($value) { $this->setReportProp('sendoffs',$value); }
-    public function addSendoffs($value) { $this->addReportProp('sendoffs',$value); }
-    public function getSendoffs(){ return $this->getReportProp('sendoffs'); }
-    
-    public function setCoachTossed($value) { $this->setReportProp('coachTossed',$value); }
-    public function addCoachTossed($value) { $this->addReportProp('coachTossed',$value); }
-    public function getCoachTossed(){ return $this->getReportProp('coachTossed'); }
-    
-    public function setSpecTossed($value) { $this->setReportProp('specTossed',$value); }
-    public function addSpecTossed($value) { $this->addReportProp('specTossed',$value); }
-    public function getSpecTossed(){ return $this->getReportProp('specTossed'); }
-    
-    public function setFudgeFactor($value) { $this->setReportProp('fudgeFactor',$value); }
-    public function addFudgeFactor($value) { $this->addReportProp('fudgeFactor',$value); }
-    public function getFudgeFactor(){ return $this->getReportProp('fudgeFactor'); }
-    
-    public function setSportsmanship($value) { $this->setReportProp('sportsmanship',$value); }
-    public function addSportsmanship($value) { $this->addReportProp('sportsmanship',$value); }
-    public function getSportsmanship(){ return $this->getReportProp('sportsmanship'); }
-    
-    public function setGamesPlayed($value) { $this->setReportProp('gamesPlayed',$value); }
-    public function addGamesPlayed($value) { $this->addReportProp('gamesPlayed',$value); }
-    public function getGamesPlayed(){ return $this->getReportProp('gamesPlayed'); }
-    
-    public function setGamesWon($value) { $this->setReportProp('gamesWon',$value); }
-    public function addGamesWon($value) { $this->addReportProp('gamesWon',$value); }
-    public function getGamesWon(){ return $this->getReportProp('gamesWon'); }
+    public function setGamesWon($value)    { return $this->onPropertySet('gamesWon',$value); }
+    public function addGamesWon($value)    { return $this->onPropertyAdd('gamesWon',$value); }
+    public function getGamesWon()          { return $this->gamesWon; }
 
-    public function setGamesTotal($value) { $this->setReportProp('gamesTotal',$value); }
-    public function addGamesTotal($value) { $this->addReportProp('gamesTotal',$value); }
-    public function getGamesTotal(){ return $this->getReportProp('gamesTotal'); }
+    public function setGamesTotal($value)  { return $this->onPropertySet('gamesTotal',$value); }
+    public function addGamesTotal($value)  { return $this->onPropertyAdd('gamesTotal',$value); }
+    public function getGamesTotal()        { return $this->gamesTotal; }
 
-    public function setWinPercent($value) { $this->setReportProp('winPercent',$value); }
-    public function addWinPercent($value) { $this->addReportProp('winPercent',$value); }
-    public function getWinPercent(){ return $this->getReportProp('winPercent'); }
+    public function setWinPercent($value)  { return $this->onPropertySet('winPercent',$value); }
+    public function addWinPercent($value)  { return $this->onPropertyAdd('winPercent',$value); }
+    public function getWinPercent()        { return $this->winPercent; }
+    
+    public function setGoalsScoredMax($value)  { return $this->onPropertySet('goalsScoredMax',$value); }
+    public function addGoalsScoredMax($value)  { return $this->onPropertyAdd('goalsScoredMax',$value); }
+    public function getGoalsScoredMax()        { return $this->goalsScoredMax; }
+    
+    public function setGoalsAllowedMax($value)  { return $this->onPropertySet('goalsAllowedMax',$value); }
+    public function addGoalsAllowedMax($value)  { return $this->onPropertyAdd('goalsAllowedMax',$value); }
+    public function getGoalsAllowedMax()        { return $this->goalsAllowedMax; }
 
-    public function clrData()      { $this->data = array(); }
-    public function setData($data) { $this->data = $data; }
-    public function getData()      { return $this->data; }
+    public function clear()     
+    {
+        parent::clear();
+        $props = array('gamesPlayed','gamesWon','gamesTotal','winPercent','goalsScoredMax','goalsAllowedMax');
+        foreach($props as $prop)
+        {
+            $this->onPropertySet($prop,null);
+        }
+        return $this;        
+    }
+    
+    /* =================================================================
+     * Inherited
+     */
+    public function addGoalsScored    ($value)  { return $this->onPropertyAdd('goalsScored',    $value);  }
+    public function addGoalsAllowed   ($value)  { return $this->onPropertyAdd('goalsAllowed',   $value);  }
+    public function addPointsEarned   ($value)  { return $this->onPropertyAdd('pointsEarned',   $value);  }
+    public function addPointsMinus    ($value)  { return $this->onPropertyAdd('pointsMinus',    $value);  }
+    
+    public function addSportsmanship  ($value)  { return $this->onPropertyAdd('sportsmanship',  $value);  }
+    public function addFudgeFactor    ($value)  { return $this->onPropertyAdd('fudgeFactor',    $value);  }
+    
+    public function addPlayerWarnings ($value)  { return $this->onPropertyAdd('playerWarnings', $value);  }
+    public function addPlayerEjections($value)  { return $this->onPropertyAdd('playerEjections',$value);  }
+    public function addCoachWarnings  ($value)  { return $this->onPropertyAdd('coachWarnings',  $value);  }
+    public function addCoachEjections ($value)  { return $this->onPropertyAdd('coachEjections', $value);  }
+    public function addBenchWarnings  ($value)  { return $this->onPropertyAdd('benchWarnings',  $value);  }
+    public function addBenchEjections ($value)  { return $this->onPropertyAdd('benchEjections', $value);  }
+    public function addSpecWarnings   ($value)  { return $this->onPropertyAdd('specWarnings',   $value);  }
+    public function addSpecEjections  ($value)  { return $this->onPropertyAdd('specEjections',  $value);  }
+    
+    // Handy to have
+    protected function onPropertyAdd($name,$value)
+    {
+        $value += $this->$name;
+        $this->onPropertySet($name,$value);
+    } 
 }
 ?>
