@@ -8,21 +8,18 @@ class ResultsManager
 {
     protected function calcPointsEarnedForTeam($game,$team1,$team2)
     {
-        ///$team1 = $gameTeam1Rel->getTeam();
-        ///$team2 = $gameTeam2Rel->getTeam();
-        
         // Make scores are set
         $team1Goals = $team1->getGoalsScored();
         $team2Goals = $team2->getGoalsScored();
         if (($team1Goals === null) || ($team2Goals === null)) 
         {
-            $team1->clrData();
-            $team2->clrData();
+            $team1->clear();
+            $team2->clear();
             return;
         }
         $team1->setGoalsAllowed($team2Goals);
         $team2->setGoalsAllowed($team1Goals);
-        
+   
         $pointsMinus  = 0;
         $pointsEarned = 0;
         
@@ -35,36 +32,41 @@ class ResultsManager
         $maxGoals = $team1Goals;
         if ($maxGoals > 3) $maxGoals = 3;
         $pointsEarned += $maxGoals;
-        
+      
         $fudgeFactor = $team1->getFudgeFactor();
         $pointsEarned += $fudgeFactor;
-        
-      //if ($fudgeFactor < 0) $pointsMinus += abs($fudgeFactor);
-      //$pointsMinus  += $fudgeFactor;
          
-        $pointsMinus  -= ($team1->getSendoffs()    * 2);
-        $pointsMinus  -= ($team1->getCoachTossed() * 3);
-        $pointsMinus  -= ($team1->getSpecTossed()  * 0);
-        
+        $pointsMinus  -= ($team1->getPlayerEjections()* 2);
+        $pointsMinus  -= ($team1->getCoachEjections() * 3);
+        $pointsMinus  -= ($team1->getSpecEjections()  * 0);
+             
         $pointsEarned += $pointsMinus;
-        
+              
         $team1->setPointsMinus ($pointsMinus);
         $team1->setPointsEarned($pointsEarned);
+        
+        return;
+        
+        echo sprintf("Points: %d %s %d %d",$pointsEarned,$pointsMinus,$team1Goals,$team2Goals);          
     }
     // Points earned during a game
-    public function calcPointsEarned($game)
+    public function calcPointsEarnedForGame($game)
     {
-        $homeTeam = $game->getHomeTeam()->getReport();
-        $awayTeam = $game->getAwayTeam()->getReport();
+        $gameReport = $game->getReport();
         
-        if ($game->getReportStatus() == 'Reset')
+        $homeTeamReport = $game->getHomeTeam()->getReport();
+        $awayTeamReport = $game->getAwayTeam()->getReport();
+        
+        // Might be handy
+        if ($gameReport->getStatus() == 'Clear')
         {
-            $homeTeam->clrData();
-            $awayTeam->clrData();
+            $gameReport->clear();
+            $homeTeamReport->clear();
+            $awayTeamReport->clear();
             return;
         }
-        $this->calcPointsEarnedForTeam($game,$homeTeam,$awayTeam);
-        $this->calcPointsEarnedForTeam($game,$awayTeam,$homeTeam);
+        $this->calcPointsEarnedForTeam($game,$homeTeamReport,$awayTeamReport);
+        $this->calcPointsEarnedForTeam($game,$awayTeamReport,$homeTeamReport);
     }
     /* =====================================================
      * The extraction portion

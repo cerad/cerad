@@ -53,13 +53,15 @@ class BaseEntity implements NotifyPropertyChanged
     }
     protected function onPropertySet($name,$newValue)
     {
-        if ($this->$name === $newValue) return;
+        if ($this->$name === $newValue) return $this;
         
         $oldValue = $this->$name;
         
         $this->$name = $newValue;
         
         $this->onPropertyChanged($name,$oldValue,$newValue);
+        
+        return $this;
     }
     /* =============================================================
      * Probably want to implement array interface, keeps coming in handy

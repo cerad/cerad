@@ -42,7 +42,7 @@ cerad_tourn_schedule_referee_assign:
     
 cerad_tourn_game_report:
   path: /game/report/{num}
-  defaults:  { _controller: CeradTournBundle:Game:report }
+  defaults:  { _controller: CeradTournBundle:GameReport:report }
 
 # ===================================================
 # Results

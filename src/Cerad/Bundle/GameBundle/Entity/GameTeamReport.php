@@ -69,5 +69,24 @@ class GameTeamReport extends BaseEntity
     public function setSpecWarnings   ($value)  { return $this->onPropertySet('specWarnings',   $value);  }
     public function setSpecEjections  ($value)  { return $this->onPropertySet('specEjections',  $value);  }
     
+    /* ===========================================================
+     * Handy to be able to just start over
+     * Especially for nulls vs zeros
+     */
+    public function clear()
+    {
+        $props = array(
+            'status','goalsScored','goalsAllowed','pointsEarned','pointsMinus','sportsmanship','fudgeFactor',
+            'playerWarnings','playerEjections','coachWarnings','coachEjections',
+            'benchWarnings','benchEjections','specWarnings','specEjections',
+        );
+        
+        foreach($props as $prop)
+        {
+            $this->onPropertySet($prop,null);
+        }
+        return $this;
+    }
+    
 }
 ?>

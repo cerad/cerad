@@ -24,11 +24,12 @@ class GameReportFormType extends AbstractType
         (
             'Pending'   => 'Pending',
             'Submitted' => 'Submitted',
-            'Verified'  => 'Verified',            
+            'Verified'  => 'Verified',
+            'Clear'     => 'Clear',
            ),
         ));
         $builder->add('text','textarea',array('label' => 'Text', 'required' => false, 
-            'attr' => array('rows' => 10, 'cols' => 78, 'wrap' => 'hard', 'class' =>'textarea')));
+            'attr' => array('rows' => 4, 'cols' => 78, 'wrap' => 'hard', 'class' =>'textarea')));
 
     }
 }

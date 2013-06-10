@@ -16,17 +16,19 @@
     <tr><td>&nbsp;</td><td>{{ homeTeamItem.name }}</td><td>{{ awayTeamItem.name }}</td></tr>
     <tr><td>Goals Scored</td><td>{{ form_widget(homeTeamForm.goalsScored) }}</td><td>{{ form_widget(awayTeamForm.goalsScored) }}</td></tr>
     
-    <tr><td>Player Cautions</td><td>{{ form_widget(homeTeamForm.playerWarnings)  }}</td><td>{{ form_widget(awayTeamForm.playerWarnings)  }}</td></tr>
-    <tr><td>Player Sendoffs</td><td>{{ form_widget(homeTeamForm.playerEjections) }}</td><td>{{ form_widget(awayTeamForm.playerEjections) }}</td></tr>
-    <tr><td>Player Sendoffs</td><td>{{ form_widget(homeTeamForm.coachEjections)  }}</td><td>{{ form_widget(awayTeamForm.coachEjections)  }}</td></tr>
-    <tr><td>Sportsmanship  </td><td>{{ form_widget(homeTeamForm.sportsmanship)   }}</td><td>{{ form_widget(awayTeamForm.sportsmanship)   }}</td></tr>
-    <tr><td>Fudge Factor   </td><td>{{ form_widget(homeTeamForm.fudgeFactor)     }}</td><td>{{ form_widget(awayTeamForm.fudgeFactor)     }}</td></tr>
-    <tr><td>Points Earned  </td><td>{{ form_widget(homeTeamForm.pointsEarned)    }}</td><td>{{ form_widget(awayTeamForm.pointsEarned)    }}</td></tr>
-</table>  
+    <tr><td>Player Cautions </td><td>{{ form_widget(homeTeamForm.playerWarnings)  }}</td><td>{{ form_widget(awayTeamForm.playerWarnings)  }}</td></tr>
+    <tr><td>Player Sendoffs </td><td>{{ form_widget(homeTeamForm.playerEjections) }}</td><td>{{ form_widget(awayTeamForm.playerEjections) }}</td></tr>
+    <tr><td>Coach Dismissals</td><td>{{ form_widget(homeTeamForm.coachEjections)  }}</td><td>{{ form_widget(awayTeamForm.coachEjections)  }}</td></tr>
+    <tr><td>Fudge Factor    </td><td>{{ form_widget(homeTeamForm.fudgeFactor)     }}</td><td>{{ form_widget(awayTeamForm.fudgeFactor)     }}</td></tr>
+    <tr><td>Points Earned   </td><td>{{ form_widget(homeTeamForm.pointsEarned)    }}</td><td>{{ form_widget(awayTeamForm.pointsEarned)    }}</td></tr>
+    <tr><td colspan="5">&nbsp;</td></tr>
+    <tr><td>Sportsmanship   </td><td>{{ form_widget(homeTeamForm.sportsmanship)   }}</td><td>{{ form_widget(awayTeamForm.sportsmanship)   }}</td></tr>
+</table> 
+<br />
 <div style="padding-left: 5px;">
     {{ form_widget(form.report.text) }}
 </div>
-        
+<br />        
 <div style="padding-left: 5px;">
     <a href="{{ path('cerad_tourn_results_poolplay') }}">Back to Results</a>
     <a href="{{ path('cerad_tourn_results_playoffs') }}">Back to Playoffs</a>
@@ -40,9 +42,18 @@
     
 <div style="display: none;">{{ form_rest(form) }}</div>        
 </form>
+<br />
 <ul style="padding: 5px; margin: 0px; list-style-type: disc;">
     <li style="margin-left: 20px;">Enter score and othe info then press Save</li>
     <li style="margin-left: 20px;">Points earned will be calculated</li>
     <li style="margin-left: 20px;">Status fields will update themselves</li>
+    
+    <li style="margin-left: 20px;">&nbsp;</li>
+    
+    <li style="margin-left: 20px;">Player Cautions: No impact</li>
+    <li style="margin-left: 20px;">Player Sendoffs: -2 points per sendoff</li>
+    <li style="margin-left: 20px;">Coach Dismissals: -3 points per dismissal</li>
+    <li style="margin-left: 20px;">FORFEIT: Score as 1-0</li>
+    
 </ul>
 {% endblock %}

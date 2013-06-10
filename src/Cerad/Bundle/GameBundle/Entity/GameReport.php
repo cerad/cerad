@@ -22,6 +22,13 @@ class GameReport extends BaseEntity
     
     public function setText    ($value) { $this->onPropertySet('text',    $value); }
     public function setGame    ($value) { $this->onPropertySet('game',    $value); }
-    public function setStatus  ($value) { $this->onPropertySet('status',  $value); }    
+    public function setStatus  ($value) { $this->onPropertySet('status',  $value); } 
+    
+    public function clear()
+    {
+        $this->onPropertySet('text',   null);
+        $this->onPropertySet('status','Pending');
+        return $this;
+    }
 }
 ?>
