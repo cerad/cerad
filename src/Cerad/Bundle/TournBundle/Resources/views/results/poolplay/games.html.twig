@@ -28,7 +28,7 @@
 {% if is_granted('ROLE_ADMIN') %}
     <td rowspan="2"><a href="{{ path('cerad_tourn_game_report', { num: game.num }) }}">{{ game.num }}</a></td>
 {% else %}
-    <td>{{ game.getNum() }}</td>
+    <td rowspan="2">{{ game.getNum() }}</td>
 {%endif %}
             <td rowspan="2">{{ game.status         }}</td>
             <td rowspan="2">{{ game.report.status  }}</td>
@@ -41,7 +41,6 @@
             
             {% set homeTeamReport = homeTeam.report %}
             {% set awayTeamReport = awayTeam.report %}
-            
             
             <td>{{ homeTeam.name }}</td>
             <td align="center">{{ homeTeamReport.goalsScored     }}</td>
