@@ -75,7 +75,8 @@ class GameReportController extends Controller
         {
             case 'Normal': 
             case 'InProgress':
-                $game->setStatus('Played'); 
+                // Need better workflow here, maybe need a clear button
+                if ($game->getReport()->getStatus()) $game->setStatus('Played'); 
                 break;
         }
         // Bit of game report workflow
