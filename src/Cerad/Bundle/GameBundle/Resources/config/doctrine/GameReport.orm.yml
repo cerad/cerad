@@ -22,7 +22,7 @@ Cerad\Bundle\GameBundle\Entity\GameReport:
             column:   status
             type:     string
             length:   20
-            nullable: false
+            nullable: true   # Need some more work here
             
         text:
             column:   textx

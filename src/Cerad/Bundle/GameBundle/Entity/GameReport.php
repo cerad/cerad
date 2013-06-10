@@ -13,7 +13,7 @@ class GameReport extends BaseEntity
     
     protected $text;
     
-    protected $status = 'Pending';
+    protected $status = null;
     
     public function getId()      { return $this->id;      }
     public function getText()    { return $this->text;    }
@@ -26,8 +26,8 @@ class GameReport extends BaseEntity
     
     public function clear()
     {
-        $this->onPropertySet('text',   null);
-        $this->onPropertySet('status','Pending');
+        $this->onPropertySet('text',  null);
+        $this->onPropertySet('status',null);
         return $this;
     }
 }
