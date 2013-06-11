@@ -102,7 +102,14 @@ class GameTeam extends BaseEntity
             $this->setReport($report);
         }
         return $this->report;
-    }    
+    }
+    /* =========================================
+     * Used to highlite objects
+     */
+    protected $selected;
+    public function getSelected()       { return $this->selected; }
+    public function setSelected($value) { $this->selected = $value; return $this; }
+    
     /* =========================================
      * Debugging
      */

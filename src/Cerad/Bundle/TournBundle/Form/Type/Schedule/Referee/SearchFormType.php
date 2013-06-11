@@ -132,12 +132,14 @@ class SearchFormType extends AbstractType
     public function getName() { return 'schedule_referee_search'; }
     
     protected $manager;
+    protected $project;
+    
     protected $params;
 
     public function __construct($manager,$project)
     {
         $this->manager = $manager;
-        $this->project  = $project;        
+        $this->project = $project;        
     }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -154,7 +156,7 @@ class SearchFormType extends AbstractType
             'choices'       => array_merge($all,$this->project->getDates()), // Fri = label, 2013-06-14 = value
             'expanded'      => true,
             'multiple'      => true,
-            'attr' => array('class' => 'cerad-checkbox-all'),
+          //'attr' => array('class' => 'cerad-checkbox-all'), 
         ));
         $builder->add('ages', 'choice', array(
             'label'         => 'Ages',
@@ -162,7 +164,7 @@ class SearchFormType extends AbstractType
             'choices'       => array_merge($all,$this->project->getAges()),
             'expanded'      => true,
             'multiple'      => true,
-            'attr' => array('class' => 'cerad-checkbox-all'),
+          //'attr' => array('class' => 'cerad-checkbox-all'),
         ));
         $builder->add('genders', 'choice', array(
             'label'         => 'Genders',
@@ -170,28 +172,11 @@ class SearchFormType extends AbstractType
             'choices'       => array_merge($all,$this->project->getGenders()),
             'expanded'      => true,
             'multiple'      => true,
-            'attr' => array('class' => 'cerad-checkbox-all'),
+          //'attr' => array('class' => 'cerad-checkbox-all'),
         ));
+        $builder->add('teamFilter',    'text', array('required' => false, 'attr' => array('size' => 30)));
+        $builder->add('refereeFilter', 'text', array('required' => false, 'attr' => array('size' => 30)));
+        
     }
-    protected $genders = array
-    (
-        'All' => 'All',
-        'B'   => 'Boys',
-        'G'   => 'Girls',
-    );
-    protected $ages = array
-    (
-        'All' => 'All',
-        'U10' => 'U10',
-        'U12' => 'U12',
-        'U14' => 'U14',
-    );
-    protected $dates = array
-    (
-        'All'      => 'All', 
-        '2013-06-14' => 'Fri', 
-        '2013-06-15' => 'Sat', 
-        '2013-06-16' => 'Sun'
-    );
 }
 ?>

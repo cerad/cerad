@@ -29,6 +29,10 @@ class RefereeController extends Controller
         $searchData['sports']   = array($project->getSport());
         $searchData['statuses'] = array();
         
+        $searchData['teamFilter']    = null;
+        $searchData['refereeFilter'] = null;
+        $searchData['numFilter']     = null;
+        
         // Pull from the project
         $searchData['dates'] = array('2013-06-14');
       //$searchData['dates'] = array('2013-06-14','2013-06-15','2013-06-16');
@@ -61,7 +65,8 @@ class RefereeController extends Controller
       //print_r($searchData);
       //$games = array();
         $games = $manager->loadGames($searchData);
-
+        $games = $this->processFilters($games,$searchData['teamFilter'],$searchData['refereeFilter']);
+        
         $tplData = array();
         $tplData['games']      = $games;
         $tplData['isAdmin']    = false;
@@ -69,6 +74,75 @@ class RefereeController extends Controller
         
         return $this->render('@CeradTourn/schedule/referee/index.html.twig', $tplData);
     }
+    /* =====================================================================
+     * The ever popular filter
+     * Could be moved to a service as well
+     */
+    protected function getFilters($filter)
+    {
+        $filter = strtolower(trim($filter));
+        if (!$filter) return null;
+        
+        $filters = explode(',',$filter);
+        array_walk($filters,create_function('&$val', '$val = trim($val);'));
+        
+        return $filters;
+        
+    }
+    protected function processFilters($games,$teamFilter,$refereeFilter)
+    {
+        // Make sure we got something
+        $teamFilters    = $this->getFilters($teamFilter);
+        $refereeFilters = $this->getFilters($refereeFilter);
+        
+        if (!$teamFilter && !$refereeFilter) return $games;
+                
+        // The filteres results
+        $gamesx = array();
+        foreach($games as $game)
+        {
+            $keep = false;
+            
+            if ($teamFilters) 
+            {
+                foreach($game->getTeams() as $team)
+                {
+                    $name = strtolower($team->getName());
+                    foreach($teamFilters as $filter)
+                    {
+                        if (strpos($name,$filter) !== false)
+                        {
+                            $keep = true;
+                            $team->setSelected(true);
+                        }
+                    }
+                }
+            }
+            if ($refereeFilters)
+            {
+                foreach($game->getPersons() as $person)
+                {
+                    $name = strtolower($person->getName());
+                    if ($name)
+                    {
+                        foreach($refereeFilters as $filter)
+                        {
+                            if (strpos($name,$filter) !== false)
+                            {
+                                $keep = true;
+                                $person->setSelected(true);
+                            }
+                        }
+                    }
+                }
+            }
+            if ($keep) $gamesx[] = $game;
+        }
+        return $gamesx;
+    }
+    /* =====================================================================
+     * Assigning is a pain
+     */
     public function assignAction(Request $request, $id = 0, $pos = null)
     {
         $this->manager = $manager = $this->get('cerad_tourn.schedule.manager');
@@ -115,6 +189,9 @@ class RefereeController extends Controller
         $tplData['form'] = $form->createView();
         return $this->render('@CeradTourn/schedule/referee/assign.html.twig',$tplData);
     }
+    /* ============================================================
+     * This all need to get moved to an assigning service of some sort
+     */
     protected function assignOfficial($manager,$game,$gamePerson)
     {
         $personIdx = $gamePerson->getPersonx(); // Posted value

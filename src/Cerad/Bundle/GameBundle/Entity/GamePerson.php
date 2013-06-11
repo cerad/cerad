@@ -85,7 +85,15 @@ class GamePerson extends BaseEntity
         
         return $item;
     }
+    // ???
     public function setUserModified() {}
+    
+    /* =========================================
+     * Used to highlite objects
+     */
+    protected $selected;
+    public function getSelected()       { return $this->selected; }
+    public function setSelected($value) { $this->selected = $value; return $this; }
     
     /* =========================================
      * Debugging
