@@ -134,6 +134,8 @@ class Person extends BaseEntity
         }
         return null;
     }
+    public function setCertRefereeUSSF($value) { return $this; }
+    
     public function getCertRefereeAYSO()
     {
         foreach($this->certs as $cert)
@@ -143,8 +145,13 @@ class Person extends BaseEntity
                 return $cert;
             }
         }
-        return PersonCert::createRefereeAYSO();
+        $cert = PersonCert::createRefereeAYSO();
+        $this->addCert($cert);
+        return $cert;
     }
+    // Form processing
+    public function setCertRefereeAYSO($value) { return $this; }
+    
     /* ====================================================
      * Leagues
      */
@@ -164,8 +171,12 @@ class Person extends BaseEntity
                 return $league;
             }
         }
-        return PersonLeague::createVolunteerAYSO();
+        $league = PersonLeague::createVolunteerAYSO();
+        $this->addleague($league);
+        return $league;
     }
+    // Need for forms
+    public function setVolunteerAYSO($value) { return $this; }
     /* ====================================================
      * Persons
      */
@@ -218,4 +229,15 @@ class Person extends BaseEntity
         }
         return null;
     }
+    /* ========================================================
+     * Generate and set the person's full name
+     */
+    public function genName()
+    {
+        if ($this->nickName) $name = $this->nickName.  ' ' . $this->lastName;
+        else                 $name = $this->firstName. ' ' . $this->lastName;
+        
+        $this->setName($name);
+        return $this;
+   }
 }

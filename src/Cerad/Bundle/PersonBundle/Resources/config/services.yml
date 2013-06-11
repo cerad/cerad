@@ -48,6 +48,11 @@ services:
         tags:
             - { name: form.type, alias: cerad_person_phone }
             
+    cerad_person.email.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\EmailFormType
+        tags:
+            - { name: form.type, alias: cerad_person_email }
+            
     cerad_person.ayso_region_id.form_type:
         class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RegionIDFormType
         tags:
