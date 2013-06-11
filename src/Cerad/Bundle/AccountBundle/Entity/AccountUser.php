@@ -5,6 +5,8 @@ use FOS\UserBundle\Entity\User as BaseUser;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Cerad\Bundle\PersonBundle\Entity\Person;
+
 class AccountUser extends BaseUser
 {
     protected $name;
@@ -18,7 +20,23 @@ class AccountUser extends BaseUser
     public function getPersonGuid()       { return $this->personGuid; }
     public function setPersonGuid($value) { $this->personGuid = $value; return $this; }
     
-    public function getPerson()       { return $this->person; }
+    /* ===================================================
+     * Had at least one case where an account got created but no person
+     * Might be because a social network butt was pressed?
+     * For now we auto-create to make the system a bit more robust
+     */
+    public function getPerson($create = true) 
+    { 
+        if ($this->person) return $this->person;
+        
+        if (!$create) return null;
+        
+        $this->person = $person = new Person();
+        
+      //$this->setPersonGuid($person->getId());
+        
+        return $person; 
+    }
     public function setPerson($value) { $this->person = $value; return $this; }
     
     public function setEmail($value)
