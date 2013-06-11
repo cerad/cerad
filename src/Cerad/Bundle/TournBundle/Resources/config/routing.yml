@@ -114,6 +114,12 @@ cerad_tourn_account_edit:
     requirements:
         id: \d+
         
+cerad_tourn_account_person_edit:
+    pattern:  /account/person/edit/{id}
+    defaults: { _controller: CeradTournBundle:Account/Person:edit, id: 0 }
+    requirements:
+        id: \d+
+        
 cerad_tourn_person_person_edit:
     pattern:  /person-person/edit/{id}
     defaults: { _controller: CeradTournBundle:Main:welcome, id: 0 }

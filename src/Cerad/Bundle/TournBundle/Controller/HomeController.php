@@ -20,11 +20,15 @@ class HomeController extends Controller
     }
     public function homeAction()
     {
-        // Must have an account and person
+        // Make sure sign in
+        $account = $this->getUser();
+        if (!is_object($account)) return $this->redirect($this->generateUrl('cerad_tourn_welcome')); ;
+          
+        // It's possible that an account was created but no person
         $person = $this->getAccountPerson();
-        if (!$person)
+        if (!$person->getName())
         {
-            return $this->redirect($this->generateUrl('cerad_tourn_welcome'));  
+            return $this->redirect($this->generateUrl('cerad_tourn_account_person_edit'));  
         }
         // Also make sure have a project record
         $project = $this->get('cerad_tourn.project');
