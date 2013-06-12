@@ -1,4 +1,8 @@
 cerad_tourn_admin:
   path: /admin
   defaults:  { _controller: CeradTournAdminBundle:Main:index }
+  
+cerad_tourn_admin_referee_export:
+  path: /admin/referee/export
+  defaults:  { _controller: CeradTournAdminBundle:Main:refereeExport }
 

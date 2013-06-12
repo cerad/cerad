@@ -167,6 +167,31 @@ class PersonRepository extends EntityRepository
         return $personPlan;
     }
     /* ==============================================================
+     * List of all the people for a given project
+     */
+    public function loadPersonsForProject($project)
+    {
+        // Grab the key
+        $projectKey = is_object($project) ? $project->getKey() : $project;
+        if (!$projectKey) return array();
+        
+        // Build the query, probably need to start at PersonPlan
+        $qb = $this->createQueryBuilder('person');
+        
+        $qb->addSelect('plan, league, cert');
+        
+        $qb->leftJoin('person.plans',  'plan');
+        $qb->leftJoin('person.certs',  'cert');
+        $qb->leftJoin('person.leagues','league');
+        
+        $qb->andWhere($qb->expr()->eq('plan.projectKey',$qb->expr()->literal($projectKey)));
+        
+        $qb->orderBy('person.lastName,person.nickName,person.firstName');
+        
+        return $qb->getQuery()->getResult();      
+        
+    }
+    /* ==============================================================
      * Clear out person tables for debugging
      */
     public function deletePersons()

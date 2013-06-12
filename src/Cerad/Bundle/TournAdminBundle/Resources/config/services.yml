@@ -1,2 +1,11 @@
 services:
   
+  cerad_tourn_admin.referee.export:
+    class:  Cerad\Bundle\TournAdminBundle\Referee\RefereeExport
+    arguments:  
+        - '@cerad_tourn.excel'
+        - '@cerad_tourn.project'
+        - '@cerad_tourn.schedule.manager'
+ 
+
+  
