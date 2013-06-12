@@ -27,6 +27,7 @@ class TournExtension extends \Twig_Extension
     {
         return array(            
             'cerad_tourn_show_header' => new \Twig_Function_Method($this, 'showHeader'),
+            'cerad_tourn_is_iframe'   => new \Twig_Function_Method($this, 'isIFrame'),
             
             'cerad_tourn_get_project_title'       => new \Twig_Function_Method($this, 'getProjectTitle'),
             'cerad_tourn_get_project_description' => new \Twig_Function_Method($this, 'getProjectDescription'),
@@ -96,6 +97,11 @@ class TournExtension extends \Twig_Extension
     public function showHeader()
     {
         if (defined('CERAD_TOURN_SHOW_HEADER')) return CERAD_TOURN_SHOW_HEADER;
+        return true;
+    }
+    public function isIFrame()
+    {
+        if (defined('CERAD_TOURN_IFRAME')) return CERAD_TOURN_IFRAME;
         return true;
     }
 }
