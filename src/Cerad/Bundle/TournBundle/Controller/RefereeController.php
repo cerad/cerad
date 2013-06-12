@@ -3,11 +3,12 @@ namespace Cerad\Bundle\TournBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Response;
 
 class RefereeController extends Controller
 {
-    public function refereeAction(Request $request)
+ 
+    public function refereeAction(Request $request, $_format)
     {   
         $manager = $this->get('cerad_tourn.schedule.manager');
         $project = $this->get('cerad_tourn.project');
@@ -62,11 +63,46 @@ class RefereeController extends Controller
                 return $this->redirect($this->generateUrl('cerad_tourn_schedule_referee_list'));
             }
         }
-      //print_r($searchData);
-      //$games = array();
+        // Load and filter the games
         $games = $manager->loadGames($searchData);
         $games = $this->processFilters($games,$searchData['teamFilter'],$searchData['refereeFilter']);
         
+        // csv processing
+        if ($_format == 'csv')
+        {
+            $export = $this->get('cerad_tourn.schedule.referee.export.csv');
+            $response = new Response($export->generate($games));
+            
+            //$tplData = array();
+            //$tplData['games'] = $games;
+            //$tplData['export'] = $this->get('cerad_tourn.schedule.referee.export.csv');
+
+            //$response = $this->render('@CeradTourn/schedule/referee/games.csv.twig',$tplData);
+        
+            $outFileName = 'RefSched' . date('YmdHi') . '.csv';
+        
+            $response->headers->set('Content-Type',       'text/csv;');
+            $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"',$outFileName));
+            return $response;
+        }
+        if ($_format == 'xls')
+        {
+            $export = $this->get('cerad_tourn.schedule.referee.export.xls');
+            $response = new Response($export->generate($games));
+            
+            //$tplData = array();
+            //$tplData['games'] = $games;
+            //$tplData['excel'] = $this->get('cerad_tourn.excel');
+            //$response = $this->render('@CeradTourn/schedule/referee/games.xls.twig',$tplData);
+        
+            $outFileName = 'RefSched' . date('YmdHi') . '.xls';
+        
+            $response->headers->set('Content-Type',       'application/vnd.ms-excel');
+            $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"',$outFileName));
+            return $response;
+        }
+         
+        // html processing
         $tplData = array();
         $tplData['games']      = $games;
         $tplData['isAdmin']    = false;

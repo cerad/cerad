@@ -72,5 +72,17 @@ services:
             - '@cerad_tourn.project'
         tags:
             - { name: twig.extension }
+            
+    cerad_tourn.excel:
+        class:  Cerad\Component\Excel\Excel
+        
+    cerad_tourn.schedule.referee.export.csv:
+        class:  Cerad\Bundle\TournBundle\Schedule\Referee\ScheduleExportCSV
+            
+    cerad_tourn.schedule.referee.export.xls:
+        class:  Cerad\Bundle\TournBundle\Schedule\Referee\ScheduleExportXLS
+        arguments:  
+            - '@cerad_tourn.excel'
+
 
      

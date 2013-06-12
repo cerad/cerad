@@ -31,8 +31,10 @@ cerad_tourn_schedule_my_list:
   defaults:  { _controller: CeradTournBundle:Schedule:my }
   
 cerad_tourn_schedule_referee_list:
-  path: /schedule/referee
-  defaults:  { _controller: CeradTournBundle:Referee:referee }
+  path: /schedule/referee.{_format}
+  defaults:  { _controller: CeradTournBundle:Referee:referee, _format: html }
+  requirements:
+    _format:  html|csv|xls|pdf
   
 cerad_tourn_schedule_referee_assign:
   path: /schedule/referee/assign/{id}
