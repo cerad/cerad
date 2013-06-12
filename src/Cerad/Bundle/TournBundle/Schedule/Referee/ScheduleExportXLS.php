@@ -12,9 +12,9 @@ class ScheduleExportXLS
     (
         'Game' =>  6, 'Game#' =>  6,
 
-        'DOW' =>  5, 'Date' =>  10, 'Time' => 10,
+        'DOW' =>  5, 'Date' =>  12, 'Time' => 10,
         
-        'Venue' =>  8, 'Field' =>  6, 'Pool' => 12,
+        'Venue' =>  8, 'Field' =>  6, 'Type' => 5, 'Pool' => 12,
             
         'Home Team' => 26, 'Away Team' => 26,
         
@@ -56,6 +56,7 @@ class ScheduleExportXLS
     }
     public function generateGames($ws,$games)
     {
+        // Only the keys are currently being used
         $map = array(
             'Game'     => 'game',
             'Date'     => 'date',
@@ -63,6 +64,7 @@ class ScheduleExportXLS
             'Time'     => 'time',
             'Venue'    => 'venue',
             'Field'    => 'field',
+            'Type'     => 'type',
             'Pool'     => 'pool',
             
             'Home Team' => 'homeTeam',
@@ -103,7 +105,8 @@ class ScheduleExportXLS
             $ws->setCellValueByColumnAndRow($col++,$row,$time);
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getField()->getVenue());
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getField()->getName ());
-            $ws->setCellValueByColumnAndRow($col++,$row,$game->getPool() . ' ' . $game->getLevel()->getName());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getPool());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getLevel()->getName());
             
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getHomeTeam()->getName());
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getAwayTeam()->getName());
