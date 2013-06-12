@@ -27,8 +27,9 @@ class Project
     public function getSport()      { return $this->config['info']['sport'];     }
     
     public function getPlan()       { return $this->config['plan']; }
-    public function getDates()      { return $this->config['dates']; }
-    public function getAges()       { return $this->config['ages']; }
-    public function getGenders()    { return $this->config['genders']; }
+    
+    public function getDates()      { return isset($this->config['dates'])   ? $this->config['dates'] : array(); }
+    public function getAges()       { return isset($this->config['ages'])    ? $this->config['dates'] : array(); }
+    public function getGenders()    { return isset($this->config['genders']) ? $this->config['genders'] : array(); }
 }
 ?>
