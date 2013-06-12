@@ -45,8 +45,8 @@ class RefereeExport
         'Referee'      =>  5,
         'Ground Trans' =>  5,
         'Hotel'        => 20,
-        'Will Assess'  => 20,
-        'Want Assess'  => 20,
+        'Will Assess'  => 12,
+        'Want Assess'  => 16,
         'Volunteer'    => 10,
         'T-Shirt'      => 10,
     );
@@ -107,8 +107,8 @@ class RefereeExport
           //'Ground Trans' => 'ground_transport',
           //'Hotel'        => 'hotel',
             
-            'Will Assess'  => 'assessing',
-            'Want Assess'  => 'reqAssess',
+            'Will Assess'  => 'willAssess',
+            'Want Assess'  => 'wantAssess',
             
           //'Volunteer'    => 'other_jobs',
           //'T-Shirt'      => 't_shirt_size'
@@ -123,6 +123,94 @@ class RefereeExport
         }
         $this->counts['Everyone'] = $row - 1;
     }    
+    /* ============================================
+     * People who want assessments
+     */
+    protected function generateWantAssess($ws)
+    {
+        $map = array(
+          //'PEID'         => 'id',
+            'AYSOID'       => 'aysoid',
+          //'Games'        => 'gameCount',
+            'Last Name'    => 'lastName',
+            'First Name'   => 'firstName',
+            'Nick Name'    => 'nickName',
+          //'Gender'       => 'gender',
+            'Email'        => 'email',
+            'Phone'        => 'phone',
+            'Region'       => 'region',
+          //'Regon Desc'   => 'regionDesc',
+          //'ST'           => 'state',
+         ///'MY'           => 'memYear',
+         ///'Safe Haven'   => 'safeHaven',
+            'Ref Badge'    => 'refBadge',
+          //'Attend'       => 'attend',
+          //'Referee'      => 'will_referee',
+          //'Ground Trans' => 'ground_transport',
+          //'Hotel'        => 'hotel',
+            
+          //'Will Assess'  => 'willAssess',
+            'Want Assess'  => 'wantAssess',
+            
+          //'Volunteer'    => 'other_jobs',
+          //'T-Shirt'      => 't_shirt_size'
+        );
+        $ws->setTitle('Want Assess');
+        $row = $this->setHeaders($ws,$map);
+    
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            if ($person['wantAssess'] != 'No')
+            {
+                $this->setRow($ws,$map,$person,$row);
+            }
+        }
+    }    
+    /* ============================================
+     * People who will assessments
+     */
+    protected function generateWillAssess($ws)
+    {
+        $map = array(
+          //'PEID'         => 'id',
+            'AYSOID'       => 'aysoid',
+          //'Games'        => 'gameCount',
+            'Last Name'    => 'lastName',
+            'First Name'   => 'firstName',
+            'Nick Name'    => 'nickName',
+          //'Gender'       => 'gender',
+            'Email'        => 'email',
+            'Phone'        => 'phone',
+            'Region'       => 'region',
+          //'Regon Desc'   => 'regionDesc',
+          //'ST'           => 'state',
+         ///'MY'           => 'memYear',
+         ///'Safe Haven'   => 'safeHaven',
+            'Ref Badge'    => 'refBadge',
+          //'Attend'       => 'attend',
+          //'Referee'      => 'will_referee',
+          //'Ground Trans' => 'ground_transport',
+          //'Hotel'        => 'hotel',
+            
+            'Will Assess'  => 'willAssess',
+          //'Want Assess'  => 'wantAssess',
+            
+          //'Volunteer'    => 'other_jobs',
+          //'T-Shirt'      => 't_shirt_size'
+        );
+        $ws->setTitle('Will Assess');
+        $row = $this->setHeaders($ws,$map);
+    
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            if ($person['willAssess'] != 'No')
+            {
+                $this->setRow($ws,$map,$person,$row);
+            }
+        }
+    }    
     /* ===================================================================
      * Originally from Zayso\NatGamesBundle\Component\Export\AccountExport
      */
@@ -131,16 +219,20 @@ class RefereeExport
         $excel = $this->excel;
         
         $ss = $excel->newSpreadSheet();
-     
+        $sheetIndex = 0;
+        
       //$this->generateConfirmed      ($ss->createSheet(1));
       //$this->generateMaybe          ($ss->createSheet(2));
       //$this->generateStates         ($ss->createSheet(3));
       //$this->generateGroundTransport($ss->createSheet(4));
         
       //$this->generateAssessments    ($ss->createSheet(5));
+      //$this->generateAssessments    ($ss->createSheet(5));
       //$this->generateAvailability   ($ss->createSheet(6));
-        $this->generateProjectPersons ($ss->createSheet(0));
-        
+        $this->generateProjectPersons ($ss->createSheet($sheetIndex++));
+        $this->generateWantAssess     ($ss->createSheet($sheetIndex++));
+        $this->generateWillAssess     ($ss->createSheet($sheetIndex++));
+       
       //$this->generateCounts($ss->getSheet(0));
         
         // Output
@@ -158,7 +250,7 @@ class RefereeExport
     protected function getPersons()
     {
         // Only process once
-        if ($this->persons) return $persons;
+        if ($this->persons) return $this->persons;
         
         // Flat guys
         $items = array();
@@ -197,8 +289,8 @@ class RefereeExport
             
             // Plans
             $plan = $person->getPlan($this->project);
-            $item['assessing'] = $plan->assessing;
-            $item['reqAssess'] = $plan->reqAssess;
+            $item['willAssess'] = $plan->assessing;
+            $item['wantAssess'] = $plan->reqAssess;
                
           //$person['gameSlots'] = $item->getGameRelsForProject($this->projectId);
           //$person['gameCount'] = count($person['gameSlots']);
