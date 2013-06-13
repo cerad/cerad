@@ -3,6 +3,11 @@ namespace Cerad\Bundle\GameBundle\EntityRepository;
 
 class FieldRepository extends BaseRepository
 {
+    public function loadFieldForName($domain,$name)
+    {
+        return $this->findOneBy(array('domain' => $domain, 'name' => $name));
+    }
+
     /* -----------------------------------------------------
      * Load a set of field names
      */

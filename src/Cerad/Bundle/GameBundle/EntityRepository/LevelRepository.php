@@ -3,6 +3,11 @@ namespace Cerad\Bundle\GameBundle\EntityRepository;
 
 class LevelRepository extends BaseRepository
 { 
+    public function loadLevelForName($domain,$name)
+    {
+        return $this->findOneBy(array('domain' => $domain, 'name' => $name));
+    }
+
     /* -----------------------------------------------------
      * Load a set of level choices
      */
