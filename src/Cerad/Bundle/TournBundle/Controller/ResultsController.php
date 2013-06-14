@@ -67,5 +67,10 @@ class ResultsController extends Controller
         $tplData = array();
         return $this->render('@CeradTourn/results/champions/index.html.twig', $tplData);
     }
+    public function sportsmanshipAction(Request $request)
+    {   
+        $tplData = array();
+        return $this->render('@CeradTourn/results/sportsmanship/index.html.twig', $tplData);
+    }
 }
 ?>

@@ -59,6 +59,10 @@ cerad_tourn_results_playoffs:
 cerad_tourn_results_champions:
   path: /results/champions
   defaults:  { _controller: CeradTournBundle:Results:champions }
+  
+cerad_tourn_results_sportsmanship:
+  path: /results/sportsmanship
+  defaults:  { _controller: CeradTournBundle:Results:sportsmanship }
 
 # ==============================================================
 # Person stuff

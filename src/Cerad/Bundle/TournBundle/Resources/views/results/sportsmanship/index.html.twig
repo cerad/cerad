@@ -1,0 +1,14 @@
+{% extends '@CeradTourn/layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+  <link rel="stylesheet" href="{{  asset('bundles/ceradtourn/css/schedule.css')}}"  media="all" />
+{% endblock %}
+  
+{% block content %}
+<h3>Sportsmanship Results</h3>
+<p>Will be available after some scores get posted.</p>
+
+{# include('@CeradTourn/results/poolplay/select.html.twig') #}
+
+{% endblock %}
