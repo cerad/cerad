@@ -91,8 +91,8 @@ class ScheduleExportXLS
             $dt   = $game->getDtBeg();
             $dow  = $dt->format('D');
             $date = $dt->format('M d');
-            $time = $dt->format('g:i A');
-           
+            $time = '_' . $dt->format('H:i A'); //('g:i A');
+            
             // Skip on time changes
             if ($timex != $time)
             {
