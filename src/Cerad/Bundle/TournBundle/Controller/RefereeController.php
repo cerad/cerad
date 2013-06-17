@@ -205,11 +205,17 @@ class RefereeController extends Controller
         $formType->setOfficials($officials);
         $form = $this->createForm($formType, $game);
         
+        // Global disabling
+        $enabled = 
+                $this->container->hasParameter('cerad_tourn_referee_signups_enabled') ? 
+                $this->container->getParameter('cerad_tourn_referee_signups_enabled') :
+                true;
+        
         if ($request->getMethod() == 'POST')
         {
             $form->bind($request);
 
-            if ($form->isValid() | 1)
+            if ($form->isValid() && $enabled)
             {   
                 // Disable signups
                 $this->assignOfficials($manager,$game);
@@ -223,6 +229,7 @@ class RefereeController extends Controller
         $tplData = array();
         $tplData['game'] = $game;
         $tplData['form'] = $form->createView();
+        $tplData['enabled'] = $enabled;
         return $this->render('@CeradTourn/schedule/referee/assign.html.twig',$tplData);
     }
     /* ============================================================
