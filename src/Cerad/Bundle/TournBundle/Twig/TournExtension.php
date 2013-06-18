@@ -8,7 +8,7 @@ class TournExtension extends \Twig_Extension
     
     public function getName()
     {
-        return 'cerad_schedule_extension';
+        return 'cerad_tourn_extension';
     }
     public function __construct($project)
     {
@@ -26,65 +26,13 @@ class TournExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(            
-            'cerad_tourn_show_header' => new \Twig_Function_Method($this, 'showHeader'),
-            'cerad_tourn_is_iframe'   => new \Twig_Function_Method($this, 'isIFrame'),
+          //'cerad_tourn_show_header' => new \Twig_Function_Method($this, 'showHeader'),
+          //'cerad_tourn_is_iframe'   => new \Twig_Function_Method($this, 'isIFrame'),
+            'cerad_tourn_get_referer' => new \Twig_Function_Method($this, 'getReferer'),
             
             'cerad_tourn_get_project_title'       => new \Twig_Function_Method($this, 'getProjectTitle'),
-            'cerad_tourn_get_project_description' => new \Twig_Function_Method($this, 'getProjectDescription'),
-            
-            'cerad_tourn_schedule_referee_list_csv' => new \Twig_Function_Method($this, 'genScheduleRefereeListCSV'),
-            'cerad_tourn_schedule_referee_list_xls' => new \Twig_Function_Method($this, 'genScheduleRefereeListXLS'),
+            'cerad_tourn_get_project_description' => new \Twig_Function_Method($this, 'getProjectDescription'),            
         );
-    }
-    public function genScheduleRefereeListXLS($games,$excel)
-    {
-        
-    }
-    public function genScheduleRefereeListCSV($games)
-    {
-        $fp = fopen('php://temp','r+');
-
-        // Header
-        $row = array(
-            "Game","Date","DOW","Time","Field",
-            "Pool","Home Team","Away Team",
-            "Referee","Asst Referee 1","Asst Referee 2",
-        );
-        fputcsv($fp,$row);
-
-        // Games is passed in
-        foreach($games as $game)
-        {
-            // Date/Time
-            $dt   = $game->getDtBeg();
-            $dow  = $dt->format('D');
-            $date = $dt->format('M d');
-            $time = $dt->format('g:i A');
-            
-            // Build up row
-            $row = array();
-            $row[] = $game->getNum();
-            $row[] = $date;
-            $row[] = $dow;
-            $row[] = $time;
-            $row[] = $game->getField()->getName();
-    
-            $row[] = $game->getPool() . $game->getLevel()->getName();
-            $row[] = $game->getHomeTeam()->getName();
-            $row[] = $game->getAwayTeam()->getName();
-    
-            foreach($game->getPersons() as $gamePerson)
-            {
-                $row[] = $gamePerson->getName();
-            }
-            fputcsv($fp,$row);
-        }
-        // Return the content
-        rewind($fp);
-        $csv = stream_get_contents($fp);
-        fclose($fp);
-        //echo $csv; //die();
-        return $csv;
     }
     public function getProjectDescription()
     {
@@ -94,15 +42,18 @@ class TournExtension extends \Twig_Extension
     {
         return $this->project->getTitle();
     }
-    public function showHeader()
+    public function getReferer()
     {
-        if (defined('CERAD_TOURN_SHOW_HEADER')) return CERAD_TOURN_SHOW_HEADER;
-        return true;
-    }
-    public function isIFrame()
-    {
-        if (defined('CERAD_TOURN_IFRAME')) return CERAD_TOURN_IFRAME;
-        return true;
+        // Should be a better way than to access $_SERVER directly.
+        $url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
+        if (!$url) return null;
+        
+        $parts = parse_url($url);
+        
+        $referer = sprintf('%s://%s/',$parts['scheme'],$parts['host']);
+      //die($referer);
+        return $referer;
+        
     }
 }
 ?>
