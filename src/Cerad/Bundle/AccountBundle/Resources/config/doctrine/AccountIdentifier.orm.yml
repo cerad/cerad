@@ -2,6 +2,10 @@ Cerad\Bundle\AccountBundle\Entity\AccountIdentifier:
     type:  entity
     table: account_identifier
     
+    uniqueConstraints:
+       account_identifier_index:
+           columns: identifier
+    
     id:
         id:
             type: integer

@@ -1,0 +1,68 @@
+# App Bundle has no routes
+
+# Tourn Bundle
+  cerad_tourn_index         /         CeradTournBundle:Main:index
+  cerad_tourn_welcome       /welcome  CeradTournBundle:Main:welcome
+  cerad_tourn_home          /home     CeradTournBundle:Home:home
+  
+  cerad_tourn_textalerts              /textalerts                   CeradTournBundle:Main:welcome
+  cerad_tourn_contact                 /contact                      CeradTournBundle:Main:contact
+  
+  cerad_tourn_schedule                /schedule                     CeradTournBundle:Main:welcome
+  cerad_tourn_schedule_team_list      /schedule/team                CeradTournBundle:Main:welcome
+  cerad_tourn_schedule_my_list        /schedule/my                  CeradTournBundle:Schedule:my
+  
+  cerad_tourn_schedule_referee_list   /schedule/referee.{_format}   CeradTournBundle:Referee:referee, _format: html
+  cerad_tourn_schedule_referee_assign /schedule/referee/assign/{id} CeradTournBundle:Referee:assign
+    
+  cerad_tourn_game_report             /game/report/{num}            CeradTournBundle:GameReport:report
+
+  cerad_tourn_results_poolplay        /results/poolplay/{div}/{poolFilter} CeradTournBundle:Results:poolplay
+  cerad_tourn_results_playoffs        /results/playoffs                    CeradTournBundle:Results:playoffs
+  cerad_tourn_results_champions       /results/champions                   CeradTournBundle:Results:champions
+  cerad_tourn_results_sportsmanship   /results/sportsmanship               CeradTournBundle:Results:sportsmanship
+
+  cerad_tourn_person_plan            /person/plan/{id}           CeradTournBundle:Person:plan
+  cerad_tourn_person_plan_form       /person/plan-form/{id}      CeradTournBundle:Person:planForm
+  cerad_tourn_person_plan_success    /person/plan-success{id}    CeradTournBundle:Person:plan
+  cerad_tourn_person_plan_failure    /person/plan-failure/{id}   CeradTournBundle:Person:plan
+
+  cerad_tourn_person_person_add      /person/person/add          CeradTournBundle:PersonPerson:add
+  cerad_tourn_person_person_edit     /person-person/edit/{id}    CeradTournBundle:Main:welcome
+
+# ***************************************************
+# CeradTournBundle Account stuff
+# Should all be moved to CeradAccountBundle
+  cerad_tourn_account_signin         /account/signin             CeradTournBundle:Account:signin
+  cerad_tourn_account_signin_form    /account/signin-form        CeradTournBundle:Account:signinForm
+  cerad_tourn_account_create         /account/create             CeradTournBundle:Account:create
+  cerad_tourn_account_create_success /account/create-success     CeradTournBundle:Account:create
+  cerad_tourn_account_create_failure /account/create-failure     CeradTournBundle:Account:create
+  cerad_tourn_account_create_form    /account/create-form        CeradTournBundle:Account:createForm
+  cerad_tourn_account_edit           /account/edit/{id}          CeradTournBundle:Account:create
+  cerad_tourn_account_person_edit    /account/person/edit/{id}   CeradTournBundle:Account/Person:edit
+
+# Account Bundle - child of FOSUserBundle and overides assorted templates
+  cerad_account_identifier_add             /ACCOUNT/identifier/add               CeradAccountBundle:Identifier:add
+N cerad_account_identifier_create          /ACCOUNT/identifier/create            CeradAccountBundle:Identifier:create
+
+O cerad_account_welcome
+O cerad_account_home
+
+  cerad_account_password_reset             /ACCOUNT/password-reset               CeradAccountBundle:Password:resetRequest
+  cerad_account_password_reset_reset       /ACCOUNT/password-reset/reset/{token} CeradAccountBundle:Password:resetReset
+  cerad_account_password_reset_request     /ACCOUNT/password-reset/request       CeradAccountBundle:Password:resetRequest
+  cerad_account_password_reset_email_sent  /ACCOUNT/password-reset/email-sent    CeradAccountBundle:Password:emailSent
+
+# FOSUser
+S fos_user_registration_register     /ACCOUNT/REGISTER/                FOSUserBundle:Registration:register
+  fos_user_registration_check_email  /ACCOUNT/REGISTER/check-email     FOSUserBundle:Registration:checkEmail  GET
+  fos_user_registration_confirm      /ACCOUNT/REGISTER/confirm/{token} FOSUserBundle:Registration:confirm     GET
+  fos_user_registration_confirmed    /ACCOUNT/REGISTER//confirmed      FOSUserBundle:Registration:confirmed   GET
+
+# JanrainBundle
+  cerad_janrain_check      /ACCOUNT/janrain/check      JanrainAuthenticationListener
+
+  cerad_janrain_login      /ACCOUNT/janrain/login      CeradJanrainBundle:Janrain:login
+  cerad_janrain_register   /ACCOUNT/janrain/register   CeradJanrainBundle:Janrain:register
+  cerad_janrain_add        /ACCOUNT/janrain/add        CeradJanrainBundle:Janrain:add
