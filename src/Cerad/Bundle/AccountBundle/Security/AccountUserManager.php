@@ -45,10 +45,11 @@ class AccountUserManager extends BaseUserManager
         
         return null;
     }
-    public function createIdentifier($providerName,$identifier,$profileData = null)
+    public function createIdentifier($providerName,$displayName,$identifier,$profileData = null)
     {
         $accountIdentifier = new $this->accountIdentifierClassName;
         $accountIdentifier->setProviderName($providerName);
+        $accountIdentifier->setDisplayName ($providerName);
         $accountIdentifier->setIdentifier  ($identifier);
         $accountIdentifier->setProfile     ($profileData);
         return $accountIdentifier;

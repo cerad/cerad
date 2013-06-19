@@ -98,9 +98,9 @@ cerad_tourn_account_signin_form:
   path: /account/signin-form
   defaults:  { _controller: CeradTournBundle:Account:signinForm }
   
-cerad_tourn_account_create:
-  path: /account/create
-  defaults:  { _controller: CeradTournBundle:Account:create }
+#cerad_tourn_account_create:
+#  path: /account/create
+#  defaults:  { _controller: CeradTournBundle:Account:create }
   
 cerad_tourn_account_create_success:
   path: /account/create-success

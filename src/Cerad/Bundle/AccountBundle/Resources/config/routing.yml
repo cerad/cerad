@@ -4,6 +4,10 @@ cerad_account_identifier_add:
   path: /identifier/add
   defaults:  { _controller: CeradAccountBundle:Identifier:add }
 
+cerad_account_create:
+  path: /create
+  defaults:  { _controller: CeradAccountBundle:Create:create }
+  
 # ==================================================
 # Password reset stuff
 cerad_account_password_reset:

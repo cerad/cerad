@@ -5,7 +5,17 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: cerad_account_registration }
+            
+    cerad_account.create.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\CreateFormType
+        tags:
+            - { name: form.type, alias: cerad_account_create }
     
+    cerad_account.displayname.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\DisplayNameFormType
+        tags:
+            - { name: form.type, alias: cerad_account_displayname }
+            
     cerad_account.username.unique.form_type:
         class: Cerad\Bundle\AccountBundle\Form\Type\UsernameUniqueFormType
         tags:

@@ -8,9 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Cerad\Bundle\AccountBundle\Validator\Constraints\UsernameUnique;
-
-class UsernameUniqueFormType extends AbstractType
+class DisplayNameFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,16 +17,15 @@ class UsernameUniqueFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'label'           => 'User Name (unique)',
+            'label'           => 'Display Name',
             'attr'            => array('size' => 30),
             'constraints'     => array(
-                new Assert\NotNull(array('message' => 'User Name is required')), 
-                new UsernameUnique(),
+                new Assert\NotNull(array('message' => 'Display Name is required')),
             )
         ));
     }
     public function getParent() { return 'text'; }
-    public function getName()   { return 'cerad_account_username_unique'; }
+    public function getName()   { return 'cerad_account_displayname'; }
 }
 
 ?>

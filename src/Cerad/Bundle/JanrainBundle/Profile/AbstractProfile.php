@@ -13,15 +13,14 @@ class AbstractProfile
     
     public function getIdentifier()  { return $this->data['identifier'];   }
     
-    // This could be marked as abstract
+    // These could be marked as abstract
     public function getIdentifier2() { return null; }
     
     public function getProviderName() { return $this->data['providerName']; }
     
     public function getVerifiedEmail()
     {
-        if (isset($this->data['verifiedEmail'])) return $this->data['verifiedEmail'];
-        return null;
+        return isset($this->data['verifiedEmail']) ?  $this->data['verifiedEmail'] : null;
     }
     public function getEmail()
     {
@@ -37,8 +36,11 @@ class AbstractProfile
     }
     public function getUsername()
     {
-        if ( isset($this->data['preferredUsername'])) return $this->data['preferredUsername'];
-        return null;
+        return isset($this->data['preferredUsername']) ? $this->data['preferredUsername'] : null;
+    }
+    public function getDisplayName()
+    {
+        return isset($this->data['displayName']) ? $this->data['displayName'] : null;
     }
 }
 /*

@@ -42,10 +42,13 @@
   cerad_tourn_account_edit           /account/edit/{id}          CeradTournBundle:Account:create
   cerad_tourn_account_person_edit    /account/person/edit/{id}   CeradTournBundle:Account/Person:edit
 
+# ******************************************************
 # Account Bundle - child of FOSUserBundle and overides assorted templates
   cerad_account_identifier_add             /ACCOUNT/identifier/add               CeradAccountBundle:Identifier:add
 N cerad_account_identifier_create          /ACCOUNT/identifier/create            CeradAccountBundle:Identifier:create
 
+N cerad_account_create         /account/create             CeradAccountBundle:Create:create
+ 
 O cerad_account_welcome
 O cerad_account_home
 

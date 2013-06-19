@@ -1,0 +1,22 @@
+<form 
+    id     = "zayso_register_form"
+    class  = "zayso_register_form zayso_form1" 
+    action = "{{ path('cerad_account_create') }}" 
+    method = "post" 
+    {{ form_enctype(form) }}
+ >
+    <fieldset><legend><span>Account Information</span></legend>
+        {{ form_row(form.name)                }}
+        {{ form_row(form.username)            }}
+        {{ form_row(form.email)               }}
+        {{ form_row(form.plainPassword.pass1) }}
+        {{ form_row(form.plainPassword.pass2) }}
+    </fieldset>
+    <fieldset>
+        <div class="zayso_form_controls">
+            <span></span>
+            <input type="submit" name="accountCreate" value="Create Zayso Account" />
+        </div>
+    </fieldset>
+<div style="display: none;">{{ form_rest(form) }}</div>
+</form>
