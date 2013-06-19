@@ -25,6 +25,12 @@ Cerad\Bundle\AccountBundle\Entity\AccountIdentifier:
             length:   40
             nullable: false
             
+        displayName:
+            column:   display_name
+            type:     string
+            length:   40
+            nullable: true
+            
         identifier:
             column:   identifier
             type:     string

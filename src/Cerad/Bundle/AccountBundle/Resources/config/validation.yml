@@ -18,7 +18,7 @@ Cerad\Bundle\AccountBundle\Entity\AccountUser:
         message: Email already used
         groups:  [create]
         
-    - Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueEntity: 
+    - Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueIfModifiedEntity: 
         fields:  email
         message: Email already used
         groups:  [update]

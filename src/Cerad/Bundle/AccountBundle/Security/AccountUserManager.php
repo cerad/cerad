@@ -49,7 +49,7 @@ class AccountUserManager extends BaseUserManager
     {
         $accountIdentifier = new $this->accountIdentifierClassName;
         $accountIdentifier->setProviderName($providerName);
-        $accountIdentifier->setDisplayName ($providerName);
+        $accountIdentifier->setDisplayName ($displayName);
         $accountIdentifier->setIdentifier  ($identifier);
         $accountIdentifier->setProfile     ($profileData);
         return $accountIdentifier;
