@@ -16,9 +16,9 @@ class JanrainAuthenticationFactory extends AbstractFactory
     
     public function __construct()
     {
-        $this->addOption('rpx_api_key',   null);
-        $this->addOption('add_path',      null);
-        $this->addOption('register_path', null);
+        $this->addOption('rpx_api_key', null);
+        $this->addOption('add_path',    null);
+        $this->addOption('create_path', null);
     }
     protected function getListenerId()
     {

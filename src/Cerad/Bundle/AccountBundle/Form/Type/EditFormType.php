@@ -5,7 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class CreateFormType extends AbstractType
+class EditFormType extends AbstractType
 {
     public function getName() { return 'cerad_account_create'; }
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -13,7 +13,7 @@ class CreateFormType extends AbstractType
         $resolver->setDefaults(array(
             'data_class'        => 'Cerad\Bundle\AccountBundle\Entity\AccountUser',
             'intention'         => 'create',
-            'validation_groups' => array('create'),
+            'validation_groups' => array('update'),
         ));
     }
     public function buildForm(FormBuilderInterface $builder, array $options)

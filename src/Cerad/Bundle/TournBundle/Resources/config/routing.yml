@@ -114,11 +114,11 @@ cerad_tourn_account_create_form:
   path: /account/create-form
   defaults:  { _controller: CeradTournBundle:Account:createForm }
   
-cerad_tourn_account_edit:
-    pattern:  /account/edit/{id}
-    defaults: { _controller: CeradTournBundle:Account:create, id: 0 }
-    requirements:
-        id: \d+
+# cerad_tourn_account_edit:
+#     pattern:  /account/edit/{id}
+#     defaults: { _controller: CeradTournBundle:Account:create, id: 0 }
+#     requirements:
+#         id: \d+
         
 cerad_tourn_account_person_edit:
     pattern:  /account/person/edit/{id}

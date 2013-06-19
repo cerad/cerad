@@ -20,6 +20,7 @@ class PasswordFormType extends AbstractType
             'type'            => 'password',
             'label'           => 'User Password',
             'attr'            => array('size' => 20),
+            'required'        => false,
             
             'invalid_message' => 'Passwords must match.',
                 

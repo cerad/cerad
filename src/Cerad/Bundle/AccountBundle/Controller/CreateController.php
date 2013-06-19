@@ -50,7 +50,7 @@ class CreateController extends Controller
         $form = $this->createForm($this->get('cerad_account.create.formtype'),$account);
         $form->handleRequest($request);
 
-        if ($form->isValid()) 
+        if ($form->isValid() && 1) 
         { 
             // Don't worry about email validation for now
             $account->setEnabled(true);

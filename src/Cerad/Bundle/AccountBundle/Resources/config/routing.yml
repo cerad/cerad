@@ -8,6 +8,10 @@ cerad_account_create:
   path: /create
   defaults:  { _controller: CeradAccountBundle:Create:create }
   
+cerad_account_edit:
+  path: /edit/{id}
+  defaults:  { _controller: CeradAccountBundle:Edit:edit, id: 0 }
+  
 # ==================================================
 # Password reset stuff
 cerad_account_password_reset:

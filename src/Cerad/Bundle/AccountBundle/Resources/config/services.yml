@@ -10,11 +10,21 @@ services:
         class: Cerad\Bundle\AccountBundle\Form\Type\CreateFormType
         tags:
             - { name: form.type, alias: cerad_account_create }
+            
+    cerad_account.edit.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\EditFormType
+        tags:
+            - { name: form.type, alias: cerad_account_edit }
     
     cerad_account.displayname.form_type:
         class: Cerad\Bundle\AccountBundle\Form\Type\DisplayNameFormType
         tags:
             - { name: form.type, alias: cerad_account_displayname }
+            
+    cerad_account.username.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\UsernameFormType
+        tags:
+            - { name: form.type, alias: cerad_account_username }
             
     cerad_account.username.unique.form_type:
         class: Cerad\Bundle\AccountBundle\Form\Type\UsernameUniqueFormType
@@ -25,6 +35,11 @@ services:
         class: Cerad\Bundle\AccountBundle\Form\Type\UsernameExistingFormType
         tags:
             - { name: form.type, alias: cerad_account_username_existing }
+            
+    cerad_account.email.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\EmailFormType
+        tags:
+            - { name: form.type, alias: cerad_account_email }
             
     cerad_account.email.unique.form_type:
         class: Cerad\Bundle\AccountBundle\Form\Type\EmailUniqueFormType
@@ -85,3 +100,10 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: cerad_account_email_unique }
             
+    doctrine.orm.validator.unique_if_modified: 
+        class: Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueIfModifiedEntityValidator
+        arguments: 
+            - '@doctrine'
+        tags:
+            - { name: validator.constraint_validator, alias: doctrine.orm.validator.unique_if_modified }
+      

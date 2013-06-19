@@ -1,0 +1,46 @@
+Cerad\Bundle\AccountBundle\Entity\AccountUser:
+  
+  constraints:
+    
+    # Need both checks because a new entity is not managed
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: 
+        fields:  username
+        message: User name already exists
+        groups:  [create]
+        
+    - Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueIfModifiedEntity: 
+        fields:  username
+        message: User name already exists
+        groups:  [update]
+       
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: 
+        fields:  email
+        message: Email already used
+        groups:  [create]
+        
+    - Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueEntity: 
+        fields:  email
+        message: Email already used
+        groups:  [update]
+
+  properties:
+    
+    name:
+      - NotBlank: 
+          message: Cannot be blank
+          groups:  [create,update]
+          
+    username:
+      - NotBlank: 
+          message: Cannot be blank
+          groups:  [create,update]
+          
+    email:
+      - Email:
+          message: Valid email required
+          groups:  [create,update]
+      
+    plainPassword:
+      - NotBlank: 
+          message: Cannot be blank
+          groups:  [create]
