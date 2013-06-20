@@ -8,14 +8,20 @@ class ProfileFactory
 {
     static public function create($profileData)
     {
-        $profileClassName = 'Cerad\Bundle\JanrainBundle\Profile\\' . $profileData['providerName'] . 'Profile';
+        // Mess a bit with provider name
+        $providerName = $profileData['providerName'];
+        switch($providerName)
+        {
+            case 'Yahoo!':            $providerName = 'Yahoo';     break; // Bet this bites me later
+            case 'Microsoft Account': $providerName = 'Microsoft'; break; // Bet this bites me later
+        }
+        $profileClassName = 'Cerad\Bundle\JanrainBundle\Profile\\' . $providerName. 'Profile';
         
         if (class_exists($profileClassName))
         {
             return new $profileClassName($profileData);
         }
-        print_r($profileData);
-        die();
+
         // Could probably get by with a generic class?
         return new GenericProfile($profileData);
     }
