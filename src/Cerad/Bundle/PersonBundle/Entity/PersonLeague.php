@@ -82,6 +82,8 @@ class PersonLeague extends BaseEntity
     public function setStatus ($value) { $this->onPropertySet('status',  $value); }
     public function setVerified($value){ $this->onPropertySet('verified',$value); }
     
+    public function setIdentifier($value){ $this->onPropertySet('identifier',$value); }
+    
     public function setMemYear($value) { $this->onPropertySet('memYear', $value); }
     
     public function setDateFirst  ($value) { $this->onPropertySet('dateFirst',  $value); }
@@ -133,6 +135,7 @@ class PersonLeague extends BaseEntity
      * 
      * Now storing the member id as well as identifier
      */
+    /*
     public function genIdentifier()
     {
         return $this->fed . $this->role[0] . $this->memId;
@@ -145,6 +148,6 @@ class PersonLeague extends BaseEntity
     { 
         $this->onPropertySet('memId', $value); 
         return $this->setIdentifier($this->genIdentifier());
-    }
+    }*/
 }
 ?>

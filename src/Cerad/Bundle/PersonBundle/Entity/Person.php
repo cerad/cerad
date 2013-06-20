@@ -43,14 +43,16 @@ class Person extends BaseEntity
     protected $certs;
     protected $leagues;
     protected $persons;
+    protected $identifiers;
     
     public function __construct()
     {
-        $this->certs   = new ArrayCollection();
-        $this->plans   = new ArrayCollection();
-        $this->leagues = new ArrayCollection();
-        $this->persons = new ArrayCollection();
-        
+        $this->certs       = new ArrayCollection();
+        $this->plans       = new ArrayCollection();
+        $this->leagues     = new ArrayCollection();
+        $this->persons     = new ArrayCollection();
+        $this->identifiers = new ArrayCollection();
+       
         // Simple 32 char string, not really a guid but oh well
         $this->id = strtoupper(md5(uniqid('zayso',true)));
     }
@@ -105,7 +107,7 @@ class Person extends BaseEntity
     {
         if (!$this->dob) return null;
         
-        if (!$asof) $asOf = new \DateTime();
+        if (!$asOf) $asOf = new \DateTime();
             
         $interval = $asOf->diff($this->dob);
         
@@ -123,34 +125,44 @@ class Person extends BaseEntity
     }
     public function getCerts() { return $this->certs; }
     
-    public function getCertRefereeUSSF()
+    public function getCert($fed,$role,$autoCreate = true)
     {
-        foreach($this->certs as $cert)
+         foreach($this->certs as $item)
         {
-            if (($cert->getFed() == PersonCert::FedUSSF) && ($cert->getRole() == PersonCert::RoleReferee))
+            if (($item->getFed() == $fed) && ($item->getRole() == $role))
             {
-                return $cert;
+                return $item;
             }
         }
-        return null;
+        if (!$autoCreate) return null;
+        
+        $item = new PersonCert();
+        $item->setFed ($fed);
+        $item->setRole($role);
+        $this->addCert($item);
+        return $item;
     }
-    public function setCertRefereeUSSF($value) { return $this; }
-    
-    public function getCertRefereeAYSO()
+    public function getCertRefereeUSSF($autoCreate = true)
     {
-        foreach($this->certs as $cert)
-        {
-            if (($cert->getFed() == PersonCert::FedAYSO) && ($cert->getRole() == PersonCert::RoleReferee))
-            {
-                return $cert;
-            }
-        }
-        $cert = PersonCert::createRefereeAYSO();
-        $this->addCert($cert);
-        return $cert;
+        return $this->getCert(PersonCert::FedUSSF,PersonCert::RoleReferee,$autoCreate);
     }
-    // Form processing
+    public function getCertRefereeAYSO($autoCreate = true)
+    {
+        return $this->getCert(PersonCert::FedAYSO,PersonCert::RoleReferee,$autoCreate);
+    }
+    public function getCertUSSFReferee($autoCreate = true)
+    {
+        return $this->getCert(PersonCert::FedUSSF,PersonCert::RoleReferee,$autoCreate);
+    }
+    public function getCertAYSOReferee($autoCreate = true)
+    {
+        return $this->getCert(PersonCert::FedAYSO,PersonCert::RoleReferee,$autoCreate);
+    }
+    // Keep forms happy
     public function setCertRefereeAYSO($value) { return $this; }
+    public function setCertRefereeUSSF($value) { return $this; }
+    public function setCertAYSOReferee($value) { return $this; }
+    public function setCertUSSFReferee($value) { return $this; }
     
     /* ====================================================
      * Leagues
@@ -162,21 +174,35 @@ class Person extends BaseEntity
     }
     public function getLeagues() { return $this->leagues; }
     
-    public function getVolunteerAYSO()
+    public function getLeague($fed,$role,$autoCreate = true)
     {
-        foreach($this->leagues as $league)
+         foreach($this->leagues as $item)
         {
-            if (($league->getFed() == PersonLeague::FedAYSO) && ($league->getRole() == PersonLeague::RoleVolunteer))
+            if (($item->getFed() == $fed) && ($item->getRole() == $role))
             {
-                return $league;
+                return $item;
             }
         }
-        $league = PersonLeague::createVolunteerAYSO();
-        $this->addleague($league);
-        return $league;
+        if (!$autoCreate) return null;
+        
+        $item = new PersonLeague();
+        $item->setFed   ($fed);
+        $item->setRole  ($role);
+        $this->addLeague($item);
+        return $item;
+    }
+    public function getVolunteerAYSO($autoCreate = true)
+    {
+        return $this->getLeague(PersonLeague::FedAYSO,PersonLeague::RoleVolunteer,$autoCreate);
+    }
+    public function getLeagueAYSOVolunteer($autoCreate = true)
+    {
+        return $this->getLeague(PersonLeague::FedAYSO,PersonLeague::RoleVolunteer,$autoCreate);
     }
     // Need for forms
     public function setVolunteerAYSO($value) { return $this; }
+    public function setLeagueAYSOVolunteer($value) { return $this; }
+    
     /* ====================================================
      * Persons
      */
@@ -214,7 +240,7 @@ class Person extends BaseEntity
         $this->plans[] = $plan;
         $plan->setPerson($this);
     }
-    public function getPlans() { return $this->plans(); }
+    public function getPlans() { return $this->plans; }
     
     public function getPlan($projectKey)
     {
@@ -225,6 +251,29 @@ class Person extends BaseEntity
             if ($plan->getProjectKey() == $projectKey)
             {
                 return $plan;
+            }
+        }
+        return null;
+    }
+    /* ====================================================
+     * Unique identifiers
+     */
+    public function addIdentifier($identifier)
+    {
+        $this->identifiers[] = $identifier;
+        $identifier->setPerson($this);
+    }
+    public function getIdentifiers() { return $this->identifiers; }
+    
+    public function getIdentifier($identifierKey)
+    {
+        if (is_object($identifierKey)) $identifierKey = $identifierKey->getKey();
+        
+        foreach($this->identifiers as $identifier)
+        {
+            if ($identifier->getKey() == $identifierKey)
+            {
+                return $identifier;
             }
         }
         return null;

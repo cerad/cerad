@@ -50,9 +50,16 @@ class PersonRepository extends EntityRepository
     public function loadPersonForLeagueIdentifier($identifier)
     {
         $repo = $this->_em->getRepository($this->getPersonLeagueClassName());
-        $league = $repo->findOneBy(array('identifier' => $identifier));
-        if ($league) return $league->getPerson();
-        return null;
+        $leagues = $repo->findBy(array('identifier' => $identifier));
+        if (count($leagues) == 0) return null;
+         
+        // Some folks in eayso belong to more than one region
+        // It's also possible that folks might have changed regions
+        if (count($leagues) > 1) 
+        {
+            // Maybe send a message? Or calling process could check
+        }
+        return $leagues[0]->getPerson();
     }
     /* =============================================================
      * Load all league for a given membership id
@@ -206,6 +213,50 @@ class PersonRepository extends EntityRepository
         $conn->executeUpdate('ALTER TABLE person_league AUTO_INCREMENT = 1;');
         $conn->executeUpdate('ALTER TABLE person_cert   AUTO_INCREMENT = 1;');
     }
-
+    /* ==================================================
+     * Simplify making person persons
+     */
+    public function createPersonPersonPrimary($master,$slave)
+    {
+        $personPerson = $this->newPersonPerson();
+        $personPerson->setRolePrimary();
+        $personPerson->setMaster($master);
+        $personPerson->setSlave ($slave);
+        $personPerson->setVerified('Yes');
+        
+        $master->addPerson($personPerson);
+        
+        return $personPerson;
+    }
+    /* ====================================================
+     * Like the FOSUsermanager
+     */
+    public function updatePerson($person,$flush = false)
+    {
+        // Do we have a primary person person?
+        $slave = $person->getPerson($person);
+        if (!$slave)
+        {
+            $this->createPersonPersonPrimary($person,$person);
+        }
+        /* ===========================================================
+         * Not sure if like this or not, don't really know which identifier to use
+         
+        // Transfer identifiers to cert if necessary, should always have a league
+        $leagues = $person->getLeagues();
+        $identifier = $leagues[0]->getIdentifier();
+        
+        $certs = $person->getCerts();
+        foreach($certs as $cert)
+        {
+            if (!$cert->getIdentifier()) $cert->setidentifier($identifier);
+        }
+        */
+        
+        // Persist
+        if (!$flush) return;
+        $this->persist($person);
+        $this->flush();
+    }
 }
 ?>

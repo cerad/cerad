@@ -4,13 +4,12 @@
  * However, eventually want the functionaity here with some customization if the
  * routing paths etc.
  */
-namespace Cerad\Bundle\TournBundle\Controller;
+namespace Cerad\Bundle\PersonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
 
-class HomeController extends Controller
+class PersonPersonController extends Controller
 {
     public function getAccountPerson()
     { 

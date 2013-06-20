@@ -6,16 +6,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
-use Cerad\Bundle\PersonBundle\DataTransformer\PhoneTransformer;
+use Cerad\Bundle\PersonBundle\DataTransformer\PhoneTransformer as Transformer;
 
 class PhoneFormType extends AbstractType
 {   
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // Note the use of View and not Model transformer
-        $builder->addViewTransformer(new PhoneTransformer());
+        // Note the use of both transformer
+        $transformer = new Transformer();
+        $builder->addModelTransformer($transformer);
+        $builder->addViewTransformer ($transformer);
     }
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {

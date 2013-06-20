@@ -1,4 +1,7 @@
 <?php
+/* ===================================================
+ * Old file, probably not being used
+ */
 namespace Cerad\Bundle\PersonBundle\Controller;
 
 use Symfony\Component\Security\Core\SecurityContext;

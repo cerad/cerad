@@ -1,0 +1,58 @@
+# ==========================================
+# Main Person
+Cerad\Bundle\PersonBundle\Entity\Person:
+  
+  constraints:
+    
+   #- Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueIfModifiedEntity: 
+   #    fields:  email
+   #    message: Email already used
+   #    groups:  [update]
+
+  properties:
+    
+    name:
+      - NotBlank: 
+          message: Cannot be blank
+          groups:  [create,update]
+          
+    firstName:
+      - NotBlank: 
+          message: Cannot be Blank
+          groups:  [create,update]
+          
+    lastName:
+      - NotBlank: 
+          message: Cannot be blank
+          groups:  [create,update]
+          
+    email:
+      - Email:
+          message: Valid email required
+          groups:  [create,update]
+
+# =======================================================
+# PersonLeague aka ayso region
+Cerad\Bundle\PersonBundle\Entity\PersonLeague:
+  
+  properties:
+  
+    identifier:
+      - NotBlank: 
+          message: Cannot be blank
+          groups:  [create,update]
+          
+      - Regex:  
+          message: Invalid ID
+          pattern: '/^(AYSOV)?\d{8}$/'
+          groups:  [create_ayso,update_ayso]
+          
+    league:
+      - NotBlank: 
+          message: Cannot be blank
+          groups:  [create,update]
+          
+      - Regex:  
+          message: Invalid Region #
+          pattern: '/^(AYSOR)?\d{4}$/'
+          groups:  [create,update]

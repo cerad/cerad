@@ -6,35 +6,25 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
-use Cerad\Bundle\PersonBundle\DataTransformer\AYSO\RegionIDTransformer;
+use Cerad\Bundle\PersonBundle\DataTransformer\AYSO\RegionIDTransformer as Transformer;
 
 /* ==================================================================
- * Use this to collect and partially validate a region number
  * The transformer will yield AYSORxxxx
+ * Use validation.yml for validation
  */
 class RegionIDFormType extends AbstractType
 {   
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new RegionIDTransformer());
-        $builder->addViewTransformer (new RegionIDTransformer());
+        $transformer = new Transformer();
+        $builder->addModelTransformer($transformer);
+        $builder->addViewTransformer ($transformer);
    }
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-          //'invalid_message' => 'Unknown Region Number',
-            
-            'label'           => 'AYSO Region Number (1-1999)',
-            'attr'            => array('size' => 4),
-            
-            'constraints'     => array(
-                new Assert\NotNull(array('message' => 'Region number is required')), 
-                new Assert\Regex  (array('message' => 'Unknown region number', 'pattern' => '/^(AYSOR)?\d{4}$/'))),
-            
-            // This does not work because constraint are checked after transforming???
-            // 'constraints'     => new Assert\Range(array('min' => 1, 'max' => 1999)),
+            'label' => 'AYSO Region Number (1-1999)',
+            'attr'  => array('size' => 4),
         ));
     }
     public function getParent() { return 'text'; }

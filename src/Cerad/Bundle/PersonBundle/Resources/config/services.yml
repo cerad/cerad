@@ -73,4 +73,18 @@ services:
         tags:
             - { name: form.type, alias: cerad_person_ayso_volunteer_region }
 
- 
+# ===============================
+    cerad_person.ayso_referee_create.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RefereeCreateFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ayso_referee_create }
+            
+    cerad_person.ayso_volunteer.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\VolunteerFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ayso_volunteer }
+            
+    cerad_person.ayso_referee_cert.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RefereeCertFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ayso_referee_cert }

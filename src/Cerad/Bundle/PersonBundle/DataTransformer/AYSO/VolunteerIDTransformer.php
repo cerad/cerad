@@ -15,8 +15,11 @@ class VolunteerIDTransformer implements DataTransformerInterface
     }
     public function reverseTransform($value)
     {
-        $id = (int)preg_replace('/\D/','',$value);
-        if (!$id) return '';
+        $id = preg_replace('/\D/','',$value);
+        
+        if (!$id) return null;
+        
+        // Should we check for 8 digits?  Should probably be done
         return 'AYSOV' . $id;
     }
 }

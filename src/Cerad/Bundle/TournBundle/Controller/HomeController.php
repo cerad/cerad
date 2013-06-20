@@ -1,23 +1,20 @@
 <?php
+/* =============================================================
+ * This probably needs to be moved to the AppBundle
+ * it directs a bunch of the sign requirements
+ * 
+ * Or maybe abstract that stuff out
+ * For now it's a very specific ayso tournament
+ * 
+ * Also possible that make this AYSOHomeController
+ */
 namespace Cerad\Bundle\TournBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
 
 class HomeController extends Controller
 {
-    public function getAccountPerson()
-    { 
-        // Must have a person
-        $account = $this->getUser();
-        if (!is_object($account)) return null;
-        
-        $person = $account->getPerson();
-        if (!is_object($person)) return null;
-
-        return $person;
-    }
     public function homeAction()
     {
         // Make sure sign in
@@ -25,10 +22,10 @@ class HomeController extends Controller
         if (!is_object($account)) return $this->redirect($this->generateUrl('cerad_tourn_welcome')); ;
           
         // It's possible that an account was created but no person
-        $person = $this->getAccountPerson();
-        if (!$person->getName())
+        $person = $account->getPerson(false);
+        if (!is_object($person))
         {
-            return $this->redirect($this->generateUrl('cerad_tourn_account_person_edit'));  
+            return $this->redirect($this->generateUrl('cerad_person_ayso_referee_create'));  
         }
         // Also make sure have a project record
         $project = $this->get('cerad_tourn.project');
@@ -46,6 +43,10 @@ class HomeController extends Controller
         
         return $this->render('@CeradTourn/home.html.twig', $tplData);
     }
+    /* ==============================================================
+     * Everything below here was for demo purposes
+     * I think it can all go away
+     */
     public function userHeaderAction()
     {
         $tplData = array();

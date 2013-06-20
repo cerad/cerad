@@ -1,5 +1,8 @@
 
 services:
+    cerad_account.manager:
+        alias: fos_user.user_manager
+
     cerad_account.registration.form_type:
         class: Cerad\Bundle\AccountBundle\Form\Type\RegistrationFormType
         arguments: [%fos_user.model.user.class%]

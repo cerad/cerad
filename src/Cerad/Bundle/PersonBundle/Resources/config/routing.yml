@@ -1,4 +1,4 @@
-
+# For testing
 cerad_person_ayso_volunteer_region:
     pattern: /ayso/volunteer-region
     defaults: { _controller: CeradPersonBundle:Person:aysoVolRegion }
@@ -8,3 +8,13 @@ cerad_person_person_add:
   path: /person/add
   defaults:  { _controller: CeradPersonBundle:PersonPerson:add }
   
+cerad_person_ayso_referee_create:
+  path: /create/ayso-referee
+  defaults:  { _controller: CeradPersonBundle:Create:createAYSOReferee }
+ 
+# Designed to be overridden by app
+cerad_person_home:
+  path: /home
+  
+cerad_person_welcome:
+  path: /welcome
