@@ -4,129 +4,6 @@ namespace Cerad\Bundle\TournBundle\Form\Type\Schedule\Referee;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
-class SearchFormTypeSubscriber implements EventSubscriberInterface
-{
-    private $factory;
-    private $manager;
-    private $params;
-    
-    public function __construct(FormFactoryInterface $factory, $manager, $params)
-    {
-        $this->factory = $factory;
-        $this->manager = $manager;
-        $this->params  = $params;
-    }
-
-    public static function getSubscribedEvents()
-    {
-        // Tells the dispatcher that you want to listen on the form.pre_set_data
-        // event and that the preSetData method should be called.
-        return array(FormEvents::PRE_SET_DATA => 'preSetData');
-    }
-
-    public function preSetData(FormEvent $event)
-    {
-        $data = $event->getData();
-
-        if ($data === null) return;
-        
-        $form = $event->getForm();
-        
-        return;
-        
-        // Generate field pick list
-        $fields = $this->manager->loadFieldChoices($data);
-        array_unshift($fields,'All Fields');
-        $form->add($this->factory->createNamed('fields', 'choice', null, array(
-            'label'         => 'Fields',
-            'required'      => false,
-            'choices'       => $fields,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 10),
-        )));
-        // Generate team pick list
-        $teams = $this->manager->loadTeamChoices($data);
-        array_unshift($teams,'All Teams');
-        $form->add($this->factory->createNamed('teams', 'choice', null, array(
-            'label'         => 'Teams',
-            'required'      => false,
-            'choices'       => $teams,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 10),
-        )));
-        // Generate levels pick list
-        $levels  = $this->manager->loadLevelChoices($data);
-        array_unshift($levels,'All Levels');
-        $form->add($this->factory->createNamed('levels', 'choice', null, array(
-            'label'         => 'Levels',
-            'required'      => false,
-            'choices'       => $levels,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 10),
-        )));
-        // Generate sports pick list
-        $names  = $this->manager->loadDomainSubChoices($data);
-        array_unshift($names,'All Sub Groups');
-        $form->add($this->factory->createNamed('domainSubs', 'choice', null, array(
-            'label'         => 'Sub Groups',
-            'required'      => false,
-            'choices'       => $names,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 10),
-        )));
-        // Generate groups pick list
-        $names  = $this->manager->loadDomainChoices($data);
-        array_unshift($names,'All Groups');
-        $form->add($this->factory->createNamed('domains', 'choice', null, array(
-            'label'         => 'Groups',
-            'required'      => false,
-            'choices'       => $names,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 10),
-        )));
-        
-        // Generate seasons pick list
-        $names = $this->manager->loadSeasonChoices($data);
-        array_unshift($names,'All Seasons');
-        $form->add($this->factory->createNamed('seasons', 'choice', null, array(
-            'label'         => 'Seasons',
-            'required'      => false,
-            'choices'       => $names,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 4),
-        )));
-        // Generate sports pick list
-        $names = $this->manager->loadSportChoices($data);
-        array_unshift($names,'All Sports');
-        $form->add($this->factory->createNamed('sports', 'choice', null, array(
-            'label'         => 'Sports',
-            'required'      => false,
-            'choices'       => $names,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 4),
-        )));
-    }
-}
-
 class SearchFormType extends AbstractType
 {
     public function getName() { return 'schedule_referee_search'; }
@@ -143,40 +20,87 @@ class SearchFormType extends AbstractType
     }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // For dynamic fields
-        $subscriber = new SearchFormTypeSubscriber($builder->getFormFactory(),$this->manager,$this->params);
+        /* ============================================
+         * Maintain as an example
+        $subscriber = new SearchSubscriber($builder->getFormFactory(),$this->manager,$this->params);
         $builder->addEventSubscriber($subscriber);
-
-        $all = array('All' => 'All');
-        
-        // Dates
-        $builder->add('dates', 'choice', array(
-            'label'         => 'Days of Week',
-            'required'      => true,
-            'choices'       => array_merge($all,$this->project->getDates()), // Fri = label, 2013-06-14 = value
-            'expanded'      => true,
-            'multiple'      => true,
-          //'attr' => array('class' => 'cerad-checkbox-all'), 
-        ));
-        $builder->add('ages', 'choice', array(
-            'label'         => 'Ages',
-            'required'      => true,
-            'choices'       => array_merge($all,$this->project->getAges()),
-            'expanded'      => true,
-            'multiple'      => true,
-          //'attr' => array('class' => 'cerad-checkbox-all'),
-        ));
-        $builder->add('genders', 'choice', array(
-            'label'         => 'Genders',
-            'required'      => true,
-            'choices'       => array_merge($all,$this->project->getGenders()),
-            'expanded'      => true,
-            'multiple'      => true,
-          //'attr' => array('class' => 'cerad-checkbox-all'),
-        ));
+        */
+        // The filters
+        $builder->add('numFilter',     'text', array('required' => false, 'attr' => array('size' => 30)));
         $builder->add('teamFilter',    'text', array('required' => false, 'attr' => array('size' => 30)));
         $builder->add('refereeFilter', 'text', array('required' => false, 'attr' => array('size' => 30)));
         
+        // Dynamic check boxes (age, gender, dates etc)
+        $all = array('All' => 'All');
+        $searches = $this->project->getSearches();
+        foreach($searches as $key => $search)
+        {
+            // TODO: handle non-checkbox elements such as multi-select
+            $builder->add($key, 'choice', array(
+                'label'         => $search['label'],
+                'required'      => true,
+                'choices'       => array_merge($all,$search['choices']), // Fri = label, 2013-06-14 = value
+                'expanded'      => true,
+                'multiple'      => true,
+            ));     
+        }
+        
+        // Multi select lists for my stuff
+        // This will need to be moved to the subscriber to get the real teams
+        $builder->add('myTeams', 'choice', array(
+            'label'         => 'My Teams',
+            'empty_value'   => 'My Teams',
+            'required'      => false,
+            'choices'       => array(1 => 'Team 1', 2 => 'Team 2', 3 => 'Team 3'),
+            'multiple'      => true,  // No empty value
+            'expanded'      => false,
+        ));     
+        $builder->add('myPersons', 'choice', array(
+            'label'         => 'My Persons',
+            'empty_value'   => 'My Persons',
+            'required'      => false,
+            'choices'       => array(1 => 'Person 1', 2 => 'Person 2', 3 => 'Person 3'),
+            'multiple'      => true,  // No empty value
+            'expanded'      => false,
+        ));  
+       
+        // Time range
+        $builder->add('time1', 'choice', array(
+            'label'         => 'Time 1',
+            'required'      => false,
+            'choices'       => $this->times,
+            'expanded'      => false,
+            'multiple'      => false,
+            'empty_value'   => 'After',
+        ));
+        $builder->add('time2', 'choice', array(
+            'label'         => 'Time 2',
+            'required'      => false,
+            'choices'       => $this->times,
+            'expanded'      => false,
+            'multiple'      => false,
+            'empty_value'   => 'Before'
+        ));
+        $builder->add('sortBy', 'choice', array(
+            'label'         => 'Sort By',
+            'required'      => false,
+            'choices'       => $this->sortBys,
+            'expanded'      => false,
+            'multiple'      => false,
+            'empty_value'   => 'DOW,Time,Field'
+        ));
     }
+    // Hack this in, should be from project file
+    protected $times = array(
+        '0600' => '06 AM', '0700' => '07 AM', '0800' => '08 AM', '0900' => '09 AM',
+        '1000' => '10 AM', '1100' => '11 AM', '1200' => '12 PM', '1300' => '01 PM',
+        '1400' => '02 PM', '1500' => '03 PM', '1600' => '04 PM', '1700' => '05 PM',
+        '1800' => '06 PM', '1900' => '07 PM', '2000' => '08 PM', '2100' => '09 PM',
+    );
+    protected $sortBys = array(
+        1 => 'Game Number',
+        2 => 'Venue,Field',
+        3 => 'Etc'
+    );
 }
 ?>

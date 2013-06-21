@@ -138,6 +138,7 @@ class GameRepository extends BaseRepository
         $ages      = $qb->getArrayForParam($params,'ages');
         $teams     = $qb->getArrayForParam($params,'teams');
         $fields    = $qb->getArrayForParam($params,'fields');
+        $venues    = $qb->getArrayForParam($params,'venues');
         $genders   = $qb->getArrayForParam($params,'genders');
         $statuses  = $qb->getArrayForParam($params,'statuses');
         
@@ -206,9 +207,10 @@ class GameRepository extends BaseRepository
         
         $qb->andWhereEq('date(game.dtBeg)',$dates);
         
-        $qb->andWhereEq('gameField.name',$fields);
-        $qb->andWhereEq('game.status',   $statuses);
-        $qb->andWhereEq('game.pool',     $gameTypes); // Hack, PP SF etc
+        $qb->andWhereEq('gameField.name', $fields);
+        $qb->andWhereEq('gameField.venue',$venues);
+        $qb->andWhereEq('game.status',    $statuses);
+        $qb->andWhereEq('game.pool',      $gameTypes); // Hack, PP SF etc
         
         $qb->andWhereEq('gameProject.season',$seasons);
         $qb->andWhereEq('gameProject.hash',  $projects);

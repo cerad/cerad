@@ -1,0 +1,16 @@
+{# render one set of check boxes as a table #}
+<table border="1">
+  <tr><th colspan="20">{{ items.vars.label }}</th></tr>
+  <tr>
+    {% set itemFirst = true %}         
+    {% for item in items %}
+        <td align="center">{{ form_label(item) }}<br />
+        {% if itemFirst %}
+            {{ form_widget(item, { 'attr': {'class': 'zayso-checkbox-all' }}) }}</td>
+        {% else %}
+            {{ form_widget(item) }}</td>
+        {% endif %}
+        {% set itemFirst = false %}
+    {% endfor %}
+  <tr>
+</table>

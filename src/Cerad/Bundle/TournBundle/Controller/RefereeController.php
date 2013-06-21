@@ -16,68 +16,95 @@ class RefereeController extends Controller
         // Build the search parameter information
         $searchData = array();
         
+        /* ===========================================================
+         * The project key replaces all of these
         $searchData['domains']    = array($project->getDomain());
         $searchData['domainSubs'] = array($project->getDomainSub());
-        
-        $searchData['ages']    = array();
-        $searchData['genders'] = array();
-         
-        $searchData['levels']  = array();
-        $searchData['teams' ]  = array();
-        $searchData['fields']  = array();
-        
         $searchData['seasons']  = array($project->getSeason());
         $searchData['sports']   = array($project->getSport());
-        $searchData['statuses'] = array();
+        */
+        $searchData['projects'] = $project->getKeySearch();
         
+        /* ===========================================================
+         * Search criteria from the project file
+         */
+        $query    = $request->query->all();
+        $searches = $project->getSearches();
+        foreach($searches as $key => $search)
+        {
+            // Pull optional defaults if there are no query parameters
+            if (!count($query))
+            {
+                $default = isset($search['default']) ? $search['default']: array();
+                if (!is_array($default)) $default = array($default); // Form needs array
+            }
+            else $default = array();
+            $searchData[$key] = $default;
+        }
+      //print_r($searchData); die();
+        
+      //$searchData['ages']    = array();
+      //$searchData['genders'] = array();
+      //$searchData['dates'] = array('2013-06-14');
+        
+        // My stuff
+        $searchData['myTeams']   = array();
+        $searchData['myPersons'] = array();
+        
+        // Filters
         $searchData['teamFilter']    = null;
         $searchData['refereeFilter'] = null;
         $searchData['numFilter']     = null;
         
-        // Pull from the project
-        $searchData['dates'] = array('2013-06-14');
-      //$searchData['dates'] = array('2013-06-14','2013-06-15','2013-06-16');
+        // Time stuff
+        $searchData['time1'] = null;
+        $searchData['time2'] = null;
         
+        $searchData['sortBy'] = null;
+        
+        // Future stuff
+        //$searchData['levels']   = array();
+        //$searchData['teams' ]   = array();
+        //$searchData['fields']   = array();
+        //$searchData['statuses'] = array();
+        //
+        // Merge in query parameters
+        $searchData = array_merge($searchData,$query);
+                
         // Pull from session if nothing was passed
-        $sessionSearchData = $request->getSession()->get('ScheduleSearchData');
-        
-        if ($sessionSearchData) $searchData = array_merge($searchData,json_decode($sessionSearchData,true));
-   
+        if (!count($query))
+        {
+            $sessionSearchData = $request->getSession()->get('ScheduleSearchData');
+            if ($sessionSearchData) $searchData = array_merge($searchData,json_decode($sessionSearchData,true));
+        }
         // Build the form
         $searchFormType = $this->get('cerad_tourn.schedule.referee.search.formtype');
+        $searchForm     = $this->createForm($searchFormType,$searchData);
         
-        // The form itself
-        $searchForm = $this->createForm($searchFormType,$searchData);
-        
-        // Check post
-        if ($request->getMethod() == 'POST')
-        {
-            $searchForm->bind($request);
+        $searchForm->handleRequest($request);
 
-            if ($searchForm->isValid())
-            {
-                $searchData = $searchForm->getData(); // print_r($searchData); die( 'POSTED');
+        if ($searchForm->isValid())
+        {
+            $searchData = $searchForm->getData(); // print_r($searchData); die( 'POSTED');
                 
-                $request->getSession()->set('ScheduleSearchData',json_encode($searchData));
-                
-                return $this->redirect($this->generateUrl('cerad_tourn_schedule_referee_list'));
-            }
+            $request->getSession()->set('ScheduleSearchData',json_encode($searchData));
+            
+            unset($searchData['projects']);
+            return $this->redirect($this->generateUrl('cerad_tourn_schedule_referee_list',$searchData));
         }
-        // Load and filter the games
-        $games = $manager->loadGames($searchData);
-        $games = $this->processFilters($games,$searchData['teamFilter'],$searchData['refereeFilter']);
+
+        // Must have at leaset one day explocitly set to avoid loading in everthing
+        $games = array();
+        if (isset($searchData['dates']) && count($searchData['dates'])) $games = $manager->loadGames($searchData);
+        
+        // Filter
+        $games = $this->processFilters($games,$searchData['teamFilter'],$searchData['refereeFilter'],$searchData['numFilter']);
         
         // csv processing
         if ($_format == 'csv')
         {
             $export = $this->get('cerad_tourn.schedule.referee.export.csv');
             $response = new Response($export->generate($games));
-            
-            //$tplData = array();
-            //$tplData['games'] = $games;
-            //$tplData['export'] = $this->get('cerad_tourn.schedule.referee.export.csv');
-
-            //$response = $this->render('@CeradTourn/schedule/referee/games.csv.twig',$tplData);
         
             $outFileName = 'RefSched' . date('YmdHi') . '.csv';
         
@@ -89,11 +116,6 @@ class RefereeController extends Controller
         {
             $export = $this->get('cerad_tourn.schedule.referee.export.xls');
             $response = new Response($export->generate($games));
-            
-            //$tplData = array();
-            //$tplData['games'] = $games;
-            //$tplData['excel'] = $this->get('cerad_tourn.excel');
-            //$response = $this->render('@CeradTourn/schedule/referee/games.xls.twig',$tplData);
         
             $outFileName = 'RefSched' . date('YmdHi') . '.xls';
         
@@ -125,13 +147,14 @@ class RefereeController extends Controller
         return $filters;
         
     }
-    protected function processFilters($games,$teamFilter,$refereeFilter)
+    protected function processFilters($games,$teamFilter,$refereeFilter,$numFilter)
     {
         // Make sure we got something
+        $numFilters     = $this->getFilters($numFilter);
         $teamFilters    = $this->getFilters($teamFilter);
         $refereeFilters = $this->getFilters($refereeFilter);
         
-        if (!$teamFilter && !$refereeFilter) return $games;
+        if (!$teamFilter && !$refereeFilter && !$numFilters) return $games;
                 
         // The filteres results
         $gamesx = array();
@@ -139,6 +162,14 @@ class RefereeController extends Controller
         {
             $keep = false;
             
+            if ($numFilters) 
+            {
+                $gameNum = $game->getNum();
+                foreach($numFilters as $filter)
+                {
+                    if ($gameNum == $filter) $keep = true;
+                }
+            }
             if ($teamFilters) 
             {
                 foreach($game->getTeams() as $team)

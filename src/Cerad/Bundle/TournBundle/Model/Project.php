@@ -28,8 +28,21 @@ class Project
     
     public function getPlan()       { return $this->config['plan']; }
     
-    public function getDates()      { return isset($this->config['dates'])   ? $this->config['dates'] : array(); }
-    public function getAges()       { return isset($this->config['ages'])    ? $this->config['ages'] : array(); }
-    public function getGenders()    { return isset($this->config['genders']) ? $this->config['genders'] : array(); }
+    // Needs to be refined a bit
+    public function getDates()      { return isset($this->config['searches']['dates'])   ? $this->config['searches']['dates']   : array(); }
+    public function getAges()       { return isset($this->config['searches']['ages'])    ? $this->config['searches']['ages']    : array(); }
+    public function getGenders()    { return isset($this->config['searches']['genders']) ? $this->config['searches']['genders'] : array(); }
+    
+    public function getSearches()   { return isset($this->config['searches']) ? $this->config['searches'] : array(); }
+    
+    // Bit of a hack for testing
+    public function getKeySearch()  
+    { 
+        return isset(
+            $this->config['info']['keySearch']) ? 
+            $this->config['info']['keySearch']  : 
+            $this->config['info']['key'];
+    }
+
 }
 ?>
