@@ -43,7 +43,7 @@ class Field extends BaseEntity
     protected $domain;
     protected $domainSub;
     
-    protected $status;
+    protected $status = 'Active';
     
     public function getId()        { return $this->id;   }
     public function getName()      { return $this->name; }
@@ -77,7 +77,15 @@ class Field extends BaseEntity
      */
     public function getHash () { return $this->hash;  }
     
-    public function setHash($value) { $this->onPropertySet('hash',$value); }
+    public function setHash($value = null) 
+    { 
+        if (!$value)
+        {
+            $paramsx = array($this->domain,$this->domainSub,$this->season,$this->name);
+            $value = self::hash($paramsx);
+        }
+        return $this->onPropertySet('hash',$value); 
+    }
     
     static function genHash($params)
     {

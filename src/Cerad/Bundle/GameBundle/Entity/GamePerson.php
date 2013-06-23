@@ -22,7 +22,7 @@ class GamePerson extends BaseEntity
     protected $badge;
     protected $league;
     
-    protected $status; // Created, published, notified, accepted
+    protected $status = 'Created'; // Created, published, notified, accepted
     protected $statusx;
     
     protected $fee;

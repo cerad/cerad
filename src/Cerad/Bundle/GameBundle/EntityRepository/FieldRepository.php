@@ -3,6 +3,17 @@ namespace Cerad\Bundle\GameBundle\EntityRepository;
 
 class FieldRepository extends BaseRepository
 {
+    // Nice to make this configurable
+    public function getFieldClassName() { return $this->_entityName; }
+    
+    // Simple object new
+    public function newField()       
+    {
+        $className = $this->getFieldClassName();
+        return new $className;
+    }
+
+    // This is a cheat, see Field:genHash
     public function loadFieldForName($domain,$name)
     {
         return $this->findOneBy(array('domain' => $domain, 'name' => $name));
