@@ -20,7 +20,8 @@ class ListController extends Controller
         
         // Try linking leagues
         // Want some sort of cerad_person.league.manager?
-        if ($this->container->has('cerad_game.league.manager'))
+        // The has test seems inconsistent?
+        if ($this->container->has('cerad_game.league.manager') || 1)
         {
             $leagueManager = $this->container->get('cerad_game.league.manager');
             $leagueManager->connectLeagues($persons);
