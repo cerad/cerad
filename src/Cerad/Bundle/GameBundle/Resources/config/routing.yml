@@ -1,0 +1,17 @@
+# User cerad_league instead of cerad_game_league?
+# Sort of bundle independent
+# Maybe have independent route files
+cerad_league_list:
+  path: /league/list
+  defaults:  { _controller: CeradGameBundle:League/List:list }
+  
+cerad_league_edit:
+  path: /league/edit/{id}
+  defaults:  { _controller: CeradGameBundle:League/Edit:edit, id: null }
+
+# Designed to be overridden by app
+cerad_game_home:
+  path: /home
+  
+cerad_game_welcome:
+  path: /welcome

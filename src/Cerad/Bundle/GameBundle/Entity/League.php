@@ -40,7 +40,6 @@ class League extends BaseEntity
     protected $datax = null;
     
     public function getId()      { return $this->id;     }
-    public function getParent()  { return $this->parent; }
     public function getDesc1()   { return $this->desc1;  }
     public function getDesc2()   { return $this->desc2;  }
     public function getCity()    { return $this->city;   }
@@ -54,7 +53,21 @@ class League extends BaseEntity
     public function setCity  ($city)   { return $this->onPropertySet('city',  $city);   }
     public function setState ($state)  { return $this->onPropertySet('state', $state);  }
     public function setStatus($status) { return $this->onPropertySet('status',$status); }
-   
+    
+    // Need to be carefull if walking up the tree
+    public function getParent($autoCreate = true)  
+    { 
+        if ($this->parent) return $this->parent;
+        
+        if (!$autoCreate) return null;
+        
+        return $this->parent = new League(); 
+        
+    }
+    public function hasParent()
+    {
+        return $this->parent ? true: false;
+    }
     public function getDesc3()
     {
         return substr($this->id,4) . ' ' . $this->city;

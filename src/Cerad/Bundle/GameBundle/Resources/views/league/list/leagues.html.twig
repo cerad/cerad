@@ -1,0 +1,25 @@
+<table id="cerad_league_list" border="1" style="max-widthx: 850px;">
+<thead>
+    <tr><th colspan="20">Leagues - Count: {{ leagues | length }}</th></tr>
+    <tr>
+        <th>ID</th>
+        <th>Parent</th>
+        <th>Desc 1</th>
+        <th>Desc 2</th>
+        <th>City</th>
+        <th>State</th>
+    </tr>
+</thead>
+<tbody>
+    {% for league in leagues %}
+    <tr>
+        <td><a href={{ path('cerad_league_edit', { id: league.id} )}}>{{ league.id }}</a></td>
+        <td>{{ league.parent.id }}</td>
+        <td>{{ league.desc1     }}</td>
+        <td>{{ league.desc2     }}</td>
+        <td>{{ league.city      }}</td>
+        <td>{{ league.state     }}</td>
+   </tr>
+    {% endfor %}
+</tbody>        
+</table>
