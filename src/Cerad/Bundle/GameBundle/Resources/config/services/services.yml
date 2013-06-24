@@ -2,69 +2,57 @@ services:
   
 # ==============================================================
 #   Entity Managers
+# Have some dups because transitioning to different naming scheme
     cerad.game.entity_manager:
         alias: doctrine.orm.games_entity_manager
         
-# ==============================================================
-# My Managers
-# These are obsolete and should be removed
-    cerad.game.manager:
-        class:  Cerad\Bundle\GameBundle\Manager\GameManager
-        arguments:  
-            - '@cerad.game.entity_manager'
-            - 'games'
-            - 'Cerad\Bundle\GameBundle\Entity\Game'
-            
-    cerad.project.manager:
-        class:  Cerad\Bundle\GameBundle\Manager\ProjectManager
-        arguments:  
-            - '@cerad.game.entity_manager'
-            - 'games'
-            - 'Cerad\Bundle\GameBundle\Entity\Project'
-            
-    cerad.level.manager:
-        class:  Cerad\Bundle\GameBundle\Manager\LevelManager
-        arguments:  
-            - '@cerad.game.entity_manager'
-            - 'games'
-            - 'Cerad\Bundle\GameBundle\Entity\Level'
-            
-    cerad.field.manager:
-        class:  Cerad\Bundle\GameBundle\Manager\FieldManager
-        arguments:  
-            - '@cerad.game.entity_manager'
-            - 'games'
-            - 'Cerad\Bundle\GameBundle\Entity\Field'
-            
+    cerad_game.entity_manager:
+        alias: doctrine.orm.games_entity_manager
+        
+
 # ==============================================================
 #   My Repositoriess
     cerad.project.repository:
         class:  Cerad\Bundle\GameBundle\EntityRepository\ProjectRepository
-        factory_service: 'cerad.game.entity_manager'
+        factory_service: 'cerad_game.entity_manager'
         factory_method:  'getRepository'
         arguments:  
             - 'Cerad\Bundle\GameBundle\Entity\Project'
             
     cerad.level.repository:
         class:  Cerad\Bundle\GameBundle\EntityRepository\LevelRepository
-        factory_service: 'cerad.game.entity_manager'
+        factory_service: 'cerad_game.entity_manager'
         factory_method:  'getRepository'
         arguments:  
             - 'Cerad\Bundle\GameBundle\Entity\Level'
             
     cerad.field.repository:
         class:  Cerad\Bundle\GameBundle\EntityRepository\FieldRepository
-        factory_service: 'cerad.game.entity_manager'
+        factory_service: 'cerad_game.entity_manager'
         factory_method:  'getRepository'
         arguments:  
             - 'Cerad\Bundle\GameBundle\Entity\Field'
             
     cerad.game.repository:
         class:  Cerad\Bundle\GameBundle\EntityRepository\GameRepository
-        factory_service: 'cerad.game.entity_manager'
+        factory_service: 'cerad_game.entity_manager'
         factory_method:  'getRepository'
         arguments:  
             - 'Cerad\Bundle\GameBundle\Entity\Game'
+            
+    cerad_game.league.repository:
+        class:  Cerad\Bundle\GameBundle\EntityRepository\LeagueRepository
+        factory_service: 'cerad_game.entity_manager'
+        factory_method:  'getRepository'
+        arguments:  
+            - 'Cerad\Bundle\GameBundle\Entity\League'
+
+# ========================================================
+# Generally like to think in terms of managers
+# Eventually rename all the above repo services
+# But use aliases for the transition
+    cerad_game.league.manager:
+        alias: cerad_game.league.repository
 
 # ========================================================
 # Game Forms

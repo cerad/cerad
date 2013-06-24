@@ -1,8 +1,8 @@
-Cerad\Bundle\Legacy2012Bundle\Entity\Org:
+Cerad\Bundle\GameBundle\Entity\League:
     type:  entity
-    table: org
+    table: league
     changeTrackingPolicy: NOTIFY
-    repositoryClass:      Cerad\Bundle\Legacy2012Bundle\EntityRepository\OrgRepository
+    repositoryClass:      Cerad\Bundle\GameBundle\EntityRepository\LeagueRepository
     
     id:
         id:
@@ -27,12 +27,12 @@ Cerad\Bundle\Legacy2012Bundle\Entity\Org:
             type: string
             nullable: false
         datax:
-            type: text
+            type: array
             nullable: true
 
     manyToOne:
         parent:
-            targetEntity: Org
+            targetEntity: League
             nullable: true
             joinColumn:
                 name:          parent_id

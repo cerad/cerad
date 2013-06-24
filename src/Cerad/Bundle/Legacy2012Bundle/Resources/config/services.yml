@@ -23,3 +23,10 @@ services:
     factory_method:  'getRepository'
     arguments:  
       - 'Cerad\Bundle\Legacy2012Bundle\Entity\Event'
+      
+  cerad_legacy2012.org.manager:
+    class:  Cerad\Bundle\Legacy2012Bundle\EntityRepository\OrgRepository
+    factory_service: 'cerad_legacy2012.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\Legacy2012Bundle\Entity\Org'
