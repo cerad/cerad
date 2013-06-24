@@ -8,6 +8,14 @@ cerad_person_person_add:
   path: /person/add
   defaults:  { _controller: CeradPersonBundle:PersonPerson:add }
   
+cerad_person_list:
+  path: /list
+  defaults:  { _controller: CeradPersonBundle:List:list }
+  
+cerad_person_edit:
+  path: /edit/{id}
+  defaults:  { _controller: CeradPersonBundle:Edit:edit, id: null }
+  
 cerad_person_ayso_referee_create:
   path: /create/ayso-referee
   defaults:  { _controller: CeradPersonBundle:Create:createAYSOReferee }

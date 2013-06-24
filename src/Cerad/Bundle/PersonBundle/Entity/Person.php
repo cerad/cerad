@@ -289,4 +289,23 @@ class Person extends BaseEntity
         $this->setName($name);
         return $this;
    }
+   /* ==========================================================
+    * In many cases we are only interested on one league
+    * Cleverly call this leaguex
+    */
+   public function setLeaguex($league)
+   {
+       $this->leaguex = $league;
+   }
+   public function getLeaguex($autoCreate = true)
+   {
+       if ($this->leaguex) return $this->leaguex;
+       
+       if (!$autoCreate) return null;
+       
+       $this->leaguex = new League();
+       
+       return $this->leaguex;
+       
+   }
 }

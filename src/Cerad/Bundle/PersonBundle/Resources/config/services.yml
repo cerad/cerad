@@ -25,6 +25,9 @@ services:
             
     cerad_person.ayso_volunteer_id.datatransformer:
         class: Cerad\Bundle\PersonBundle\DataTransformer\AYSO\VolunteerIDTransformer
+        
+    cerad_person.phone.datatransformer:
+        class: Cerad\Bundle\PersonBundle\DataTransformer\PhoneTransformer
  
 # =======================================================
 # Form types
@@ -88,3 +91,10 @@ services:
         class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RefereeCertFormType
         tags:
             - { name: form.type, alias: cerad_person_ayso_referee_cert }
+            
+    cerad_person.twig_extension:
+        class:  Cerad\Bundle\PersonBundle\Twig\PersonTwigExtension
+        arguments:  
+          - '@cerad_person.phone.datatransformer'
+        tags:
+          - { name: twig.extension }

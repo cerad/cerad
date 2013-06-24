@@ -1,0 +1,36 @@
+<table id="cerad_person_list" border="1" style="max-widthx: 850px;">
+<thead>
+    <tr><th colspan="20">People - Count: {{ persons | length }}</th></tr>
+    <tr>
+        <th>GUID</th>
+        <th>Name</th>
+        <th>Email/Phone/Gender Age</th>
+        <th>League Info</th>
+        <th>Cert Info</th>
+    </tr>
+</thead>
+<tbody>
+    {% for person in persons %}
+    <tr>
+        <td><a href={{ path('cerad_person_edit', { id: person.id} )}}>Edit</a></td>
+        <td>{{ person.lastName  }}, {{ person.firstName }}</td>
+        <td>{{ person.email     }}<br />
+            {{ person.phone | cerad_person_phone }}<br />
+            {{ person.gender    }} {{ person.age }}</td>
+        <td>
+            {% for personLeague in person.leagues %}
+                {{ personLeague.identifier    }}<br />
+                MY{{ personLeague.memYear }}<br />
+                Safe Haven {{ personLeague.cvpa      }}<br />
+                {{ personLeague.leaguex.desc2 }}
+            {% endfor %}
+        </td>
+        <td>
+            {% for personCert in person.certs %}
+                {{ personCert.fed }} {{ personCert.role       }}: {{ personCert.badge      }}
+            {% endfor %}
+        </td>
+   </tr>
+    {% endfor %}
+</tbody>        
+</table>

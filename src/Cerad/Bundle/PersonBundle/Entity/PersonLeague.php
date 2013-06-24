@@ -34,7 +34,7 @@ class PersonLeague extends BaseEntity
     protected $role;       // Referee, Assessor etc
     protected $identifier; // ayso id, ussf etc, not sure if it should be unique or not
     
-    protected $league;
+    protected $league;     // Should be leagueId or leagueKey
     protected $person;
 
     protected $cvpa;       // Child training
@@ -57,12 +57,13 @@ class PersonLeague extends BaseEntity
     /* =================================================================
      * Accessors
      */
-    public function getId     () { return $this->id;      }
-    public function getFed    () { return $this->fed;     }
-    public function getRole   () { return $this->role;    }
-    public function getCvpa   () { return $this->cvpa;    }
-    public function getPerson () { return $this->person;  }
-    public function getLeague () { return $this->league;  }
+    public function getId      () { return $this->id;      }
+    public function getFed     () { return $this->fed;     }
+    public function getRole    () { return $this->role;    }
+    public function getCvpa    () { return $this->cvpa;    }
+    public function getPerson  () { return $this->person;  }
+    public function getLeague  () { return $this->league;  }
+    public function getLeagueId() { return $this->league;  }
     
     public function getMemId     () { return $this->memId;  }
     public function getMemYear   () { return $this->memYear;  }
@@ -119,6 +120,27 @@ class PersonLeague extends BaseEntity
         $item->setRole(self::RolePlayer);
         
         return $item;
+    }
+    /* ==========================================================
+     * leaguex is the actual league object
+     * Set via some external means
+     */
+    protected $leaguex;
+    
+    public function setLeaguex($league)
+    {
+       $this->leaguex = $league;
+    }
+    public function getLeaguex($autoCreate = true)
+    {
+        if ($this->leaguex) return $this->leaguex;
+       
+        if (!$autoCreate) return null;
+       
+        $this->leaguex = new League(); // Fake League
+       
+        return $this->leaguex;
+       
     }
     /* ====================================================================
      * Keep going bavk and forth on identifier

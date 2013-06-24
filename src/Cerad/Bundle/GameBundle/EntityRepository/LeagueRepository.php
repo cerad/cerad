@@ -23,6 +23,26 @@ class LeagueRepository extends BaseRepository
         
         $conn->executeUpdate('ALTER TABLE league AUTO_INCREMENT = 1;');
     }
-
+    /* ==============================================================
+     * Connect an actual league object to a itemLeague relation
+     */
+    public function connectLeagues($items)
+    {
+        foreach($items as $item)
+        {
+            foreach($item->getLeagues() as $itemLeague)
+            {
+                // Confusing notation?
+                $leagueId = $itemLeague->getLeagueId();
+                
+                // League Object
+                $league = null;
+                if ( $leagueId) $league = $this->find($leagueId);
+                if (!$league)   $league = $this->newLeague();
+            
+                $itemLeague->setLeaguex($league);
+            }
+        }
+    }
 }
 ?>
