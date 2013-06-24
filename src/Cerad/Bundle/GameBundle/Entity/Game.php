@@ -14,7 +14,7 @@ class Game extends BaseEntity
     protected $id;
     
     protected $num;   // Unique within project
-    protected $role;
+    protected $role = self::RoleGame;
     protected $pool;  // For computing standings
     protected $link;  // Maybe to link crews?
     
@@ -26,7 +26,7 @@ class Game extends BaseEntity
     protected $level;
     protected $field;
     
-    protected $status;   // Eventually want a few more workflow fields
+    protected $status = 'Normal';   // Eventually want a few more workflow fields
     
     protected $rules;    // Game specific rules
     protected $billTo;

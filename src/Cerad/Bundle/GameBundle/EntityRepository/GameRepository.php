@@ -17,12 +17,25 @@ class GameRepository extends BaseRepository
     public function getTeamReportClassName() { return 'Cerad\Bundle\GameBundle\Entity\TeamReport'; }
    
     // Simple object new
-    public function newGame()       { return new $this->getGameClassName      (); }
+    public function newGame()       
+    { 
+        // Used to work but no more?  php version?
+        // return new $this->getGameClassName(); 
+        $className = $this->getGameClassName();
+        return new $className;
+    }
     public function newGameReport() { return new $this->getGameReportClassName(); }
     
-    public function newGamePerson() { return new $this->getGamePersonClassName(); }
-   
-    public function newGameTeam()       { return new $this->getGameTeamClassName  (); }
+    public function newGamePerson()       
+    { 
+        $className = $this->getGamePersonClassName(); 
+        return new $className(); 
+    }
+   public function newGameTeam()       
+    { 
+        $className = $this->getGameTeamClassName(); 
+        return new $className(); 
+    }
     public function newGameTeamReport() { return new $this->getGameTeamReportClassName  (); }
     
     public function newTeam()       { return new $this->getTeamClassName      (); }

@@ -32,7 +32,7 @@ class GameTeam extends BaseEntity
     protected $score;
     protected $conduct;  // Misconduct etc, sendoff caution sportsmanship
     
-    protected $status;   // Really need? Maybe for workflow
+    protected $status = 'Normal';   // Really need? Maybe for workflow
     protected $report;
     
     public function getId()      { return $this->id;      }
@@ -48,7 +48,6 @@ class GameTeam extends BaseEntity
     public function getConduct() { return $this->conduct; }
     
     public function setSlot    ($value) { $this->onPropertySet('slot',    $value); }
-    public function setRole    ($value) { $this->onPropertySet('role',    $value); }
     public function setGame    ($value) { $this->onPropertySet('game',    $value); }
     public function setTeam    ($value) { $this->onPropertySet('team',    $value); }
     public function setName    ($value) { $this->onPropertySet('name',    $value); }
@@ -82,6 +81,21 @@ class GameTeam extends BaseEntity
         
         return $item;
     }
+    /* =========================================
+     * Tie some roles to slots
+     */
+    public function setRole($role) 
+    { 
+        switch($role)
+        {
+            case 'Home': $slot = 1; break;
+            case 'Away': $slot = 2; break;
+            default: $slot = 9;
+        }
+        $this->onPropertySet('role',$role); 
+        $this->onPropertySet('slot',$slot); 
+    }
+ 
     /* =========================================
      * Game report information is stored in the conduct array
      */
