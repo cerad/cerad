@@ -29,6 +29,8 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         $this->levelManager   = $manager->levelManager;
         $this->projectManager = $manager->projectManager;
         
+        $this->gameClassName = $this->gameManager->getGameClassName();
+        
     }
     public function getSubscribedEvents()
     {
@@ -47,14 +49,22 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         else
         {
             // Clearing after flushing reduces memory consumption
-            $this->levelManager->flush();
-            $this->projectManager->flush();
+            //$this->levelManager->flush();
+            //$this->projectManager->flush();
             
             $this->gameManager->flush();
+            
+            /* ===================================
+             * Need to revisit, slight decrease in memory but increase in time
+             * For clean reload 
+             * With teams the memory decrease is better
+             */
             $this->gameManager->clear(); // This causes issues with my cache when creating new projects
-//            $this->fieldManager->clearCache();
-//            $this->levelManager->clearCache();
-//            $this->projectManager->clearCache();
+            
+            $this->fieldManager  ->clearCache();
+            $this->levelManager  ->clearCache();
+            $this->projectManager->clearCache();
+            
             $this->flushCount = 0;
         }
     }
@@ -75,7 +85,7 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
             $className = get_class($entity);
             switch($className)
             {
-                case 'Cerad\Bundle\GameBundle\Entity\Game': $results->totalGamesInserted++; break;
+                case $this->gameClassName: $results->totalGamesInserted++; break;
             }
         }
         foreach ($uow->getScheduledEntityUpdates() AS $entity) 

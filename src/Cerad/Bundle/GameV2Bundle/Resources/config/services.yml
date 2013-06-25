@@ -28,3 +28,10 @@ services:
         factory_method:  'getRepository'
         arguments:  
             - 'Cerad\Bundle\GameV2Bundle\Entity\Field'
+            
+    cerad_gamev2.game.manager:
+        class:  Cerad\Bundle\GameBundleV2\EntityRepository\GameRepository
+        factory_service: 'cerad_gamev2.entity_manager'
+        factory_method:  'getRepository'
+        arguments:  
+            - 'Cerad\Bundle\GameV2Bundle\Entity\Game'

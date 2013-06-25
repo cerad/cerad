@@ -21,7 +21,9 @@ class ScheduleManager
     /* =================================================================
      * Still not sure about having individual managers etc
      * Do some traffic directing here
-     */
+     * 
+     * Get rid of all this
+     *
     public function loadFieldChoices($params = array())
     {
         return $this->fieldManager->loadFieldChoices($params);
@@ -53,6 +55,6 @@ class ScheduleManager
     public function loadGames($params = array())
     {
         return $this->gameManager->loadGames($params);
-    }
+    }*/
 }
 ?>

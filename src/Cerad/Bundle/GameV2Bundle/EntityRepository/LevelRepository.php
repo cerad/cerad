@@ -24,8 +24,6 @@ class LevelRepository extends BaseRepository
     /* ------------------------------------
      * Loads existing level or optionally creates a new one
      */
-    protected $cache;
-    
     public function loadLevel($sport,$domain,$domainSub,$name,$autoCreate = true)
     {
         /* ==============================================

@@ -1,0 +1,74 @@
+Cerad\Bundle\GameV2Bundle\Entity\GamePerson:
+    type:  entity
+    table: game_person
+    
+    changeTrackingPolicy: NOTIFY
+
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    oneToMany:
+    
+    manyToOne:
+          
+        game:
+            targetEntity: Game
+            inversedBy:   persons
+            nullable:     false
+      
+    fields:
+            
+        slot:
+            column:   slot
+            type:     integer
+            nullable: false
+            
+        role:
+            column:   role
+            type:     string
+            length:   20
+            nullable: false
+            
+        name:
+            column:   name
+            type:     string
+            length:   60
+            nullable: true
+            
+        email:
+            column:   email
+            type:     string
+            length:   80
+            nullable: true
+            
+        phone:
+            column:   phone
+            type:     string
+            length:   20
+            nullable: true
+            
+        badge:
+            column:   badge
+            type:     string
+            length:   20
+            nullable: true
+            
+        league:
+            column:   league
+            type:     string
+            length:   40
+            nullable: true
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: false
+            
+        person:
+            column:   person_id
+            type:     string
+            length:   40
+            nullable: true

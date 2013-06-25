@@ -16,6 +16,10 @@ class BaseRepository extends EntityRepository
     public function getDatabaseConnection() { return $this->_em->getConnection(); }
     public function getEventManager      () { return $this->_em->getEventManager(); }
 
+    protected $cache;
+    
+    public function clearCache() { $this->cache = null; }
+    
     /* =====================================================
      * Reinitialize the entire database
      */

@@ -14,7 +14,7 @@ class ImportScheduleSlotXML extends ImportScheduleBase
             // int type casting is important
             $team->setScore((int)$score);
         }
-        $game->addTeam($team);
+        //$game->addTeam($team);
         
         return $team;
     }
@@ -46,14 +46,6 @@ class ImportScheduleSlotXML extends ImportScheduleBase
         }
         $field = $this->fieldManager->loadField($this->domain,$domainSub,$this->season,$name,true);
         
-        return;
-        
-        $params['venue']    = $row['Site'];
-        $params['venueSub'] = $row['Subsite'];
-        unset($params['name']);
-        
-        $field = $this->fieldManager->processEntity($params, $this->persistFlag);
-     
         // Typecast is important because the property change stuff is type specific
         $num = (int)$row['GameID'];
                 
@@ -71,11 +63,15 @@ class ImportScheduleSlotXML extends ImportScheduleBase
             }
             $this->newGames[$num] = true;
             
-            $game = $gameManager->createGame();
+            $game = $gameManager->newGame();
+            $game->setNum($num);
+            
+            $gameManager->createGameTeam($game,'Home');
+            $gameManager->createGameTeam($game,'Away');
+            
             $this->persist($game);
         }
         // Could do an array thing here
-        $game->setNum    ($num);
         $game->setProject($project);
         $game->setLevel  ($level);
         $game->setField  ($field);
@@ -91,12 +87,12 @@ class ImportScheduleSlotXML extends ImportScheduleBase
         $gameReportStatus = $row['Report_Status'];
         
         $this->processGameTeam(
-                $gameManager->createGameTeamHome(),
+                $game->getHomeTeam(),
                 $game,$gameReportStatus,
                 $row['Home_Team'],$row['Home_Score']);
         
         $this->processGameTeam(
-                $gameManager->createGameTeamAway(),
+                $game->getAwayTeam(),
                 $game,$gameReportStatus,
                 $row['Away_Team'],$row['Away_Score']);
         
@@ -105,10 +101,23 @@ class ImportScheduleSlotXML extends ImportScheduleBase
          */
         $slots  = $row['Slots_Total'];
         $slotsx = $game->getPersonSlotCount();
-        if (!$slotsx && ($slotsx != $slots))
+        if ($slotsx > $slots)
         {
-            // Changed crew, just start over
+            /* ========================================
+             * Does not happen very often
+             * Need a $game->removePersonForSlot
+             * Easier to just clear everything
+             */
+            for($slot = 1; $slot <= $slotsx; $slots++)
+            {
+                $person = $game->getPersonForSlot($slot);
+                $gameManager->remove($person);
+            }
             $game->resetPersons();
+            
+            // Don't think this does what I want, need to delete extra slots
+            //echo sprintf("#Slots changed: %d %d %d\n",$num,$slots,$slotsx);
+            //die();
         }
         for($slot = 1; $slot <= $slots; $slot++)
         {
@@ -126,8 +135,7 @@ class ImportScheduleSlotXML extends ImportScheduleBase
             $person = $game->getPersonForSlot($slot);
             if (!$person)
             {
-                $person = $gameManager->createGamePerson(array('slot' => $slot, 'role' => $role, 'name' => $name));
-                $game->addPerson($person);
+                $gameManager->createGamePerson($game,$role,$slot,$name);
             }
             else
             {
@@ -235,7 +243,8 @@ class ImportScheduleSlotXML extends ImportScheduleBase
      * [sport]  => Soccer
 )    *
     */
-    protected $map = array
+    // map is not used, consider it documentation
+    protected $mapx = array
     (
         'num'           => 'GameID',
         'dtBeg'         => 'From_Date',    // 2013-03-08T16:30:00
