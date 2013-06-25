@@ -35,7 +35,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Project:
         domainSub:
             column:   domain_sub
             type:     string
-            length:   20
+            length:   40
             nullable: false
             
         title:

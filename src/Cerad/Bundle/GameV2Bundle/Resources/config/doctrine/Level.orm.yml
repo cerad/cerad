@@ -1,0 +1,73 @@
+Cerad\Bundle\GameV2Bundle\Entity\Level:
+  
+    type:  entity
+    table: level
+    
+    repositoryClass: Cerad\Bundle\GameV2Bundle\EntityRepository\LevelRepository
+    
+    changeTrackingPolicy: NOTIFY
+
+# SOCCERALYSLALIGABIRMINGHAMADULTAMATEURSD1ADULTS
+
+    id:
+        id:
+            type:   string
+            length: 80
+            generator: { strategy: NONE }
+    
+    fields:
+      
+        name:
+            column:   name
+            type:     string
+            length:   40
+            nullable: false
+            
+        program:
+            column:   program
+            type:     string
+            length:   20
+            nullable: true
+            
+        age:
+            column:   age
+            type:     string
+            length:   8
+            nullable: true
+            
+        sex:
+            column:   sex
+            type:     string
+            length:   8
+            nullable: true
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: true
+                     
+        link:
+            column:   link
+            type:     integer
+            nullable: true
+            
+        sport:
+            column:   sport
+            type:     string
+            length:   20
+            nullable: false
+            
+        domain:
+            column:   domain
+            type:     string
+            length:   20
+            nullable: false
+            
+# LaLiga Birmingham Adult Amateurs        
+        domainSub:
+            column:   domain_sub
+            type:     string
+            length:   40
+            nullable: false
+ 

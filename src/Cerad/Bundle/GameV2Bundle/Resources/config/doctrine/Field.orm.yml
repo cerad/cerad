@@ -1,0 +1,95 @@
+Cerad\Bundle\GameV2Bundle\Entity\Field:
+  
+    type:  entity
+    table: field
+    
+    repositoryClass: Cerad\Bundle\GameV2Bundle\EntityRepository\FieldRepository
+    
+    changeTrackingPolicy: NOTIFY
+        
+    id:
+        id:
+            type:   string
+            length: 80
+            generator: { strategy: NONE }
+    
+    fields:
+            
+        venue:
+            column:   venue
+            type:     string
+            length:   40
+            nullable: true
+            
+        name:
+            column:   name
+            type:     string
+            length:   40
+            nullable: false
+            
+        desc:
+            column:   descx
+            type:     string
+            nullable: true
+        
+        checkConflicts:
+            column: check_conflicts
+            type:   boolean
+            
+        url:
+            column:   url
+            type:     string
+            nullable: true
+            
+        latitude:
+            column:   latitude
+            type:     string
+            length:   32
+            nullable: true
+            
+        longitude:
+            column:   longitude
+            type:     string
+            length:   32
+            nullable: true
+                    
+        linkOverlap:
+            column:   link_overlap
+            type:     integer
+            nullable: true
+            
+        linkField:
+            column:   link_field
+            type:     integer
+            nullable: true
+            
+        linkOverlap:
+            column:   link_overlap
+            type:     integer
+            nullable: true
+
+        season:
+            column:   season
+            type:     string
+            length:   20
+            nullable: false
+            
+        domain:
+            column:   domain
+            type:     string
+            length:   20
+            nullable: false
+            
+        domainSub:
+            column:   domain_sub
+            type:     string
+            length:   40
+            nullable: true
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: true
+
+ 

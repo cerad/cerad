@@ -47,7 +47,9 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         else
         {
             // Clearing after flushing reduces memory consumption
+            $this->levelManager->flush();
             $this->projectManager->flush();
+            
             $this->gameManager->flush();
             $this->gameManager->clear(); // This causes issues with my cache when creating new projects
 //            $this->fieldManager->clearCache();

@@ -4,8 +4,8 @@ services:
         class:  Cerad\Bundle\ArbiterBundle\Schedule\ScheduleManager
         arguments:  
             - '@cerad_gamev2.project.manager'
-            - '@cerad.level.repository'
-            - '@cerad.field.repository'
+            - '@cerad_gamev2.level.manager'
+            - '@cerad_gamev2.field.manager'
             - '@cerad.game.repository'
 
     cerad_arbiter.schedule.import.master:

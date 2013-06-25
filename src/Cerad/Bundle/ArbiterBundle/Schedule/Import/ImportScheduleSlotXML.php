@@ -24,13 +24,29 @@ class ImportScheduleSlotXML extends ImportScheduleBase
     
     protected function processRow($row)
     {
-        // The Project     
-        $project = $this->projectManager->loadProject($this->sport,$this->season,$this->domain,$row['Sport'],true);
-        return;
+        // The Project
+        $domainSub = $row['Sport'];
+        $project = $this->projectManager->loadProject($this->sport,$this->season,$this->domain,$domainSub,true);
         
         // The Level
-        $params['name'] = $row['Level'];
-        $level = $this->levelManager->processEntity($params,$this->persistFlag);
+        $level = $this->levelManager->loadLevel($this->sport,$this->domain,$domainSub,$row['Level'],true);
+        
+        // The field
+        $name    = $row['Site'];
+        $siteSub = $row['Subsite'];
+        $venue   = null;
+        
+        if ($siteSub)
+        {
+            $venue = $name;
+            $name .= ' '  . $siteSub; // Need more thought here
+            
+            // SS #Merrimack# $MM01S$
+            // echo sprintf("SS #%s# $%s$\n",$name,$siteSub);
+        }
+        $field = $this->fieldManager->loadField($this->domain,$domainSub,$this->season,$name,true);
+        
+        return;
         
         $params['venue']    = $row['Site'];
         $params['venueSub'] = $row['Subsite'];
