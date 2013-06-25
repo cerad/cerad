@@ -3,7 +3,7 @@ services:
     cerad_arbiter.schedule.manager:
         class:  Cerad\Bundle\ArbiterBundle\Schedule\ScheduleManager
         arguments:  
-            - '@cerad.project.repository'
+            - '@cerad_gamev2.project.manager'
             - '@cerad.level.repository'
             - '@cerad.field.repository'
             - '@cerad.game.repository'

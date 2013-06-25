@@ -1,0 +1,18 @@
+services:
+  
+# ==============================================================
+#   Entity Managers
+# Have some dups because transitioning to different naming scheme
+    cerad_gamev2.entity_manager:
+        alias: doctrine.orm.gamesv2_entity_manager
+        
+# ==============================================================
+#   My Repositoriess
+    cerad_gamev2.project.manager:
+        class:  Cerad\Bundle\GameBundleV2\EntityRepository\ProjectRepository
+        factory_service: 'cerad_gamev2.entity_manager'
+        factory_method:  'getRepository'
+        arguments:  
+            - 'Cerad\Bundle\GameV2Bundle\Entity\Project'
+            
+  

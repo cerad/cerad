@@ -1,0 +1,62 @@
+Cerad\Bundle\GameV2Bundle\Entity\Project:
+  
+    type:  entity
+    table: project
+    
+    repositoryClass: Cerad\Bundle\GameV2Bundle\EntityRepository\ProjectRepository
+    
+    changeTrackingPolicy: NOTIFY
+        
+    id:
+        id:
+            type:   string
+            length: 80
+            generator: { strategy: NONE }
+    
+    fields:
+        season:
+            column:   season
+            type:     string
+            length:   20
+            nullable: false
+            
+        sport:
+            column:   sport
+            type:     string
+            length:   20
+            nullable: false
+            
+        domain:
+            column:   domain
+            type:     string
+            length:   20
+            nullable: false
+            
+        domainSub:
+            column:   domain_sub
+            type:     string
+            length:   20
+            nullable: false
+            
+        title:
+            column:   title
+            type:     string
+            length:   60
+            nullable: true
+            
+        desc:
+            column:   descx
+            type:     string
+            length:   80
+            nullable: true
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: true
+                     
+        data:
+            column:   datax
+            type:     json_array
+            nullable: true

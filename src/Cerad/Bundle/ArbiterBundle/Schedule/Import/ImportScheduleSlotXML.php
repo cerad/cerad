@@ -24,16 +24,11 @@ class ImportScheduleSlotXML extends ImportScheduleBase
     
     protected function processRow($row)
     {
-        // Trying to avoid creating multiple arrays for each row
-        $params = array(
-            'season'    => $this->params['season'],
-            'sport'     => $this->params['sport'], 
-            'domain'    => $this->params['domain'],
-            'domainSub' => $row         ['Sport'],
-        );
-        // Some basic info      
-        $project = $this->projectManager->processEntity($params,$this->persistFlag);
-     
+        // The Project     
+        $project = $this->projectManager->loadProject($this->sport,$this->season,$this->domain,$row['Sport'],true);
+        return;
+        
+        // The Level
         $params['name'] = $row['Level'];
         $level = $this->levelManager->processEntity($params,$this->persistFlag);
         
@@ -133,7 +128,11 @@ class ImportScheduleSlotXML extends ImportScheduleBase
      */
     public function importFile($params,$reader = null)
     {
+        // Stash some parameters
         $this->params = $params;
+        $this->sport  = $params['sport'];
+        $this->season = $params['season'];
+        $this->domain = $params['domain'];
         
         if (!$reader) throw new \Exception('ImportScheduleSlots with no xml reader');
        
@@ -146,7 +145,7 @@ class ImportScheduleSlotXML extends ImportScheduleBase
         $this->results->totalGameCount = 0;
         
         if ($params['output'] == 'Post') $this->persistFlag = true;
-        
+
         // Kind of screw but oh well
         while ($reader->read() && $reader->name !== 'Detail');
         
@@ -157,13 +156,6 @@ class ImportScheduleSlotXML extends ImportScheduleBase
             { 
                 $row[$reader->name] = $reader->value;
             }
-            /*
-            $row = $params;
-            foreach($this->map as $key => $attr)
-            {
-                $row[$key] = $reader->getAttribute($attr);
-            }
-            */
             $this->results->totalGamesCount++;
             $this->processRow($row);
             
