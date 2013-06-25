@@ -72,7 +72,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
             column:   season
             type:     string
             length:   20
-            nullable: false
+            nullable: true  # So season can be optional
             
         domain:
             column:   domain
@@ -84,7 +84,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
             column:   domain_sub
             type:     string
             length:   40
-            nullable: true
+            nullable: true # domainSub is also optional
             
         status:
             column:   status
