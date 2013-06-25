@@ -29,7 +29,9 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         $this->levelManager   = $manager->levelManager;
         $this->projectManager = $manager->projectManager;
         
-        $this->gameClassName = $this->gameManager->getGameClassName();
+        $this->gameClassName       = $this->gameManager->getGameClassName();
+        $this->gameTeamClassName   = $this->gameManager->getGameTeamClassName();
+        $this->gamePersonClassName = $this->gameManager->getGamePersonClassName();
         
     }
     public function getSubscribedEvents()
@@ -93,9 +95,9 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
             $className = get_class($entity);
             switch($className)
             {
-                case 'Cerad\Bundle\GameBundle\Entity\Game':       $results->totalGamesUpdated++;       break;
-                case 'Cerad\Bundle\GameBundle\Entity\GameTeam':   $results->totalGameTeamsUpdated++;   break;
-                case 'Cerad\Bundle\GameBundle\Entity\GamePerson': $results->totalGamePersonsUpdated++; break;
+                case $this->gameClassName:       $results->totalGamesUpdated++;       break;
+                case $this->gameTeamClassName:   $results->totalGameTeamsUpdated++;   break;
+                case $this->gamePersonClassName: $results->totalGamePersonsUpdated++; break;
             }
         }
         foreach ($uow->getScheduledEntityDeletions() AS $entity) 

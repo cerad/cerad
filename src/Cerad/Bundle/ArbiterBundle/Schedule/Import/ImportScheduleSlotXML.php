@@ -140,7 +140,8 @@ class ImportScheduleSlotXML extends ImportScheduleBase
             else
             {
                 $person->setRole($role);
-                $person->setName($name);    
+                $person->setName($name);
+                $person->setStatus('Pending');
             }
         }
         $this->flush();
