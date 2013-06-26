@@ -3,35 +3,45 @@ services:
 # ==============================================================
 #   Entity Managers
 # Have some dups because transitioning to different naming scheme
-    cerad_gamev2.entity_manager:
-        alias: doctrine.orm.gamesv2_entity_manager
+  cerad_gamev2.entity_manager:
+    alias: doctrine.orm.gamesv2_entity_manager
         
 # ==============================================================
 #   My Managers aka repos
-    cerad_gamev2.project.manager:
-        class:  Cerad\Bundle\GameBundleV2\EntityRepository\ProjectRepository
-        factory_service: 'cerad_gamev2.entity_manager'
-        factory_method:  'getRepository'
-        arguments:  
-            - 'Cerad\Bundle\GameV2Bundle\Entity\Project'
+  cerad_gamev2.project.manager:
+    class:  Cerad\Bundle\GameBundleV2\EntityRepository\ProjectRepository
+    factory_service: 'cerad_gamev2.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\GameV2Bundle\Entity\Project'
             
-    cerad_gamev2.level.manager:
-        class:  Cerad\Bundle\GameBundleV2\EntityRepository\LevelRepository
-        factory_service: 'cerad_gamev2.entity_manager'
-        factory_method:  'getRepository'
-        arguments:  
-            - 'Cerad\Bundle\GameV2Bundle\Entity\Level'
+  cerad_gamev2.level.manager:
+    class:  Cerad\Bundle\GameBundleV2\EntityRepository\LevelRepository
+    factory_service: 'cerad_gamev2.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\GameV2Bundle\Entity\Level'
             
-    cerad_gamev2.field.manager:
-        class:  Cerad\Bundle\GameBundleV2\EntityRepository\FieldRepository
-        factory_service: 'cerad_gamev2.entity_manager'
-        factory_method:  'getRepository'
-        arguments:  
-            - 'Cerad\Bundle\GameV2Bundle\Entity\Field'
+  cerad_gamev2.field.manager:
+    class:  Cerad\Bundle\GameBundleV2\EntityRepository\FieldRepository
+    factory_service: 'cerad_gamev2.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\GameV2Bundle\Entity\Field'
             
-    cerad_gamev2.game.manager:
-        class:  Cerad\Bundle\GameBundleV2\EntityRepository\GameRepository
-        factory_service: 'cerad_gamev2.entity_manager'
-        factory_method:  'getRepository'
-        arguments:  
-            - 'Cerad\Bundle\GameV2Bundle\Entity\Game'
+  cerad_gamev2.game.manager:
+    class:  Cerad\Bundle\GameBundleV2\EntityRepository\GameRepository
+    factory_service: 'cerad_gamev2.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\GameV2Bundle\Entity\Game'
+
+# ======================================================
+# Some forms
+#
+  cerad_gamev2.schedule.master.search.formtype:
+    class:  Cerad\Bundle\GameV2Bundle\Form\Type\Schedule\Master\SearchFormType
+    arguments:  
+      - '@cerad_gamev2.project.manager'
+    tags:
+      - { name: form.type, alias: cerad_gamev2_schedule_master_search }

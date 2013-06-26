@@ -2,6 +2,7 @@
 namespace Cerad\Bundle\GameV2Bundle\EntityRepository;
 
 use Doctrine\ORM\EntityRepository;
+use Cerad\Bundle\GameBundle\Doctrine\QueryBuilder;
 
 class BaseRepository extends EntityRepository
 {
@@ -15,6 +16,17 @@ class BaseRepository extends EntityRepository
     
     public function getDatabaseConnection() { return $this->_em->getConnection(); }
     public function getEventManager      () { return $this->_em->getEventManager(); }
+    
+    /* ==========================================================
+     * This also comes under the heading of hokay but
+     * the convience methods in my query buider really reduces code
+     */
+    public function createQueryBuilder($alias)
+    {
+        $qb = new QueryBuilder($this->_em);
+        $qb->from($this->_entityName, $alias);
+        return $qb;
+    }
 
     protected $cache;
     

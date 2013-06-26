@@ -167,7 +167,7 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         $project->setDomain   ($domain);
         $project->setDomainSub($domainSub);
         
-        $name = sprintf('%s %s %s %s %s',$source,$sport,$season,$domain,$domainSub);
+        $name = sprintf('%s %s %s %-8s %s',$source,$sport,$season,$domain,$domainSub);
         $project->setName($name);
         
         $identifier = $manager->newProjectIdentifier();

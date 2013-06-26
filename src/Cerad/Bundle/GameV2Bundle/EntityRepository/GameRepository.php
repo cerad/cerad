@@ -193,11 +193,12 @@ class GameRepository extends BaseRepository
         $qb->andWhereEq('game.status',    $statuses);
         $qb->andWhereEq('game.pool',      $gameTypes); // Hack, PP SF etc
         
+        $qb->andWhereEq('gameProject.id',    $projects);
         $qb->andWhereEq('gameProject.season',$seasons);
-        $qb->andWhereEq('gameProject.hash',  $projects);
+        $qb->andWhereEq('gameProject.domain',$domains);
         
         $qb->andWhereEq('gameTeamLevel.sport',    $sports);
-        $qb->andWhereEq('gameTeamLevel.domain',   $domains);
+      //$qb->andWhereEq('gameTeamLevel.domain',   $domains);
         $qb->andWhereEq('gameTeamLevel.domainSub',$domainSubs);
         $qb->andWhereEq('gameTeamLevel.name',     $levels);
         $qb->andWhereEq('gameTeamLevel.age',      $ages);
@@ -224,6 +225,7 @@ class GameRepository extends BaseRepository
      */
     public function loadGamesForIds($gameIds = array())
     {
+        print_r($gameIds); die('gameId');
         if (!count($gameIds)) return array();
         
         return $this->findBy(array('id' => $gameIds),array('dtBeg' => 'ASC'));
@@ -255,14 +257,20 @@ class GameRepository extends BaseRepository
         return $games;        
     }
 
-    public function loadGames($params = array())
+    public function loadGames($params = array(),$limit = null,$offset=null)
     {
         // Grab games of interest
         $gameIds = $this->loadGameIds($params);
+        if (!count($gameIds)) return array();
         
       //$gameIds = array(1,2,3,4,5);
-        
-        return $this->loadGamesForIds($gameIds);
+      //
+        // For the moment, can only sort on game fields
+        // Using qb will be easy enough but want to do some more research
+        $sortBy = array('dtBeg' => 'ASC','gameField.name' => 'ASC');
+        $sortBy = array('dtBeg' => 'ASC');
+       
+        return $this->findBy(array('id' => $gameIds),$sortBy,$limit,$offset);
     }
 }
 ?>

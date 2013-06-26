@@ -1,0 +1,6 @@
+
+cerad_gamev2_schedule_master_list:
+  path: /schedule/master.{_format}
+  defaults:  { _controller: CeradGameV2Bundle:Schedule/Master:list, _format: html }
+  requirements:
+    _format:  html|csv|xls|pdf

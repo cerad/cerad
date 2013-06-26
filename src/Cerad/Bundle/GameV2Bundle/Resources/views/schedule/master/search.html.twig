@@ -1,0 +1,32 @@
+{% if searchForm is defined  %}
+{% set form = searchForm     %}
+<form 
+    action="{{ path('cerad_gamev2_schedule_master_list') }}" 
+    method="post" {{ form_enctype(form) }}
+    style="border: none;"
+    class="zayso_schedule_search_form"
+>
+<table border="1" style="width: 800px;">
+<tr>
+    <td>
+        <table>
+            <tr><td>{{ form_widget(form.domains)  }}</td></tr>
+            <tr><td>{{ form_widget(form.seasons)  }}</td></tr>
+        </table>
+    </td><td>
+        {{ form_widget(form.projects) }}
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="{{ path('cerad_gamev2_schedule_master_list', { _format: 'xls'}) }}">Spreadsheet</a>
+        <a href="{{ path('cerad_gamev2_schedule_master_list', { _format: 'csv'}) }}">Text File</a>
+    </td>
+    <td align="right">
+        <input type="submit" name="schSearchSubmit" value="Search" />
+    </td>
+</tr>
+</table>
+<div style="display: none;">{{ form_rest(form) }}</div>
+</form>
+{% endif %}
