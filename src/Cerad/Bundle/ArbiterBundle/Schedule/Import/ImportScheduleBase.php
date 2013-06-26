@@ -17,6 +17,10 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
 
     // Caching
     protected $projects;
+    protected $fields;
+    protected $levels;
+    protected $teams;
+    protected $venues;
     
     protected $results;
     protected $gameHasChanged;
@@ -67,8 +71,9 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
             $this->gameManager->clear(); // This causes issues with my cache when creating new projects
             
             $this->projects = null;
+            $this->fields   = null;
             
-            $this->fieldManager  ->clearCache();
+          //$this->fieldManager  ->clearCache();
             $this->levelManager  ->clearCache();
           //$this->projectManager->clearCache();
             
@@ -144,7 +149,7 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         die();
     }
     /* ========================================
-     * Generic Project Caching
+     * Project Caching
      */
     protected function getProject($source,$sport,$season,$domain,$domainSub)
     {
@@ -179,6 +184,43 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         $this->projects[$hash] = $project;
         
         return $project;
+    }
+    /* ========================================
+     * Field Caching
+     */
+    protected function getField($project,$name)
+    {
+        $manager = $this->fieldManager;
+        $hash = $manager->hash(array($project->getSource(),$project->getDomain(),$name));
+        
+        if (isset($this->fields[$hash])) return $this->fields[$hash];
+        
+        $item = $manager->findFieldByIdentifierValue($hash);
+        if ($item)
+        {
+            $this->fields[$hash] = $item;
+            return $item;
+        }
+        $item = $manager->newField();
+        
+        //$item->setSport    ($sport);
+        //$item->setSource   ($source);
+        //$item->setSeason   ($season);
+        //$item->setDomain   ($domain);
+        //$item->setDomainSub($domainSub);
+        //$name = sprintf('%s %s %s %-8s %s',$source,$sport,$season,$domain,$domainSub);
+        
+        $item->setName($name);
+        
+        $identifier = $manager->newFieldIdentifier();
+        $identifier->setSource ($project->getSource());
+        $identifier->setValue  ($hash);
+        $item->addIdentifier($identifier);
+        
+        $manager->persist($item);
+        $this->fields[$hash] = $item;
+        
+        return $item;
     }
 }
 ?>

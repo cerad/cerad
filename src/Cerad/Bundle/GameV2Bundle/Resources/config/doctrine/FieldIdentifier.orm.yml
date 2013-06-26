@@ -1,0 +1,10 @@
+Cerad\Bundle\GameV2Bundle\Entity\FieldIdentifier:
+  
+    type:  entity
+    table: field_identifier
+                
+    manyToOne:
+        field:
+            targetEntity: Field
+            nullable:     false
+    

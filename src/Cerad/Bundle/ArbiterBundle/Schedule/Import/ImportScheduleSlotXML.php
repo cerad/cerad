@@ -45,7 +45,7 @@ class ImportScheduleSlotXML extends ImportScheduleBase
             // SS #Merrimack# $MM01S$
             // echo sprintf("SS #%s# $%s$\n",$name,$siteSub);
         }
-        $field = $this->fieldManager->loadField($this->domain,$domainSub,$this->season,$name,true);
+        $field = $this->getField($project,$name);
         
         // Typecast is important because the property change stuff is type specific
         $num = (int)$row['GameID'];

@@ -1,6 +1,8 @@
 <?php
 namespace Cerad\Bundle\GameV2Bundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /* =======================================================
  * In most cases, fields don't change much from year to year
  * 
@@ -28,6 +30,7 @@ namespace Cerad\Bundle\GameV2Bundle\Entity;
 class Field extends BaseEntity
 {
     protected $id;
+    protected $identifiers;
     
     protected $name;       // John Hunt 1
     protected $desc;
@@ -70,6 +73,8 @@ class Field extends BaseEntity
     public function getDomain()    { return $this->domain;    }
     public function getDomainSub() { return $this->domainSub; }
     
+    public function getIdentifiers() { return $this->identifiers; }
+    
     public function setId       ($value) { $this->onPropertySet('id',       $value); }
     public function setName     ($value) { $this->onPropertySet('name',     $value); }
     public function setDesc     ($value) { $this->onPropertySet('desc',     $value); }
@@ -91,29 +96,18 @@ class Field extends BaseEntity
     public function setDomain   ($value) { $this->onPropertySet('domain',   $value); }
     public function setDomainSub($value) { $this->onPropertySet('domainSub',$value); }
     
-    /* =======================================
-     * Hashing stuff
+    /* =========================================================
+     * 
      */
-    public function getHash () { return $this->hash;  }
-    
-    public function setHash($value = null) 
-    { 
-        if (!$value)
-        {
-            $paramsx = array($this->domain,$this->domainSub,$this->season,$this->name);
-            $value = self::hash($paramsx);
-        }
-        return $this->onPropertySet('hash',$value); 
-    }
-    
-    static function genHash($params)
+    public function __construct()
     {
-        // Deal with venue vs names
-        $params = self::processNameVenue($params);
-        
-        $paramsx = array($params['domain'],$params['domainSub'],$params['season'],$params['name']);
-        
-        return self::hash($paramsx);
+        $this->id          = $this->genGUID();
+        $this->identifiers = new ArrayCollection();
+    }
+    public function addIdentifier(FieldIdentifier $identifier)
+    {
+        $this->identifiers[] = $identifier;
+        $identifier->setField($this);
     }
     /* =========================================
      * Debugging

@@ -10,8 +10,15 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
     id:
         id:
             type:   string
-            length: 80
+            length: 32
             generator: { strategy: NONE }
+            
+    oneToMany:
+            
+      identifiers:
+        targetEntity: FieldIdentifier
+        mappedBy:     field
+        cascade:      ['all']
     
     fields:
             
@@ -78,7 +85,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
             column:   domain
             type:     string
             length:   20
-            nullable: false
+            nullable: true
             
         domainSub:
             column:   domain_sub
@@ -91,5 +98,3 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
             type:     string
             length:   20
             nullable: true
-
- 

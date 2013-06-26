@@ -87,14 +87,14 @@ class SearchFormTypeSubscriber implements EventSubscriberInterface
         array_unshift($domainChoices,'All Domains');
         $form->add($this->factory->createNamed('domains', 'choice', null, array(
             'label'           => 'Domains',
-            'required'        => false,
             'choices'         => $domainChoices,
+            'required'        => false,
             'expanded'        => false,
             'multiple'        => true,
             'disabled'        => false,
             'auto_initialize' => false,
-          //'empty_data'      => null,
-          //'empty_value'     => 'Help me',
+          //'empty_data'      => array(),
+          //'empty_value'     => 'Does Not Work',
             'attr' => array('size' => 4),
         )));
         return;
