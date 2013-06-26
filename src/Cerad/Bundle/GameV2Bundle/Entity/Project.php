@@ -2,6 +2,8 @@
 
 namespace Cerad\Bundle\GameV2Bundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /* ==============================================
  * A project hold specific season information
  * 
@@ -37,14 +39,16 @@ namespace Cerad\Bundle\GameV2Bundle\Entity;
 class Project extends BaseEntity
 {
     protected $id;       // GUID - Either user readable or hash
+    protected $identifiers;
     
-    protected $season;
     protected $sport;
+    protected $source;   // Arbiter, Zayso etc
+    protected $season;
     protected $domain;    // Primary Domain, a project can still be associated with other domains
     protected $domainSub; // Same for sub domains
     
-    protected $desc;      // Maybe title etc or just a general info block
-    protected $title;
+    protected $name;
+    protected $desc;
     protected $status = 'Active';
    
     protected $data;      // Additional attributes from a yml file
@@ -53,24 +57,28 @@ class Project extends BaseEntity
      * Getters/Setters
      */
     public function getId()        { return $this->id;     }
-    public function getData()      { return $this->data;   }
+    public function getName()      { return $this->name;   }
     public function getDesc()      { return $this->desc;   }
-    public function getTitle()     { return $this->title;  }
+    public function getData()      { return $this->data;  }
     public function getStatus()    { return $this->status; }
     
-    public function getSeason()    { return $this->season; }
     public function getSport ()    { return $this->sport;  }
+    public function getSource()    { return $this->source; }
+    public function getSeason()    { return $this->season; }
     public function getDomain()    { return $this->domain; }
     public function getDomainSub() { return $this->domainSub; }
     
+    public function getIdentifiers() { return $this->identifiers; }
+    
     public function setId       ($value) { $this->onPropertySet('id',       $value); }
-    public function setData     ($value) { $this->onPropertySet('data',     $value); }
+    public function setName     ($value) { $this->onPropertySet('name',     $value); }
     public function setDesc     ($value) { $this->onPropertySet('desc',     $value); }
-    public function setTitle    ($value) { $this->onPropertySet('title',    $value); }
+    public function setData     ($value) { $this->onPropertySet('data',     $value); }
     public function setStatus   ($value) { $this->onPropertySet('status',   $value); }
     
-    public function setSeason   ($value) { $this->onPropertySet('season',   $value); }
     public function setSport    ($value) { $this->onPropertySet('sport',    $value); }
+    public function setSource   ($value) { $this->onPropertySet('source',   $value); }
+    public function setSeason   ($value) { $this->onPropertySet('season',   $value); }
     public function setDomain   ($value) { $this->onPropertySet('domain',   $value); }
     public function setDomainSub($value) { $this->onPropertySet('domainSub',$value); }
     
@@ -80,6 +88,14 @@ class Project extends BaseEntity
     public function __construct($data = null)
     {
         $this->data = $data;
+        
+        $this->id = $this->genGUID();
+        $this->identifiers = new ArrayCollection();
+    }
+    public function addIdentifier(ProjectIdentifier $identifier)
+    {
+        $this->identifiers[] = $identifier;
+        $identifier->setProject($this);
     }
     /* =========================================
      * Debugging

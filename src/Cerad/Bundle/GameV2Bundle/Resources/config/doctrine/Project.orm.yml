@@ -6,42 +6,26 @@ Cerad\Bundle\GameV2Bundle\Entity\Project:
     repositoryClass: Cerad\Bundle\GameV2Bundle\EntityRepository\ProjectRepository
     
     changeTrackingPolicy: NOTIFY
+    
+    oneToMany:
+            
+      identifiers:
+        targetEntity: ProjectIdentifier
+        mappedBy:     project
+        cascade:      ['all']
         
     id:
         id:
             type:   string
-            length: 80
+            length: 32
             generator: { strategy: NONE }
     
     fields:
-        season:
-            column:   season
-            type:     string
-            length:   20
-            nullable: false
             
-        sport:
-            column:   sport
+        name:
+            column:   name
             type:     string
-            length:   20
-            nullable: false
-            
-        domain:
-            column:   domain
-            type:     string
-            length:   20
-            nullable: false
-            
-        domainSub:
-            column:   domain_sub
-            type:     string
-            length:   40
-            nullable: false
-            
-        title:
-            column:   title
-            type:     string
-            length:   60
+            length:   80
             nullable: true
             
         desc:
@@ -55,7 +39,32 @@ Cerad\Bundle\GameV2Bundle\Entity\Project:
             type:     string
             length:   20
             nullable: true
-                     
+            
+        sport:
+            type:     string
+            length:   20
+            nullable: false
+            
+        source:
+            type:     string
+            length:   20
+            nullable: false
+            
+        season:
+            type:     string
+            length:   20
+            nullable: false
+            
+        domain:
+            type:     string
+            length:   20
+            nullable: false
+            
+        domainSub:
+            type:     string
+            length:   40
+            nullable: false
+                      
         data:
             column:   datax
             type:     json_array

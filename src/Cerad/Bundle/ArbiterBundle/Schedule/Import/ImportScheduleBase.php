@@ -14,6 +14,9 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
     protected $fieldManager;
     protected $levelManager;
     protected $projectManager;
+
+    // Caching
+    protected $projects;
     
     protected $results;
     protected $gameHasChanged;
@@ -63,9 +66,11 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
              */
             $this->gameManager->clear(); // This causes issues with my cache when creating new projects
             
+            $this->projects = null;
+            
             $this->fieldManager  ->clearCache();
             $this->levelManager  ->clearCache();
-            $this->projectManager->clearCache();
+          //$this->projectManager->clearCache();
             
             $this->flushCount = 0;
         }
@@ -137,6 +142,43 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         echo sprintf(" Prop: %s\n",$propName);;
         
         die();
+    }
+    /* ========================================
+     * Generic Project Caching
+     */
+    protected function getProject($source,$sport,$season,$domain,$domainSub)
+    {
+        $manager = $this->projectManager;
+        $hash = $manager->hash(array($source,$sport,$season,$domain,$domainSub));
+        
+        if (isset($this->projects[$hash])) return $this->projects[$hash];
+        
+        $project = $manager->findProjectByIdentifierValue($hash);
+        if ($project)
+        {
+            $this->projects[$hash] = $project;
+            return $project;
+        }
+        $project = $manager->newProject();
+        
+        $project->setSport    ($sport);
+        $project->setSource   ($source);
+        $project->setSeason   ($season);
+        $project->setDomain   ($domain);
+        $project->setDomainSub($domainSub);
+        
+        $name = sprintf('%s %s %s %s %s',$source,$sport,$season,$domain,$domainSub);
+        $project->setName($name);
+        
+        $identifier = $manager->newProjectIdentifier();
+        $identifier->setSource ($source);
+        $identifier->setValue  ($hash);
+        $project->addIdentifier($identifier);
+        
+        $manager->persist($project);
+        $this->projects[$hash] = $project;
+        
+        return $project;
     }
 }
 ?>

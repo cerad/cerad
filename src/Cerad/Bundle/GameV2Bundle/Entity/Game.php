@@ -79,7 +79,7 @@ class Game extends BaseEntity
         $this->persons = new ArrayCollection();
         
         // Simple 32 char string, not really a guid but oh well
-        $this->id = strtoupper(md5(uniqid('zayso',true)));
+        $this->id = $this->genGUID();
     }
 
     /* =======================================

@@ -14,7 +14,7 @@ class ProjectRepositoryTest extends WebTestCase
         $manager = $client->getContainer()->get($this->managerId);
         
         $this->assertEquals('Cerad\Bundle\GameV2Bundle\EntityRepository\ProjectRepository', get_class($manager));
-        $this->assertEquals('Cerad\Bundle\GameV2Bundle\Entity\Project',            $manager->getClassName());
+        $this->assertEquals('Cerad\Bundle\GameV2Bundle\Entity\Project', $manager->getProjectClassName());
     }
     public function testResetDatabase()
     {
@@ -24,82 +24,48 @@ class ProjectRepositoryTest extends WebTestCase
         
         $manager->resetDatabase();
     }
-    public function testCreate()
+    public function testNew()
     {
         $client = static::createClient();
 
         $manager = $client->getContainer()->get($this->managerId);
         
-        $project = $manager->createProject('Soccer','SP2013','NASOA','MSSL');
+        $project = $manager->newProject();
+        $project->setName('AYSO National Games 2012');
         
-        $this->assertEquals('Cerad\Bundle\GameV2Bundle\Entity\Project', get_class($project));
-        $this->assertEquals('SOCCERNASOAMSSLSP2013',                   $project->getId());
+        $project->setSource   ('Zayso');
+        $project->setSport    ('Soccer');
+        $project->setSeason   ('SU2012');
+        $project->setDomain   ('AYSONational');
+        $project->setDomainSub('Games');
+         
+        $identifier1 = $manager->newProjectIdentifier();
+        $identifier1->setSource('Key');
+        $identifier1->setValue ('AYSONatGames2012');
+        $project->addIdentifier($identifier1);
         
+        // Arbiter Hashing Style
+        $value = $manager->hash(array('Soccer','SU2012','AYSONational','Games'));
+        $identifier2 = $manager->newProjectIdentifier();
+        $identifier2->setSource('Arbiter');
+        $identifier2->setValue ($value);
+        $project->addIdentifier($identifier2);
+         
         $manager->persist($project);
-        $manager->flush  ($project);
-        
-        $projects = $manager->findAll();
-        
-        $this->assertEquals(1, count($projects));
+        $manager->flush();
     }
-    public function testLoad()
+    public function testLoadByIdentifier()
     {
         $client = static::createClient();
 
         $manager = $client->getContainer()->get($this->managerId);
         
-        $project = $manager->find('SOCCERNASOAMSSLSP2013');
+        $project = $manager->findProjectByIdentifierValue('AYSONatGames2012');
         
-        $this->assertTrue(is_object($project));
-        $this->assertEquals('Cerad\Bundle\GameV2Bundle\Entity\Project', get_class($project));
-    }
-    public function testQuery()
-    {
-        $client = static::createClient();
-
-        $manager = $client->getContainer()->get($this->managerId);
+        $this->assertEquals('AYSO National Games 2012',$project->getName());
         
-        $logger = new \Doctrine\DBAL\Logging\DebugStack();
-
-        $manager
-            ->getDatabaseConnection()
-            ->getConfiguration()
-            ->setSQLLogger($logger);  
-        
-        $id = 'SOCCERNASOAMSSLSP2013';
-        
-        $project1 = $manager->find($id);
-        $project2 = $manager->find($id);
-        
-        // Equals 1 only because of the manager's cache
-        $this->assertEquals(1,count($logger->queries));
-        
-        /* var_sump($logger->gueries);
-         * array(1) { [1]=> array(4) {
-         * 
-           ["sql"]=>
-                     string(227) "SELECT t0.id AS id1, t0.season AS season2, t0.sport AS sport3, 
-         *                        t0.domain AS domain4, t0.domain_sub AS domain_sub5, t0.title AS title6, t0.descx AS descx7, 
-         *                        t0.status AS status8, t0.datax AS datax9 
-         *                        FROM project t0 WHERE t0.id = ?"
-         * 
-           ["params"]=> array(1) { [0]=> string(21) "SOCCERNASOAMSSLSP2013"}
-           ["types"] => array(1) { [0]=> string(6) "string" }
-           ["executionMS"]=> float(0.00023198127746582)
-        */
-    }
-    public function testLoadOrCreate()
-    {
-        $client = static::createClient();
-
-        $manager = $client->getContainer()->get($this->managerId);
-       
-        $project1 = $manager->loadProject('Soccer','SP2013','NASOA','AHSAA',true);
-        $this->assertEquals('SOCCERNASOAAHSAASP2013',$project1->getId());
-        
-        $project2 = $manager->loadProject('Soccer','SP2013','NASOA','MSSL',true);
-        $this->assertEquals('SOCCERNASOAMSSLSP2013',$project2->getId());
-        
+        $project = $manager->findProjectByIdentifierValue('SOCCERSU2012AYSONATIONALGAMES');
+        $this->assertEquals('AYSO National Games 2012',$project->getName());       
     }
 }
 

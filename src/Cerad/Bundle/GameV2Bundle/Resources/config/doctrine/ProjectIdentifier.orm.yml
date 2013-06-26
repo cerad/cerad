@@ -1,0 +1,31 @@
+Cerad\Bundle\GameV2Bundle\Entity\ProjectIdentifier:
+  
+    type:  entity
+    table: project_identifier
+    
+    repositoryClass: Cerad\Bundle\GameV2Bundle\EntityRepository\ProjectRepository
+    
+    changeTrackingPolicy: NOTIFY
+          
+    id:
+        id:
+            type:   integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+        project:
+            targetEntity: Project
+            nullable:     false
+    
+    fields:
+        source:
+            type:     string
+            length:   20
+            nullable: true
+            
+        value:
+            type:     string
+            length:   80
+            unique:   true
+            nullable: false
+            

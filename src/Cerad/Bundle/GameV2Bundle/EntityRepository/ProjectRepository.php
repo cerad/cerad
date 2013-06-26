@@ -3,8 +3,30 @@ namespace Cerad\Bundle\GameV2Bundle\EntityRepository;
 
 class ProjectRepository extends BaseRepository
 { 
+    public function getProjectClassName()           { return $this->_entityName; }
+    public function getProjectIdentifierClassName() { return $this->_entityName . 'Identifier'; }
+    
+    public function newProject()
+    {
+        $entityClassName = $this->getProjectClassName();
+        return new $entityClassName();
+    }
+    public function newProjectIdentifier()
+    {
+        $entityClassName = $this->getProjectIdentifierClassName();
+        return new $entityClassName();
+    }
+    public function findProjectByIdentifierValue($value)
+    {
+        $repo = $this->_em->getRepository($this->getProjectIdentifierClassName());
+        
+        $identifier = $repo->findOneByValue($value);
+        
+        return $identifier? $identifier->getProject() : null;
+    }
     /* ------------------------------------
      * Your basic creator
+     * Don't think I want this
      */
     public function createProject($sport,$season,$domain,$domainSub,$id = null)
     {
@@ -23,6 +45,7 @@ class ProjectRepository extends BaseRepository
     }
     /* ------------------------------------
      * Loads existing project or optionally creates a new one
+     * Pretty sure I don't want this either
      */
     protected $cache;
     

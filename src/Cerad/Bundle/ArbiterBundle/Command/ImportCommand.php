@@ -53,6 +53,7 @@ class ImportCommand extends ContainerAwareCommand
         (
             'truncate' => $truncate,
             'output'   => 'Post', // Post, Scan, Excel
+            'source'   => 'Arbiter',
             'sport'    => $sport,
             'season'   => $season,
             'domain'   => $domain,
