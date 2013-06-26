@@ -68,7 +68,7 @@ class MasterController extends Controller
         // Load and filter the games
         $manager = $this->get('cerad_gamev2.game.manager');
         
-        $games = $manager->loadGames($searchData,10);
+        $games = $manager->loadGames($searchData,100);
         
         // html processing
         $tplData = array();

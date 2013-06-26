@@ -6,7 +6,9 @@
             <th>Game</th>
             <th>Date</th>
             <th>Time</th>
+            <th>League</th>
             <th>Field</th>
+            <th>Level</th>
             <th>Home / Away Teams</th>
             <th>Officials</th>
         </tr>
@@ -18,12 +20,14 @@
                 {% if 0 %}
                 <a href="{{ path('cerad_tourn_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
                 {% else %}
-                {{ game.num }}
+                {{ game.num }}<br />{{ game.status }}
                 {% endif %}
             </td>
             <td class="schedule-games-list-date" >{{ game.dtBeg.format('D M d'    ) }}</td>
             <td class="schedule-games-list-time" >{{ game.dtBeg.format('g:i A') }}</td>    
+            <td class="schedule-games-list-field">{{ game.project.domainSub     }}</td>
             <td class="schedule-games-list-field">{{ game.field.name      }}</td>
+            <td class="schedule-games-list-field">{{ game.level.name      }}</td>
             
             <td class="schedule-games-list-teams"><table>
                 {% for gameTeam in game.teams %}
