@@ -51,6 +51,10 @@ class Project extends BaseEntity
     protected $desc;
     protected $status = 'Active';
    
+    protected $projectTeams;
+    protected $projectLevels;
+    protected $projectFields;
+    
     protected $data;      // Additional attributes from a yml file
     
     /* ===========================================================
@@ -68,7 +72,10 @@ class Project extends BaseEntity
     public function getDomain()    { return $this->domain; }
     public function getDomainSub() { return $this->domainSub; }
     
-    public function getIdentifiers() { return $this->identifiers; }
+    public function getProjectTeams () { return $this->projectTeams;  }
+    public function getProjectLevels() { return $this->projectLevels; }
+    public function getProjectFields() { return $this->projectFields; }
+    public function getIdentifiers()   { return $this->identifiers;   }
     
     public function setId       ($value) { $this->onPropertySet('id',       $value); }
     public function setName     ($value) { $this->onPropertySet('name',     $value); }
@@ -91,11 +98,68 @@ class Project extends BaseEntity
         
         $this->id = $this->genGUID();
         $this->identifiers = new ArrayCollection();
+        
+        $this->projectTeams  = new ArrayCollection();
+        $this->projectLevels = new ArrayCollection();
+        $this->projectFields = new ArrayCollection();
     }
     public function addIdentifier(ProjectIdentifier $identifier)
     {
         $this->identifiers[] = $identifier;
         $identifier->setProject($this);
+    }
+    /*
+    public function addTeam(Team $entity)
+    {
+        $this->teams[] = $entity;
+        $entity->setProject($this);
+    }
+    public function addLevel(Level $entity)
+    {
+        $this->levels[] = $entity;
+        $entity->setProject($this);
+    }*/
+    /* =============================================
+     * Add a field to the project
+     * Creates the ProjectField if necessary
+     * 
+     * Does not update the fields list of projects
+     * Probly need add project field
+     */
+    public function addField(Field $field)
+    {
+        $debug = false;
+        if ($field->getName() == 'Forest Park')
+        {
+            echo sprintf("addField %s %s\n",$this->id,$field->getName());
+            $debug = false;
+        }
+        // Protect against dups
+        if ($this->hasField($field)) return $this;
+        if ($debug) echo sprintf("### %s Not already in collection\n",$field->getName());
+        
+        // Make new entity
+        $projectField = new ProjectField();
+        $projectField->setProject($this);
+        $projectField->setField  ($field);
+        $projectField->setName   ($field->getName());
+        
+        $this->projectFields[] = $projectField;
+        
+        if ($debug) echo sprintf("### %s Was added\n",$field->getName());
+        
+        // This is very important, need to trigger when have changes
+        $this->onPropertyChanged('projectFields',null,null);
+        
+        return $this;
+    }
+    public function hasField(Field $field)
+    {
+        foreach($this->projectFields as $projectField)
+        {
+            if ($projectField->getField()->getId() == $field->getId()) return true;
+        }
+        return false;
     }
     /* =========================================
      * Debugging

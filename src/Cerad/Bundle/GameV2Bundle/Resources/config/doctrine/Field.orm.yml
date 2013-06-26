@@ -19,6 +19,12 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
         targetEntity: FieldIdentifier
         mappedBy:     field
         cascade:      ['all']
+        
+      projectFields:
+        targetEntity: ProjectField
+        mappedBy:     entity
+        indexBy:      project
+        cascade:      ['all']
     
     fields:
             

@@ -19,7 +19,7 @@ class BaseEntityIdentifier extends BaseEntity
     
     public function setId     ($value) { $this->onPropertySet('id',      $value); }
     public function setValue  ($value) { $this->onPropertySet('value',   $value); }
-    public function setSatus  ($value) { $this->onPropertySet('status',  $value); }
+    public function setStatus ($value) { $this->onPropertySet('status',  $value); }
     public function setSource ($value) { $this->onPropertySet('source',  $value); }
     
 }

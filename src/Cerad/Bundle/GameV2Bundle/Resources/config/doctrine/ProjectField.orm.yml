@@ -1,0 +1,10 @@
+Cerad\Bundle\GameV2Bundle\Entity\ProjectField:
+  
+    type:  entity
+    table: project_field
+                
+    manyToOne:
+        entity:
+            targetEntity: Field
+            nullable:     false
+    

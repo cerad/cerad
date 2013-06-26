@@ -61,8 +61,8 @@ class SearchFormTypeSubscriber implements EventSubscriberInterface
         // Generate project select
         $form->add($this->factory->createNamed('projects', 'choice', null, array(
             'label'           => 'Projects',
-            'required'        => false,
             'choices'         => $projectChoices,
+            'required'        => false,
             'expanded'        => false,
             'multiple'        => true,
             'disabled'        => false,
@@ -93,22 +93,24 @@ class SearchFormTypeSubscriber implements EventSubscriberInterface
             'multiple'        => true,
             'disabled'        => false,
             'auto_initialize' => false,
-          //'empty_data'      => array(),
-          //'empty_value'     => 'Does Not Work',
             'attr' => array('size' => 4),
         )));
-        return;
         
         // Generate field pick list
-        $fields = $this->manager->loadFieldChoices($data);
-        array_unshift($fields,'All Fields');
+        $projectsSearch = $data['projects'];
+        $fieldChoices = $this->projectManager->loadFieldChoices($projectsSearch);
+        
+        $header = sprintf('All Fields(%d)',count($fieldChoices));
+        array_unshift($fieldChoices,$header);
+        
         $form->add($this->factory->createNamed('fields', 'choice', null, array(
-            'label'         => 'Fields',
-            'required'      => false,
-            'choices'       => $fields,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
+            'label'           => 'Fields',
+            'choices'         => $fieldChoices,
+            'required'        => false,
+            'expanded'        => false,
+            'multiple'        => true,
+            'disabled'        => false,
+            'auto_initialize' => false,
             'attr' => array('size' => 10),
         )));
         return;

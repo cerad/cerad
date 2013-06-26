@@ -30,6 +30,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Field extends BaseEntity
 {
     protected $id;
+    protected $projectFields;
     protected $identifiers;
     
     protected $name;       // John Hunt 1
@@ -73,7 +74,8 @@ class Field extends BaseEntity
     public function getDomain()    { return $this->domain;    }
     public function getDomainSub() { return $this->domainSub; }
     
-    public function getIdentifiers() { return $this->identifiers; }
+    public function getProjectFields() { return $this->projectFields; }
+    public function getIdentifiers  () { return $this->identifiers;   }
     
     public function setId       ($value) { $this->onPropertySet('id',       $value); }
     public function setName     ($value) { $this->onPropertySet('name',     $value); }
@@ -102,14 +104,32 @@ class Field extends BaseEntity
     public function __construct()
     {
         $this->id          = $this->genGUID();
-        $this->identifiers = new ArrayCollection();
+        $this->projectFields = new ArrayCollection();
+        $this->identifiers   = new ArrayCollection();
     }
     public function addIdentifier(FieldIdentifier $identifier)
     {
         $this->identifiers[] = $identifier;
         $identifier->setField($this);
     }
-    /* =========================================
+    public function addProjectField(ProjectField $projectField)
+    {
+        // Protect against dups
+        if ($this->hasProject($projectField->getProject)) return $this;
+        
+        $this->projectFields[] = $projectField;
+        $projectField->setField($this);
+        return $this;
+    }
+    public function hasProject(Project $project)
+    {
+        foreach($this->projectFields as $projectField)
+        {
+            if ($projectField->getProject->getId() == $project->getId()) return true;
+        }
+        return false;
+    }
+   /* =========================================
      * Debugging
      */
     public function __toString()

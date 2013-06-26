@@ -190,15 +190,30 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
      */
     protected function getField($project,$name)
     {
+        $debug = false;
+        if ($name == 'Forest Park')
+        {
+            echo sprintf("%s %s\n",$project->getId(),$name);
+            $debug = false;
+        }
         $manager = $this->fieldManager;
         $hash = $manager->hash(array($project->getSource(),$project->getDomain(),$name));
         
-        if (isset($this->fields[$hash])) return $this->fields[$hash];
-        
+        if (isset($this->fields[$hash])) 
+        {
+            if ($debug) echo sprintf("Found %s in cache\n",$name);
+            
+            $item = $this->fields[$hash];
+            $project->addField($item);
+            return $item;
+        }
         $item = $manager->findFieldByIdentifierValue($hash);
         if ($item)
         {
+            if ($debug) echo sprintf("Found %s in database %s\n",$name,$item->getId());
+            
             $this->fields[$hash] = $item;
+            $project->addField($item);
             return $item;
         }
         $item = $manager->newField();
@@ -219,7 +234,8 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         
         $manager->persist($item);
         $this->fields[$hash] = $item;
-        
+        $project->addField($item);
+         
         return $item;
     }
 }

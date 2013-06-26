@@ -4,11 +4,17 @@ namespace Cerad\Bundle\GameV2Bundle\EntityRepository;
 class ProjectRepository extends BaseRepository
 { 
     public function getProjectClassName()           { return $this->_entityName; }
+    public function getProjectFieldClassName()      { return $this->_entityName . 'Field'; }
     public function getProjectIdentifierClassName() { return $this->_entityName . 'Identifier'; }
     
     public function newProject()
     {
         $entityClassName = $this->getProjectClassName();
+        return new $entityClassName();
+    }
+    public function newProjectField()
+    {
+        $entityClassName = $this->getProjectFieldClassName();
         return new $entityClassName();
     }
     public function newProjectIdentifier()
@@ -54,6 +60,39 @@ class ProjectRepository extends BaseRepository
     public function loadDomainChoices($sortDir = 'ASC')
     {
         return $this->loadChoices('domain',$sortDir);
+    }
+    /* ===================================================
+     * Grab a distinct list of fields for a list of projects
+     */
+    public function loadFieldChoices($projects)
+    {
+        $projectFieldRepo = $this->_em->getRepository($this->getProjectFieldClassName());
+        
+        $searchData = array();
+        if (count($projects)) $searchData['project'] = $projects;
+        foreach($projects as $project)
+        {
+            //echo sprintf("Project %s %s<br />",$project->getId(),$project->getName());
+        }
+        $projectFields = $projectFieldRepo->findBy($searchData,array('sort' =>'ASC','name' => 'ASC'));
+        
+        $names = array();
+        $choices = array();
+        foreach($projectFields as $projectField)
+        {
+            $fieldId   = $projectField->getField()->getId();
+            $fieldName = $projectField->getField()->getName();
+            
+          //if (!isset($choices[$fieldId]) || 1) $choices[$fieldId] = $projectField->getName();
+            
+            // This gives a false impression of merging fields across domains
+            if (!isset($names[$fieldName]))
+            {
+                $names[$fieldName] = true;
+                $choices[$fieldId] = $projectField->getName();
+            }
+        }
+        return $choices;
     }
 }
 ?>
