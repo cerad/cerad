@@ -16,7 +16,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Project:
         
       projectFields:
         targetEntity: ProjectField
-        mappedBy:     project
+        mappedBy:     entity1
         cascade:      ['all']
        
     id:

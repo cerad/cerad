@@ -105,6 +105,7 @@ class Project extends BaseEntity
     }
     public function addIdentifier(ProjectIdentifier $identifier)
     {
+        // TODO: check for dups
         $this->identifiers[] = $identifier;
         $identifier->setProject($this);
     }
@@ -128,29 +129,19 @@ class Project extends BaseEntity
      */
     public function addField(Field $field)
     {
-        $debug = false;
-        if ($field->getName() == 'Forest Park')
-        {
-            echo sprintf("addField %s %s\n",$this->id,$field->getName());
-            $debug = false;
-        }
         // Protect against dups
         if ($this->hasField($field)) return $this;
-        if ($debug) echo sprintf("### %s Not already in collection\n",$field->getName());
-        
+   
         // Make new entity
         $projectField = new ProjectField();
         $projectField->setProject($this);
         $projectField->setField  ($field);
-        $projectField->setName   ($field->getName());
-        
+
         $this->projectFields[] = $projectField;
-        
-        if ($debug) echo sprintf("### %s Was added\n",$field->getName());
         
         // This is very important, need to trigger when have changes
         $this->onPropertyChanged('projectFields',null,null);
-        
+     
         return $this;
     }
     public function hasField(Field $field)

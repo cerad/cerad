@@ -22,7 +22,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
         
       projectFields:
         targetEntity: ProjectField
-        mappedBy:     entity
+        mappedBy:     entity2
         cascade:      ['all']
     
     fields:

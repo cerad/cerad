@@ -141,7 +141,6 @@ class ProjectFieldTest extends EntityBaseTestCase
 
         // The managers
         $fieldManager   = $client->getContainer()->get($this->fieldManagerId);
-        $masterManager  = $client->getContainer()->get($this->masterManagerId);
         $projectManager = $client->getContainer()->get($this->projectManagerId);
 
         // Passed in info
@@ -158,12 +157,12 @@ class ProjectFieldTest extends EntityBaseTestCase
         $project1->addField($field1);
         $project1->addField($field2);
         $project1->addField($field1);
-        
+
         $this->assertEquals(2,count($project1->getProjectFields()));
          
         // Also verifies that the sysem knows the project entity was updated on relation change
-        $masterManager ->flush();
-        $masterManager ->clear();
+        $projectManager ->flush(); $projectManager ->clear();
+        $fieldManager   ->flush(); $fieldManager   ->clear();
         
         // Reload
         $field1   = $fieldManager->findField($field1Id);
@@ -183,7 +182,8 @@ class ProjectFieldTest extends EntityBaseTestCase
         $this->assertEquals($field2->getName(),$projectFields[1]->getField()->getName());;
         
         // Done
-        $masterManager->clear();
+        $projectManager ->flush(); $projectManager ->clear();
+        $fieldManager   ->flush(); $fieldManager   ->clear();
         return $info;
     }
 }

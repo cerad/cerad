@@ -4,7 +4,10 @@ Cerad\Bundle\GameV2Bundle\Entity\ProjectField:
     table: project_field
                 
     manyToOne:
-        entity:
+        entity1:
+            targetEntity: Project
+            
+        entity2:
             targetEntity: Field
-            nullable:     false
+
     

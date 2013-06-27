@@ -26,34 +26,5 @@ class EntityBaseTestCase extends WebTestCase
         $client = static::createClient();
         return $client;
     }
-    /* ===============================================
-     * Creates a new field entity with one or more identifiers
-     * Just too many variations
-     */
-    protected function createField($manager,$name,$hash1Values = null, $hash2Values = null)
-    {
-        $field = $manager->newField();
-        $field->setName($name);
-        
-        // Arbiter Hashing Style
-        $hash = $manager->hash(array('SU2012','Field #1'));
-        $identifier2 = $manager->newFieldIdentifier();
-        $identifier2->setSource('Arbiter');
-        $identifier2->setValue ($hash);
-        $field->addIdentifier($identifier2); 
-        
-        return $field;
-    }
-    protected function createFieldIdentifier($manager,$field,$hashValues)
-    {
-        // Arbiter Hashing Style
-        $hash = $manager->hash($hashValues);
-        $identifier2 = $manager->newFieldIdentifier();
-        $identifier2->setSource('Arbiter');
-        $identifier2->setValue ($hash);
-        $field->addIdentifier($identifier2); 
-        
-        return $field;
-    }
 }
 ?>
