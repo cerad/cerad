@@ -22,11 +22,23 @@ class ProjectRepository extends BaseRepository
         $entityClassName = $this->getProjectIdentifierClassName();
         return new $entityClassName();
     }
+    /* ========================================================
+     * Access to dependent managers
+     */
+    public function getProjectIdentifierManager() 
+    {
+        return $this->_em->getRepository($this->getProjectIdentifierClassName());
+    }
+    /* ========================================================
+     * Find stuff
+     */
+    public function findProject($id) { return $this->find($id); }
+
     public function findProjectByIdentifierValue($value)
     {
-        $repo = $this->_em->getRepository($this->getProjectIdentifierClassName());
+        $manager = $this->getProjectIdentifierManager();
         
-        $identifier = $repo->findOneByValue($value);
+        $identifier = $manager->findOneByValue($value);
         
         return $identifier? $identifier->getProject() : null;
     }

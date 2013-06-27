@@ -1,6 +1,8 @@
 <?php
 namespace Cerad\Bundle\GameV2Bundle\Tests\EntityRepository;
-
+/* ==================================
+ * 27 Jun 2013 This is old and needs to be updated
+ */
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class FieldRepositoryTest extends WebTestCase

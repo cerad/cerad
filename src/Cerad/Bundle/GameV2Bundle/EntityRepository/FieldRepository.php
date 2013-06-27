@@ -16,11 +16,17 @@ class FieldRepository extends BaseRepository
         $entityClassName = $this->getFieldIdentifierClassName();
         return new $entityClassName();
     }
+    public function findField($id) { return $this->find($id); }
+    
+    public function getFieldIdentifierManager() 
+    {
+        return $this->_em->getRepository($this->getFieldIdentifierClassName());
+    }
     public function findFieldByIdentifierValue($value)
     {
-        $repo = $this->_em->getRepository($this->getFieldIdentifierClassName());
+        $fieldIdentifierManager = $this->getFieldIdentifierManager();
         
-        $identifier = $repo->findOneByValue($value);
+        $identifier = $fieldIdentifierManager->findOneByValue($value);
         
         return $identifier? $identifier->getField() : null;
     }

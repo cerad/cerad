@@ -17,13 +17,12 @@ Cerad\Bundle\GameV2Bundle\Entity\Project:
       projectFields:
         targetEntity: ProjectField
         mappedBy:     project
-        indexBy:      field
         cascade:      ['all']
        
     id:
         id:
             type:   string
-            length: 32
+            length: 40
             generator: { strategy: NONE }
     
     fields:
