@@ -3,6 +3,15 @@ namespace Cerad\Bundle\GameV2Bundle\Entity;
 
 /* =================================================
  * Generic Entity to Entity relation class
+ * 
+ * So far it is working well but it's difficult to remember the item1 vs item2 stuff
+ * 
+ * Problem is that entity1,name1,sort1 are usedd for database mapping and find/sort commands
+ * Really should be project,projectName,projectSort
+ * But that reduces the effectiviness of a base class
+ * 
+ * Spelling the names leads to better documentation
+ * However, leaving as is promotes reuse
  */
 class BaseEntityEntity extends BaseEntity
 {

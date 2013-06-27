@@ -186,6 +186,22 @@ class ProjectFieldTest extends EntityBaseTestCase
         $fieldManager   ->flush(); $fieldManager   ->clear();
         return $info;
     }
+    /** ===========================================
+     * @depends testNewProjectFields
+     */
+    public function testProjectFieldChoices($info)
+    {
+        $client = $this->createClientApp();
+
+        // The Project
+        $projectManager = $client->getContainer()->get($this->projectManagerId);
+        $project1Id = $info['projects']['project1']['id'];
+        $project1 = $projectManager->findProject($project1Id);
+
+        $choices = $projectManager->findFieldChoices(array($project1->getId()));
+        
+        $this->assertEquals(2,count($choices));
+    }
 }
 
 ?>

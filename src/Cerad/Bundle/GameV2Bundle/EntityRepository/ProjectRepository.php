@@ -5,6 +5,7 @@ class ProjectRepository extends BaseRepository
 { 
     public function getProjectClassName()           { return $this->_entityName; }
     public function getProjectFieldClassName()      { return $this->_entityName . 'Field'; }
+    public function getProjectLevelClassName()      { return $this->_entityName . 'Level'; }
     public function getProjectIdentifierClassName() { return $this->_entityName . 'Identifier'; }
     
     public function newProject()
@@ -29,6 +30,14 @@ class ProjectRepository extends BaseRepository
     {
         return $this->_em->getRepository($this->getProjectIdentifierClassName());
     }
+    public function getProjectLevelManager() 
+    {
+        return $this->_em->getRepository($this->getProjectLevelClassName());
+    }
+     public function getProjectFieldManager() 
+    {
+        return $this->_em->getRepository($this->getProjectFieldClassName());
+    }
     /* ========================================================
      * Find stuff
      */
@@ -47,7 +56,7 @@ class ProjectRepository extends BaseRepository
      * Load a set of season choices
      * Probably want to filter on active projects only?
      */
-    public function loadChoices($name,$sortDir = 'ASC')
+    public function findDistinceChoices($name,$sortDir = 'ASC')
     {
         $qb = $this->createQueryBuilder('project');
         
@@ -65,46 +74,60 @@ class ProjectRepository extends BaseRepository
         }
         return $choices;
     }
-    public function loadSeasonChoices($sortDir = 'DESC')
+    public function findSeasonChoices($sortDir = 'DESC')
     {
-        return $this->loadChoices('season',$sortDir);
+        return $this->findDistinceChoices('season',$sortDir);
     }
-    public function loadDomainChoices($sortDir = 'ASC')
+    public function findDomainChoices($sortDir = 'ASC')
     {
-        return $this->loadChoices('domain',$sortDir);
+        return $this->findDistinceChoices('domain',$sortDir);
+    }
+    /* ===================================================
+     * Grab a distinct list of entities for a list of projects
+     * It could easily be argued that does not belong here as
+     * it is directly related to form select elements
+     * 
+     * Maybe we need a "project choice" service
+     */
+    public function findProjectEntityChoices($projectEntityManager,$projects)
+    {
+        //$projectEntityManager = $this->getProjectFieldManager();
+        
+        $searchData = array();
+        if (count($projects)) $searchData['entity1'] = $projects;
+
+        $rels = $projectEntityManager->findBy($searchData,array('sort2' =>'ASC','name2' => 'ASC'));
+        
+        $names   = array();
+        $choices = array();
+        foreach($rels as $rel)
+        {
+            $id   = $rel->getEntity2()->getId();
+            $name = $rel->getEntity2()->getName();
+            
+            // This gives a false impression of merging fields across domains
+            if (!isset($names[$name]))
+            {
+                $names  [$name] = true;
+                $choices[$id]   = $rel->getName2();
+            }
+        }
+        return $choices;
     }
     /* ===================================================
      * Grab a distinct list of fields for a list of projects
      */
-    public function loadFieldChoices($projects)
+    public function findFieldChoices($projects)
     {
-        $projectFieldRepo = $this->_em->getRepository($this->getProjectFieldClassName());
+        return $this->findProjectEntityChoices($this->getProjectFieldManager(),$projects);
         
-        $searchData = array();
-        if (count($projects)) $searchData['project'] = $projects;
-        foreach($projects as $project)
-        {
-            //echo sprintf("Project %s %s<br />",$project->getId(),$project->getName());
-        }
-        $projectFields = $projectFieldRepo->findBy($searchData,array('sort' =>'ASC','name' => 'ASC'));
-        
-        $names = array();
-        $choices = array();
-        foreach($projectFields as $projectField)
-        {
-            $fieldId   = $projectField->getField()->getId();
-            $fieldName = $projectField->getField()->getName();
-            
-          //if (!isset($choices[$fieldId]) || 1) $choices[$fieldId] = $projectField->getName();
-            
-            // This gives a false impression of merging fields across domains
-            if (!isset($names[$fieldName]))
-            {
-                $names[$fieldName] = true;
-                $choices[$fieldId] = $projectField->getName();
-            }
-        }
-        return $choices;
+    }
+    /* ===================================================
+     * Grab a distinct list of levels for a list of projects
+     */
+    public function findLevelChoices($projects)
+    {
+        return $this->findProjectEntityChoices($this->getProjectLevelManager(),$projects);
     }
 }
 ?>

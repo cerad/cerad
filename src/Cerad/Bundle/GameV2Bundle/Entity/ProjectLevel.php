@@ -3,6 +3,10 @@ namespace Cerad\Bundle\GameV2Bundle\Entity;
 
 class ProjectLevel extends BaseEntityEntity
 {
+    /* ====================================================
+     * Need to be careful here because the database stuff, find sort etc
+     * relies on entity1
+     */
     public function getProject() { return $this->entity1; }
     public function getLevel()   { return $this->entity2; }
     

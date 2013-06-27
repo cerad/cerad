@@ -3,7 +3,6 @@ namespace Cerad\Bundle\GameV2Bundle\Tests\EntityEntity;
 
 use Cerad\Bundle\GameV2Bundle\Tests\EntityBaseTestCase;
 
-
 class ProjectLevelTest extends EntityBaseTestCase
 {    
     /** ========================================
@@ -186,6 +185,22 @@ class ProjectLevelTest extends EntityBaseTestCase
         $projectManager ->flush(); $projectManager ->clear();
         $levelManager   ->flush(); $levelManager   ->clear();
         return $info;
+    }
+    /** ===========================================
+     * @depends testNewProjectLevels
+     */
+    public function testProjectLevelChoices($info)
+    {
+        $client = $this->createClientApp();
+
+        // The Project
+        $projectManager = $client->getContainer()->get($this->projectManagerId);
+        $project1Id = $info['projects']['project1']['id'];
+        $project1 = $projectManager->findProject($project1Id);
+
+        $choices = $projectManager->findLevelChoices(array($project1));
+        
+        $this->assertEquals(2,count($choices));
     }
 }
 
