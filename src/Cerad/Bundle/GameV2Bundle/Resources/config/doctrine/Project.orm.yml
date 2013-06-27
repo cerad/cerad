@@ -18,6 +18,11 @@ Cerad\Bundle\GameV2Bundle\Entity\Project:
         targetEntity: ProjectField
         mappedBy:     entity1
         cascade:      ['all']
+        
+      projectLevels:
+        targetEntity: ProjectLevel
+        mappedBy:     entity1
+        cascade:      ['all']
        
     id:
         id:

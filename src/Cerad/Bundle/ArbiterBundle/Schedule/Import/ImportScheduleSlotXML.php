@@ -26,11 +26,10 @@ class ImportScheduleSlotXML extends ImportScheduleBase
     {
         // The Project
         $domainSub = $row['Sport'];
-      //$project = $this->projectManager->loadProject($this->sport,$this->season,$this->domain,$domainSub,true);
         $project = $this->getProject($this->source,$this->sport,$this->season,$this->domain,$domainSub);
         
         // The Level
-        $level = $this->levelManager->loadLevel($this->sport,$this->domain,$domainSub,$row['Level'],true);
+        $level = $this->getLevel($project,$row['Level']);
         
         // The field
         $name    = $row['Site'];

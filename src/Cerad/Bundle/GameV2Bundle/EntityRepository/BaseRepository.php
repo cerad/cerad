@@ -9,6 +9,7 @@ class BaseRepository extends EntityRepository
     // Kind of hokay but think of this as an extended EntityManager
     public function clear()        { $this->_em->clear(); }
     public function flush()        { $this->_em->flush(); }
+    public function merge  ($item) { $this->_em->merge  ($item); }
     public function remove ($item) { $this->_em->remove ($item); }
     public function detach ($item) { $this->_em->detach ($item); }
     public function persist($item) { $this->_em->persist($item); }

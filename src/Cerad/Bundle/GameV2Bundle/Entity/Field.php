@@ -30,8 +30,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Field extends BaseEntity
 {
     protected $id;
-    protected $projectFields;
     protected $identifiers;
+    protected $fieldFields;
+    protected $projectFields;
     
     protected $name;       // John Hunt 1
     protected $desc;
@@ -42,15 +43,7 @@ class Field extends BaseEntity
     protected $longitude;
     
     protected $checkConflicts = true;
-    
-    protected $linkField;   // Different name but same field
-    protected $linkVenue;   // Different name but same venue
-    protected $linkOverlap; // Allows grouping different fields that physically overlap each other
-    
-    protected $season;
-    protected $domain;
-    protected $domainSub;
-    
+        
     protected $status = 'Active';
     
     public function getId  ()      { return $this->id;   }
@@ -60,22 +53,15 @@ class Field extends BaseEntity
     
     public function getLatitude ()   { return $this->latitude; }
     public function getLongitude()   { return $this->longitude; }
-    
-    public function getLinkField()   { return $this->linkField; }
-    public function getLinkVenue()   { return $this->linkVenue; }
-    public function getLinkOverlap() { return $this->linkOverlap; }
-    
+        
     public function getCheckConflicts() { return $this->checkConflicts; }
     
     public function getVenue()     { return $this->venue;     }
     public function getStatus()    { return $this->status;    }
     
-    public function getSeason()    { return $this->season;    }
-    public function getDomain()    { return $this->domain;    }
-    public function getDomainSub() { return $this->domainSub; }
-    
-    public function getProjectFields() { return $this->projectFields; }
     public function getIdentifiers  () { return $this->identifiers;   }
+    public function getFieldFields  () { return $this->fieldFields;   }
+    public function getProjectFields() { return $this->projectFields; }
     
     public function setId       ($value) { $this->onPropertySet('id',       $value); }
     public function setName     ($value) { $this->onPropertySet('name',     $value); }
@@ -84,38 +70,40 @@ class Field extends BaseEntity
     public function setUrl      ($value) { $this->onPropertySet('url',      $value); }
     public function setLatitude ($value) { $this->onPropertySet('latitude', $value); }
     public function setLongitude($value) { $this->onPropertySet('longitude',$value); }
-    
-    public function setLinkField  ($value) { $this->onPropertySet('linkField',  $value); }
-    public function setLinkVenue  ($value) { $this->onPropertySet('linkVenue',  $value); }
-    public function setLinkOverlap($value) { $this->onPropertySet('linkOverlap',$value); }
-    
+        
     public function setCheckConflicts($value) { $this->onPropertySet('checkConflicts',$value); }
     
     public function setVenue    ($value) { $this->onPropertySet('venue',    $value); }
     public function setStatus   ($value) { $this->onPropertySet('status',   $value); }
-    
-    public function setSeason   ($value) { $this->onPropertySet('season',   $value); }
-    public function setDomain   ($value) { $this->onPropertySet('domain',   $value); }
-    public function setDomainSub($value) { $this->onPropertySet('domainSub',$value); }
-    
+       
     /* =========================================================
      * 
      */
     public function __construct()
     {
-        $this->id          = $this->genGUID();
-        $this->projectFields = new ArrayCollection();
+        $this->id            = $this->genGUID();
         $this->identifiers   = new ArrayCollection();
+        $this->fieldFields   = new ArrayCollection();
+        $this->projectFields = new ArrayCollection();
     }
     public function addIdentifier(FieldIdentifier $identifier)
     {
         $this->identifiers[] = $identifier;
         $identifier->setField($this);
+        $this->onPropertyChanged('identifiers');
+    }
+    /* ====================================
+     * TODO: This should be addProject
+     * Need to ensure don't get looped with updating each other
+     */
+    public function setProject(Project $item)
+    {
+        
     }
     public function addProjectField(ProjectField $projectField)
     {
         // Protect against dups
-        if ($this->hasProject($projectField->getProject)) return $this;
+        if ($this->hasProject($projectField->getProject())) return $this;
         
         $this->projectFields[] = $projectField;
         $projectField->setField($this);

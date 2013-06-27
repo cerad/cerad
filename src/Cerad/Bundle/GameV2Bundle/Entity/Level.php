@@ -2,6 +2,8 @@
 
 namespace Cerad\Bundle\GameV2Bundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /* ==============================================
  * In most cases, these should be immutable
  * Or at least the hash fields
@@ -28,54 +30,60 @@ class Level extends BaseEntity
 {
     protected $id;
     
-    protected $sport;
-    protected $domain;
-    protected $domainSub;
     protected $name;        // AKA The actual level description
     
-    protected $program;     // D1 vs D2, Primeir, AYSO Extra etc
     protected $age;         // U12, O30
-    protected $sex;         // B/G/C/M/F
+    protected $gender;      // B/G/C/M/F
+    protected $program;     // D1 vs D2, Primeir, AYSO Extra etc
     
-    protected $status;
+    protected $status = 'Active';
     
-    protected $link;   // Future, allow linking the same level across multiple domains
+    protected $identifiers;
+    protected $levelLevels;
+    protected $projectLevels;
     
-    public function getId()        { return $this->id;      }
-    public function getAge ()      { return $this->age;     }
-    public function getSex ()      { return $this->sex;     }
-    public function getLink()      { return $this->link;    }
-    public function getStatus()    { return $this->status;  }
-    public function getProgram()   { return $this->program; }
+    public function getId     () { return $this->id;      }
+    public function getAge    () { return $this->age;     }
+    public function getName   () { return $this->name;    }
+    public function getStatus () { return $this->status;  }
+    public function getGender () { return $this->gender;  }
+    public function getProgram() { return $this->program; }
     
-    public function getName()      { return $this->name;    }
-    public function getSport ()    { return $this->sport;   }
-    public function getDomain()    { return $this->domain;  }
-    public function getDomainSub() { return $this->domainSub; }
-
-    public function setId       ($value) { $this->onPropertySet('id',       $value); }
-    public function setName     ($value) { $this->onPropertySet('name',     $value); }
-    public function setSport    ($value) { $this->onPropertySet('sport',    $value); }
-    public function setDomain   ($value) { $this->onPropertySet('domain',   $value); }
-    public function setDomainSub($value) { $this->onPropertySet('domainSub',$value); }
+    public function getIdentifiers  () { return $this->identifiers;    }
+    public function getLevelLevels  () { return $this->levelLevels;    }
+    public function getProjectLevels() { return $this->projectLevelss; }
+   
+    public function setId     ($value) { $this->onPropertySet('id',     $value); }
+    public function setAge    ($value) { $this->onPropertySet('age',    $value); }
+    public function setName   ($value) { $this->onPropertySet('name',   $value); }
+    public function setStatus ($value) { $this->onPropertySet('status', $value); }
+    public function setGender ($value) { $this->onPropertySet('gender', $value); }
+    public function setProgram($value) { $this->onPropertySet('program',$value); }
     
-    public function setAge      ($value) { $this->onPropertySet('age',     $value); }
-    public function setSex      ($value) { $this->onPropertySet('sex',     $value); }
-    public function setProgram  ($value) { $this->onPropertySet('program', $value); }
-    
-    public function setStatus   ($value) { $this->onPropertySet('status',   $value); }
-    public function setLink     ($value) { $this->onPropertySet('link',     $value); }
+   /* =========================================================
+     * 
+     */
+    public function __construct()
+    {
+        $this->id            = $this->genGUID();
+        $this->identifiers   = new ArrayCollection();
+        $this->levelLevels   = new ArrayCollection();
+        $this->projectLevels = new ArrayCollection();
+    }
+    public function addIdentifier(LevelIdentifier $identifier)
+    {
+        $this->identifiers[] = $identifier;
+        $identifier->setLevel($this);
+        $this->onPropertyChanged('identifiers');
+    }
     
     /* =========================================
      * Debugging
      */
     public function __toString()
     {
-        return sprintf("Level   %-8s %-8s %-8s %-10s %s %s\n",
+        return sprintf("Level   %-8s %-8s %s\n",
             $this->status,
-            $this->sport,
-            $this->domain,
-            $this->domainSub,
             $this->name,
             $this->id);
     }

@@ -7,14 +7,24 @@ Cerad\Bundle\GameV2Bundle\Entity\Level:
     
     changeTrackingPolicy: NOTIFY
 
-# SOCCERALYSLALIGABIRMINGHAMADULTAMATEURSD1ADULTS
-
     id:
         id:
             type:   string
-            length: 80
+            length: 40
             generator: { strategy: NONE }
-    
+            
+    oneToMany:
+             
+      identifiers:
+          targetEntity: LevelIdentifier
+          mappedBy:     level
+          cascade:      ['all']
+          
+      projectLevels:
+        targetEntity: ProjectLevel
+        mappedBy:     entity2
+        cascade:      ['all']
+     
     fields:
       
         name:
@@ -23,22 +33,22 @@ Cerad\Bundle\GameV2Bundle\Entity\Level:
             length:   40
             nullable: false
             
-        program:
-            column:   program
+        age:
+            column:   age
             type:     string
             length:   20
             nullable: true
             
-        age:
-            column:   age
+        gender:
+            column:   gender
             type:     string
-            length:   8
+            length:   20
             nullable: true
             
-        sex:
-            column:   sex
+        program:
+            column:   program
             type:     string
-            length:   8
+            length:   20
             nullable: true
             
         status:
@@ -46,28 +56,3 @@ Cerad\Bundle\GameV2Bundle\Entity\Level:
             type:     string
             length:   20
             nullable: true
-                     
-        link:
-            column:   link
-            type:     integer
-            nullable: true
-            
-        sport:
-            column:   sport
-            type:     string
-            length:   20
-            nullable: false
-            
-        domain:
-            column:   domain
-            type:     string
-            length:   20
-            nullable: false
-            
-# LaLiga Birmingham Adult Amateurs        
-        domainSub:
-            column:   domain_sub
-            type:     string
-            length:   40
-            nullable: false
- 

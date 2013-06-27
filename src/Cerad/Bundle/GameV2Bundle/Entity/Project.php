@@ -108,6 +108,7 @@ class Project extends BaseEntity
         // TODO: check for dups
         $this->identifiers[] = $identifier;
         $identifier->setProject($this);
+        $this->onPropertyChanged('identifiers');
     }
     /*
     public function addTeam(Team $entity)
@@ -124,35 +125,63 @@ class Project extends BaseEntity
      * Add a field to the project
      * Creates the ProjectField if necessary
      * 
-     * Does not update the fields list of projects
-     * Probly need add project field
      */
-    public function addField(Field $field)
+    public function addField(Field $item)
     {
         // Protect against dups
-        if ($this->hasField($field)) return $this;
+        if ($this->hasField($item)) return $this;
    
         // Make new entity
-        $projectField = new ProjectField();
-        $projectField->setProject($this);
-        $projectField->setField  ($field);
+        $rel = new ProjectField();
+        $rel->setProject($this);
+        $rel->setField  ($item);
 
-        $this->projectFields[] = $projectField;
+        $this->projectFields[] = $rel;
         
         // This is very important, need to trigger when have changes
-        $this->onPropertyChanged('projectFields',null,null);
+        $this->onPropertyChanged('projectFields');
      
+        // Should update the other side?
+        // $item->setProject($this);
+        
         return $this;
     }
-    public function hasField(Field $field)
+    public function hasField(Field $item)
     {
-        foreach($this->projectFields as $projectField)
+        foreach($this->projectFields as $rel)
         {
-            if ($projectField->getField()->getId() == $field->getId()) return true;
+            if ($rel->getField()->getId() == $item->getId()) return true;
         }
         return false;
     }
-    /* =========================================
+    /* ==========================================================
+     * ProjectLevel relation
+     */
+    public function addLevel(Level $item)
+    {
+        // Protect against dups
+        if ($this->hasLevel($item)) return $this;
+   
+        // Make new entity
+        $rel = new ProjectLevel();
+        $rel->setProject($this);
+        $rel->setLevel  ($item);
+
+        $this->projectLevels[] = $rel;
+        
+        $this->onPropertyChanged('projectLevels');
+     
+        return $this;
+    }
+    public function hasLevel(Level $item)
+    {
+        foreach($this->projectLevels as $rel)
+        {
+            if ($rel->getLevel()->getId() == $item->getId()) return true;
+        }
+        return false;
+   }
+   /* =========================================
      * Debugging
      */
     public function __toString()

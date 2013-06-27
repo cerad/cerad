@@ -64,40 +64,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
             type:     string
             length:   32
             nullable: true
-                    
-        linkOverlap:
-            column:   link_overlap
-            type:     integer
-            nullable: true
-            
-        linkField:
-            column:   link_field
-            type:     integer
-            nullable: true
-            
-        linkOverlap:
-            column:   link_overlap
-            type:     integer
-            nullable: true
 
-        season:
-            column:   season
-            type:     string
-            length:   20
-            nullable: true  # So season can be optional
-            
-        domain:
-            column:   domain
-            type:     string
-            length:   20
-            nullable: true
-            
-        domainSub:
-            column:   domain_sub
-            type:     string
-            length:   40
-            nullable: true # domainSub is also optional
-            
         status:
             column:   status
             type:     string

@@ -72,9 +72,10 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
             
             $this->projects = null;
             $this->fields   = null;
+            $this->levels   = null;
             
           //$this->fieldManager  ->clearCache();
-            $this->levelManager  ->clearCache();
+          //$this->levelManager  ->clearCache();
           //$this->projectManager->clearCache();
             
             $this->flushCount = 0;
@@ -235,6 +236,42 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         $manager->persist($item);
         $this->fields[$hash] = $item;
         $project->addField($item);
+         
+        return $item;
+    }
+    /* ========================================
+     * Level Caching
+     */
+    protected function getLevel($project,$name)
+    {
+        $manager = $this->levelManager;
+        $hash = $manager->hash(array($project->getSource(),$project->getDomain(),$name));
+        
+        if (isset($this->levels[$hash])) 
+        {   
+            $item = $this->levels[$hash];
+            $project->addLevel($item);
+            return $item;
+        }
+        $item = $manager->findLevelByIdentifierValue($hash);
+        if ($item)
+        {   
+            $this->levels[$hash] = $item;
+            $project->addLevel($item);
+            return $item;
+        }
+        $item = $manager->newLevel();
+        
+        $item->setName($name);
+        
+        $identifier = $manager->newLevelIdentifier();
+        $identifier->setSource ($project->getSource());
+        $identifier->setValue  ($hash);
+        $item->addIdentifier($identifier);
+        
+        $manager->persist($item);
+        $this->levels[$hash] = $item;
+        $project->addLevel($item);
          
         return $item;
     }

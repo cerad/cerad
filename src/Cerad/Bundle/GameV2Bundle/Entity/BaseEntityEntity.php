@@ -48,7 +48,7 @@ class BaseEntityEntity extends BaseEntity
             $this->onPropertySet('sort1', $sort);
             
             if ($name) $this->onPropertySet('name1', $name);
-            else       $this->onPropertySet('name1', $entity->getName());   
+            else       $this->onPropertySet('name1', $entity->getName()); // Debug for now
         }
     }
     public function setEntity2($entity,$sort = null, $name = null) 
