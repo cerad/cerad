@@ -35,6 +35,13 @@ services:
     factory_method:  'getRepository'
     arguments:  
       - 'Cerad\Bundle\GameV2Bundle\Entity\Game'
+      
+  cerad_gamev2.team.manager:
+    class:  Cerad\Bundle\GameBundleV2\EntityRepository\TeamRepository
+    factory_service: 'cerad_gamev2.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\GameV2Bundle\Entity\Team'
 
 # ======================================================
 # Some forms

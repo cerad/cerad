@@ -1,0 +1,33 @@
+Cerad\Bundle\CommonBundle\Entity\BaseEntityIdentifier:
+  
+    type:  mappedSuperclass
+
+    changeTrackingPolicy: NOTIFY
+          
+    id:
+       id:
+           type:   integer
+           generator: { strategy: AUTO }
+    
+    fields:
+        source:
+            type:     string
+            length:   20
+            nullable: true
+            
+        value:
+            type:     string
+            length:   80
+            unique:   true
+            nullable: false
+            
+        name:
+            type:     string
+            length:   80
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: true
+           

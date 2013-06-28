@@ -1,0 +1,12 @@
+Cerad\Bundle\CommonBundle\Entity\BaseEntityPrimary:
+  
+    type:  mappedSuperclass
+
+    changeTrackingPolicy: NOTIFY
+          
+    id:
+       id:
+           type:   string
+           length: 40
+           generator: { strategy: NONE }
+    

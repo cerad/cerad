@@ -1,0 +1,29 @@
+Cerad\Bundle\GameV2Bundle\Entity\Team:
+  
+    type:  entity
+    table: team
+    
+    repositoryClass: Cerad\Bundle\GameV2Bundle\EntityRepository\TeamRepository
+    
+    changeTrackingPolicy: NOTIFY
+            
+    oneToMany:
+      
+      identifiers:
+          targetEntity: TeamIdentifier
+          mappedBy:     entity
+          cascade:      ['all']
+                  
+    fields:
+      
+        name:
+            column:   name
+            type:     string
+            length:   80
+            nullable: false
+                        
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: true
