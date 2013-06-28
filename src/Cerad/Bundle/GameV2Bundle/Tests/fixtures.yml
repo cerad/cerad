@@ -1,5 +1,60 @@
 entities:
   
+    projects:
+      0:
+        id:        5BBD0493-8C84-4036-829F-046E230F7225
+        key:       AYSOArea5CF_WI2013Season
+        name:      CY2013 Winter Season
+        source:    JP
+        status:    Active
+        season:    WI2013
+        sport:     Soccer
+        domain:    JPAYSO
+        domainSub: Area5CF
+        identifiers:
+          1:
+            source: Key
+            value:  AYSOArea5CF_WI2013Season
+          2:
+            source: JP
+            value:  JPSOCCERWI2013JPAYSOAREA5CF
+              
+      1:
+        id:        2C9968C5-AA36-401A-8713-C1BFD7DC5029
+        key:       AYSOArea5CF_SP2013Season
+        name:      CY2013 Spring Season
+        source:    JP
+        status:    Active
+        season:    SP2013
+        sport:     Soccer
+        domain:    JPAYSO
+        domainSub: Area5CF
+        identifiers:
+          1:
+            source: Key
+            value:  AYSOArea5CF_SP2013Season
+          2:
+            source: JP
+            value:  JPSOCCERSP2013JPAYSOAREA5CF
+ 
+      2:
+        id:        62E4C3CE-CE17-4F4E-BF92-77DE88A87D6D
+        key:       AYSOArea5CF_SP2013Sendoff
+        name:      CY2013 Spring Sendoff
+        source:    JP
+        status:    Active
+        season:    SP2013
+        sport:     Soccer
+        domain:    JPAYSO
+        domainSub: Area5CFSpringSendoff
+        identifiers:
+          1:
+            source: Key
+            value:  AYSOArea5CF_SP2013Sendoff
+          2:
+            source: JP
+            value:  JPSOCCERSP2013JPAYSOAREA5CFSPRINGSENDOFF
+       
     teams:
         1:
             id:    546CF032-9707-454D-B015-ADD0AD7EEFA3
@@ -45,4 +100,3 @@ entities:
             id2:  546CF032-9707-454D-B015-ADD0AD7EEFA3 # Team #2
             id1:  20D06CB3-6814-4A78-AA42-E746711D9CE1 # Team #1
             
-    projects:

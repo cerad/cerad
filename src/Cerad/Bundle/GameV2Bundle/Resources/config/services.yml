@@ -44,6 +44,13 @@ services:
       - 'Cerad\Bundle\GameV2Bundle\Entity\Team'
 
 # ======================================================
+# Factores are fun
+  cerad_gamev2.project.factory:
+    class:  Cerad\Bundle\GameV2Bundle\EntityFactory\ProjectFactory
+    arguments:  
+      - '@cerad_gamev2.project.manager'
+
+# ======================================================
 # Some forms
 #
   cerad_gamev2.schedule.master.search.formtype:

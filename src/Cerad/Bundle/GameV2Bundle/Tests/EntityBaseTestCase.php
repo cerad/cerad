@@ -18,6 +18,8 @@ class EntityBaseTestCase extends WebTestCase
     protected $levelManagerId   = 'cerad_gamev2.level.manager';
     protected $projectManagerId = 'cerad_gamev2.project.manager';
     
+    protected $projectFactoryId = 'cerad_gamev2.project.factory';
+    
     // Fake
     protected $masterManagerId  = 'cerad_gamev2.project.manager';
 
