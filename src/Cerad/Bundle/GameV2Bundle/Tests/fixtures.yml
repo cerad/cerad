@@ -2,32 +2,47 @@ entities:
   
     teams:
         1:
-            id:   546CF032-9707-454D-B015-ADD0AD7EEFA3
-            name: 'HFC Boys 92 Blue'
+            id:    546CF032-9707-454D-B015-ADD0AD7EEFA3
+            name: 'HFC Boys 92 Blue 1'
+            role: 'Physical'
             identifiers:
                 1:
                     source: Arbiter
                     value:  ARBITERHUNTSVILEHFCBOYS92BLUE
         2:
-            id:   9E855F60-EBBD-47CB-9142-EAFADD6C7B91
+            id:    9E855F60-EBBD-47CB-9142-EAFADD6C7B91
             name: 'R0894-U12B-01 Jolly Jokers'
+            role: 'Physical'
             identifiers:
                 1:
                     source: Zayso
                     value:  ZAYSOR0894U12B01JOLLYJOKERS           
         3:
-            id:   C0CCDE50-E22B-4DC7-BC2F-3BE72956B36D
+            id:    C0CCDE50-E22B-4DC7-BC2F-3BE72956B36D
             name: 'Sparkman HS'
+            role: 'Physical'
             identifiers:
                 1:
                     source: AHSAA
                     value:  AHSAASPARKMANHS
         4:
-            id:   20D06CB3-6814-4A78-AA42-E746711D9CE1
-            name: 'HFC Boys 92 Blue'
+            id:    20D06CB3-6814-4A78-AA42-E746711D9CE1
+            name: 'HFC Boys 92 Blue 4'
+            role: 'Physical'
             identifiers:
                 1:
                     source: Arbiter
                     value:  ARBITERBIRMIGHAMHFCBOYS92BLUE
 
+    team_teams:
+        1:
+            role: Same
+            id1:  546CF032-9707-454D-B015-ADD0AD7EEFA3 # Team #1
+            id2:  20D06CB3-6814-4A78-AA42-E746711D9CE1 # Team #2
+            
+        2:
+            role: Same
+            id2:  546CF032-9707-454D-B015-ADD0AD7EEFA3 # Team #2
+            id1:  20D06CB3-6814-4A78-AA42-E746711D9CE1 # Team #1
+            
     projects:

@@ -1,0 +1,42 @@
+Cerad\Bundle\CommonBundle\Entity\BaseEntityEntity:
+  
+    type:  mappedSuperclass
+
+    changeTrackingPolicy: NOTIFY
+           
+    id:
+       id:
+           type:   integer
+           generator: { strategy: AUTO }
+                
+    fields:
+      
+        role:
+            type:     string
+            length:   20
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: true
+            
+        sort1:
+            column:   sort1
+            type:     integer
+            nullable: true
+            
+        sort2:
+            column:   sort2
+            type:     integer
+            nullable: true
+            
+        name1:
+            type:     string
+            length:   80
+            nullable: true
+            
+        name2:
+            type:     string
+            length:   80
+            nullable: true

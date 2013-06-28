@@ -26,7 +26,13 @@ class BaseRepository extends EntityRepository
     public function getEntityClassName()           { return $this->_entityName; }
     public function getEntityIdentifierClassName() { return $this->_entityName . 'Identifier'; }
     public function getEntityProjectClassName()    { return $this->_entityName . 'Identifier'; }
-    public function getEntityEntityClassName()     { return $this->_entityName . 'Identifier'; }
+    
+    public function getEntityEntityClassName()     
+    { 
+        $entityName = $this->_entityName;
+        $baseName = substr($entityName,strrpos($entityName,'\\')+1);
+        return $entityName . $baseName;; 
+    }
     
     public function newEntity()
     {
@@ -36,6 +42,11 @@ class BaseRepository extends EntityRepository
     public function newEntityIdentifier()
     {
         $className = $this->getEntityIdentifierClassName();
+        return new $className();
+    }
+    public function newEntityEntity()
+    {
+        $className = $this->getEntityEntityClassName();
         return new $className();
     }
     /* ==========================================================

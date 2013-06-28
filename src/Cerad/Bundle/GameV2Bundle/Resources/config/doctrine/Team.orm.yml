@@ -13,9 +13,25 @@ Cerad\Bundle\GameV2Bundle\Entity\Team:
           targetEntity: TeamIdentifier
           mappedBy:     entity
           cascade:      ['all']
+          
+      teamTeams1:
+        targetEntity: TeamTeam
+        mappedBy:     entity2  # Slave to mastet
+        cascade:      ['all']
+        
+      teamTeams2:
+        targetEntity: TeamTeam
+        mappedBy:     entity1  # Master to slave
+        cascade:      ['all']
                   
     fields:
       
+        role:
+            column:   role
+            type:     string
+            length:   20
+            nullable: true
+            
         name:
             column:   name
             type:     string

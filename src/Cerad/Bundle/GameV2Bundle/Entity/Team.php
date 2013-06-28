@@ -8,22 +8,30 @@ use Cerad\Bundle\CommonBundle\Entity\BaseEntityPrimary as CommonBaseEntityPrimar
 
 class Team extends CommonBaseEntityPrimary
 {
+    const RolePhysical = 'Physical';
+    const RolePool     = 'Pool';
+    
+    protected $role = self::RolePhysical;
     protected $name;
     protected $level;  // Belongs to one and only one level
     protected $league; // Belongs to at most one league
     protected $status = 'Active';
     
-    protected $teamTeams;
+    protected $teamTeams1;
+    protected $teamTeams2;
     protected $projectTeams; // A team can cross between multiple projects?
     
+    public function getRole  () { return $this->role;    }
     public function getName  () { return $this->name;    }
     public function getLevel () { return $this->level;   }
     public function getLeague() { return $this->league;  }
     public function getStatus() { return $this->status;  }
     
-    public function getTeamTeams   () { return $this->teamTeams;    }
+    public function getTeamTeams1  () { return $this->teamTeams1;   }
+    public function getTeamTeams2  () { return $this->teamTeams2;   }
     public function getProjectTeams() { return $this->projectTeams; }
    
+    public function setRole   ($value) { $this->onPropertySet('role',   $value); }
     public function setName   ($value) { $this->onPropertySet('name',   $value); }
     public function setLevel  ($value) { $this->onPropertySet('level',  $value); }
     public function setLeague ($value) { $this->onPropertySet('league', $value); }
@@ -36,18 +44,40 @@ class Team extends CommonBaseEntityPrimary
     {
         parent::__construct();
         
-        $this->teamTeams     = new ArrayCollection();
+        $this->teamTeams1    = new ArrayCollection();
         $this->projectTeams  = new ArrayCollection();
     }
     public function newIdentifier() { return new TeamIdentifier(); }
     
-    /*
-    public function addIdentifier(LevelIdentifier $identifier)
+
+    /* =========================================
+     * See how this goes
+     * Only implementing master => slave for now
+     * AKA addTeamSlave or addTeamRight
+     */
+    public function addTeam2($team2,$role = null)
     {
-        $this->identifiers[] = $identifier;
-        $identifier->setLevel($this);
-        $this->onPropertyChanged('identifiers');
-    }*/
+        $team1 = $this;
+       
+        // Check for dups
+        foreach($this->teamTeams2 as $teamTeam)
+        {
+            // Roles and id's
+            if (($teamTeam->getRole() == $role) && ($teamTeam->getEntity2()->getId() == $team2->getId())) return $teamTeam;
+        }
+        $teamTeam = new TeamTeam();
+        $teamTeam->setRole   ($role);
+        $teamTeam->setEntity1($team1);
+        $teamTeam->setEntity2($team2);
+        $teamTeam->setName1  ($team1->getName());
+        $teamTeam->setName2  ($team2->getName());
+        
+        $this->teamTeams2[] = $teamTeam;
+        
+        $this->onPropertyChanged('teamTeams2');
+        
+        return $teamTeam;
+    }
     
     /* =========================================
      * Debugging
