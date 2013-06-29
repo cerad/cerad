@@ -73,7 +73,7 @@ abstract class BaseEntityPrimary extends BaseEntity
     public function __construct()
     {
         $this->id          = self::genGUID();
-        $this->identifiers = new ArrayCollection();        
+        $this->identifiers = new ArrayCollection();
     }
     
     /* =======================================

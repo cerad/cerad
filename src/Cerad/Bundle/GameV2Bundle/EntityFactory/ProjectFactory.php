@@ -40,7 +40,7 @@ class ProjectFactory
                 return $existing;
             }
         }
-        $entity = $manager->newProject();
+        $entity = $manager->newEntity();
         
         if ($id)     $entity->setId    ($id);
         if ($status) $entity->setStatus($status);
@@ -67,7 +67,7 @@ class ProjectFactory
                     // More or less arbiter style, name avaiable there
                     $value = $manager->hash(array($source,$sport,$season,$domain,$domainSub));
                 }
-                $identifier = $manager->newProjectIdentifier();
+                $identifier = $manager->newIdentifier();
                 
                 $identifier->setValue ($value);
                 $identifier->setSource($source);

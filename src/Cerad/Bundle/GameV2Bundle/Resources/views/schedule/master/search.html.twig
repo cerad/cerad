@@ -17,14 +17,18 @@
         {{ form_widget(form.projects) }}
      </td><td>
         {{ form_widget(form.fields) }}
+     </td><td>
+        {{ form_widget(form.levels) }}
+     </td><td>
+        {{ form_widget(form.teams) }}
    </td>
 </tr>
 <tr>
-    <td>
+    <td colspan="2">
         <a href="{{ path('cerad_gamev2_schedule_master_list', { _format: 'xls'}) }}">Spreadsheet</a>
         <a href="{{ path('cerad_gamev2_schedule_master_list', { _format: 'csv'}) }}">Text File</a>
     </td>
-    <td align="right">
+    <td align="right" colspan="5">
         <input type="submit" name="schSearchSubmit" value="Search" />
     </td>
 </tr>

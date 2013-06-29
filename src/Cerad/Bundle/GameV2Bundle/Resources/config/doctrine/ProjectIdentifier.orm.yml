@@ -4,7 +4,7 @@ Cerad\Bundle\GameV2Bundle\Entity\ProjectIdentifier:
     table: project_identifier
             
     manyToOne:
-        project:
+        entity:
             targetEntity: Project
             nullable:     false
     

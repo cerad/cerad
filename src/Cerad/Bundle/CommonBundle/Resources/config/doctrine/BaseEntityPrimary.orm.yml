@@ -10,3 +10,10 @@ Cerad\Bundle\CommonBundle\Entity\BaseEntityPrimary:
            length: 40
            generator: { strategy: NONE }
     
+    fields:
+            
+        name:
+            column:   name
+            type:     string
+            length:   80
+            nullable: false

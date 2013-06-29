@@ -10,13 +10,15 @@ class ScheduleManager
     public $levelManager;
     public $fieldManager;
     public $gameManager;
+    public $teamManager;
     
-    public function __construct($projectManager,$levelManager,$fieldManager,$gameManager)
+    public function __construct($projectManager,$levelManager,$fieldManager,$gameManager,$teamManager)
     {
         $this->projectManager = $projectManager;
         $this->levelManager   = $levelManager;
         $this->fieldManager   = $fieldManager;
         $this->gameManager    = $gameManager;
+        $this->teamManager    = $teamManager;
     }
     /* =================================================================
      * Still not sure about having individual managers etc

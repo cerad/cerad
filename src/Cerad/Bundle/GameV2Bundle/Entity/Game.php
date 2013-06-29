@@ -11,6 +11,12 @@ class Game extends BaseEntity
 {
     const RoleGame = 'Game';  // Practice, Scrimmage, Jamboree etc
 
+    const TypePP = 'PP';
+    const TypeQF = 'QF';
+    const TypeSF = 'SF';
+    const TypeFM = 'FM';
+    const TypeCM = 'CM';
+    
     protected $id;
     
     protected $num;   // Unique within project

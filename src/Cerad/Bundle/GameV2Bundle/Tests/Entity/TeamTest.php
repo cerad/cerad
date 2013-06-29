@@ -39,7 +39,7 @@ class TeamTest extends EntityBaseTestCase
                 {
                     $value = $manager->hash(array($source,$entity->getName()));
                 }
-                $identifier = $manager->newEntityIdentifier();
+                $identifier = $manager->newIdentifier();
                 
                 $identifier->setValue ($value);
                 $identifier->setSource($source);

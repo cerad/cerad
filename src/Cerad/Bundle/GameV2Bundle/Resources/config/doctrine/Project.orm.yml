@@ -11,7 +11,12 @@ Cerad\Bundle\GameV2Bundle\Entity\Project:
             
       identifiers:
         targetEntity: ProjectIdentifier
-        mappedBy:     project
+        mappedBy:     entity
+        cascade:      ['all']
+        
+      projectTeams:
+        targetEntity: ProjectTeam
+        mappedBy:     entity1
         cascade:      ['all']
         
       projectFields:
@@ -24,19 +29,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Project:
         mappedBy:     entity1
         cascade:      ['all']
        
-    id:
-        id:
-            type:   string
-            length: 40
-            generator: { strategy: NONE }
-    
     fields:
-            
-        name:
-            column:   name
-            type:     string
-            length:   80
-            nullable: true
             
         desc:
             column:   descx

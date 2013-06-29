@@ -1,34 +1,20 @@
 <?php
 namespace Cerad\Bundle\GameV2Bundle\EntityRepository;
 
-class ProjectRepository extends BaseRepository
+use Cerad\Bundle\CommonBundle\EntityRepository\BaseRepository as CommonBaseRepository;
+
+class ProjectRepository extends CommonBaseRepository
 { 
-    public function getProjectClassName()           { return $this->_entityName; }
-    public function getProjectFieldClassName()      { return $this->_entityName . 'Field'; }
-    public function getProjectLevelClassName()      { return $this->_entityName . 'Level'; }
-    public function getProjectIdentifierClassName() { return $this->_entityName . 'Identifier'; }
+    public function getProjectTeamClassName()  { return $this->_entityName . 'Team'; }
+    public function getProjectFieldClassName() { return $this->_entityName . 'Field'; }
+    public function getProjectLevelClassName() { return $this->_entityName . 'Level'; }
     
-    public function newProject()
-    {
-        $entityClassName = $this->getProjectClassName();
-        return new $entityClassName();
-    }
-    public function newProjectField()
-    {
-        $entityClassName = $this->getProjectFieldClassName();
-        return new $entityClassName();
-    }
-    public function newProjectIdentifier()
-    {
-        $entityClassName = $this->getProjectIdentifierClassName();
-        return new $entityClassName();
-    }
     /* ========================================================
      * Access to dependent managers
      */
-    public function getProjectIdentifierManager() 
+    public function getProjectTeamManager() 
     {
-        return $this->_em->getRepository($this->getProjectIdentifierClassName());
+        return $this->_em->getRepository($this->getProjectTeamClassName());
     }
     public function getProjectLevelManager() 
     {
@@ -38,23 +24,8 @@ class ProjectRepository extends BaseRepository
     {
         return $this->_em->getRepository($this->getProjectFieldClassName());
     }
-    /* ========================================================
-     * Find stuff
-     */
-    public function findProject($id) { return $this->find($id); }
-
-    public function findProjectByIdentifierValue($value)
-    {
-        $manager = $this->getProjectIdentifierManager();
-        
-        $identifier = $manager->findOneByValue($value);
-        
-        return $identifier? $identifier->getProject() : null;
-    }
     /* -----------------------------------------------------
      * TODO V2: Revisit Later
-     * Load a set of season choices
-     * Probably want to filter on active projects only?
      */
     public function findDistinceChoices($name,$sortDir = 'ASC')
     {
@@ -115,16 +86,16 @@ class ProjectRepository extends BaseRepository
         return $choices;
     }
     /* ===================================================
-     * Grab a distinct list of fields for a list of projects
+     * Grab a distinct list of items for a list of projects
      */
+    public function findTeamChoices($projects)
+    {
+        return $this->findProjectEntityChoices($this->getProjectTeamManager(),$projects);   
+    }
     public function findFieldChoices($projects)
     {
-        return $this->findProjectEntityChoices($this->getProjectFieldManager(),$projects);
-        
+        return $this->findProjectEntityChoices($this->getProjectFieldManager(),$projects);   
     }
-    /* ===================================================
-     * Grab a distinct list of levels for a list of projects
-     */
     public function findLevelChoices($projects)
     {
         return $this->findProjectEntityChoices($this->getProjectLevelManager(),$projects);

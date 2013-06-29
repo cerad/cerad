@@ -15,17 +15,16 @@ class BaseRepository extends EntityRepository
     public function persist($item) { $this->_em->persist($item); }
     public function refresh($item) { $this->_em->refresh($item); }
     
-    public function getDatabaseConnection() { return $this->_em->getConnection(); }
-    public function getEventManager      () { return $this->_em->getEventManager(); }
+     public function getEventManager      () { return $this->_em->getEventManager(); }
+     public function getDatabaseConnection() { return $this->_em->getConnection(); }
     
     /* ===================================================
      * Probably trying to do too much but many entities have
      * Identifiers, Project relations and self relations
      * Might be a good use for traits
      */
-    public function getEntityClassName()           { return $this->_entityName; }
-    public function getEntityIdentifierClassName() { return $this->_entityName . 'Identifier'; }
-    public function getEntityProjectClassName()    { return $this->_entityName . 'Identifier'; }
+  //public function getClassName()           { return $this->_entityName; }
+    public function getIdentifierClassName() { return $this->_entityName . 'Identifier'; }
     
     public function getEntityEntityClassName()     
     { 
@@ -34,15 +33,27 @@ class BaseRepository extends EntityRepository
         return $entityName . $baseName;; 
     }
     
-    public function newEntity()
+    public function newEntity() // new by itself is a keyword
     {
-        $className = $this->getEntityClassName();
+        $className = $this->getClassName();
         return new $className();
     }
-    public function newEntityIdentifier()
+    public function newIdentifier()
     {
-        $className = $this->getEntityIdentifierClassName();
+        $className = $this->getIdentifierClassName();
         return new $className();
+    }
+    public function getIdentifierManager() 
+    {
+        return $this->_em->getRepository($this->getIdentifierClassName());
+    }
+    public function findByIdentifierValue($value)
+    {
+        $manager = $this->getIdentifierManager();
+        
+        $identifier = $manager->findOneByValue($value);
+        
+        return $identifier? $identifier->getEntity() : null;
     }
     public function newEntityEntity()
     {

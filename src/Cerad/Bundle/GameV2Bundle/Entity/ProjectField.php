@@ -1,7 +1,9 @@
 <?php
 namespace Cerad\Bundle\GameV2Bundle\Entity;
 
-class ProjectField extends BaseEntityEntity
+use Cerad\Bundle\CommonBundle\Entity\BaseEntityEntity as CommonBaseEntityEntity;
+
+class ProjectField extends CommonBaseEntityEntity
 {
     public function getProject() { return $this->entity1; }
     public function getField()   { return $this->entity2; }

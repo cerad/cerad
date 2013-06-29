@@ -28,6 +28,12 @@ Cerad\Bundle\GameV2Bundle\Entity\Team:
         targetEntity: TeamTeam
         mappedBy:     entity1  # Master to slave
         cascade:      ['all']
+        
+    manyToOne:
+      
+      level:
+          targetEntity: Level
+          mappedBy:     teams
                   
     fields:
       
@@ -36,12 +42,6 @@ Cerad\Bundle\GameV2Bundle\Entity\Team:
             type:     string
             length:   20
             nullable: true
-            
-        name:
-            column:   name
-            type:     string
-            length:   80
-            nullable: false
                         
         status:
             column:   status

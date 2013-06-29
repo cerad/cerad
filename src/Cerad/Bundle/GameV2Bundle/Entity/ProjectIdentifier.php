@@ -1,13 +1,12 @@
 <?php
 namespace Cerad\Bundle\GameV2Bundle\Entity;
 
-class ProjectIdentifier extends BaseEntityIdentifier
-{
-    protected $project;
-    
-    public function getProject() { return $this->project; }
-    
-    public function setProject($value) { $this->onPropertySet('project', $value); }
+use Cerad\Bundle\CommonBundle\Entity\BaseEntityIdentifier as CommonBaseEntityIdentifier;
 
+class ProjectIdentifier extends CommonBaseEntityIdentifier
+{   
+    public function getProject() { return $this->entity; }
+    
+    public function setProject($value) { $this->onPropertySet('entity', $value); }
 }
 ?>

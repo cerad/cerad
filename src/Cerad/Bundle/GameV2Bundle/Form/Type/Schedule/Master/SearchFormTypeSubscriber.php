@@ -70,7 +70,7 @@ class SearchFormTypeSubscriber implements EventSubscriberInterface
             'attr' => array('size' => 10),
         )));
         // Generate season select
-        $seasonChoices = $projectManager->loadSeasonChoices();
+        $seasonChoices = $projectManager->findSeasonChoices();
         array_unshift($seasonChoices,'All Seasons');
         $form->add($this->factory->createNamed('seasons', 'choice', null, array(
             'label'           => 'Seasons',
@@ -83,7 +83,7 @@ class SearchFormTypeSubscriber implements EventSubscriberInterface
             'attr' => array('size' => 4),
         )));
         // Generate domain select
-        $domainChoices = $projectManager->loadDomainChoices();
+        $domainChoices = $projectManager->findDomainChoices();
         array_unshift($domainChoices,'All Domains');
         $form->add($this->factory->createNamed('domains', 'choice', null, array(
             'label'           => 'Domains',
@@ -98,7 +98,7 @@ class SearchFormTypeSubscriber implements EventSubscriberInterface
         
         // Generate field pick list
         $projectsSearch = $data['projects'];
-        $fieldChoices = $this->projectManager->loadFieldChoices($projectsSearch);
+        $fieldChoices = $this->projectManager->findFieldChoices($projectsSearch);
         
         $header = sprintf('All Fields(%d)',count($fieldChoices));
         array_unshift($fieldChoices,$header);
@@ -113,44 +113,44 @@ class SearchFormTypeSubscriber implements EventSubscriberInterface
             'auto_initialize' => false,
             'attr' => array('size' => 10),
         )));
+        
+        // Generate level pick list
+        $projectsSearch = $data['projects'];
+        $levelChoices = $this->projectManager->findLevelChoices($projectsSearch);
+        
+        $header = sprintf('All Levels(%d)',count($levelChoices));
+        array_unshift($levelChoices,$header);
+        
+        $form->add($this->factory->createNamed('levels', 'choice', null, array(
+            'label'           => 'Levels',
+            'choices'         => $levelChoices,
+            'required'        => false,
+            'expanded'        => false,
+            'multiple'        => true,
+            'disabled'        => false,
+            'auto_initialize' => false,
+            'attr' => array('size' => 10),
+        )));
+        
+        // Generate team pick list
+        $projectsSearch = $data['projects'];
+        $teamChoices = $this->projectManager->findTeamChoices($projectsSearch);
+        
+        $header = sprintf('All Teams(%d)',count($teamChoices));
+        array_unshift($teamChoices,$header);
+        
+        $form->add($this->factory->createNamed('teams', 'choice', null, array(
+            'label'           => 'teams',
+            'choices'         => $teamChoices,
+            'required'        => false,
+            'expanded'        => false,
+            'multiple'        => true,
+            'disabled'        => false,
+            'auto_initialize' => false,
+            'attr' => array('size' => 10),
+        )));
         return;
         
-        // Generate field pick list
-        $fields = $this->manager->loadFieldChoices($data);
-        array_unshift($fields,'All Fields');
-        $form->add($this->factory->createNamed('fields', 'choice', null, array(
-            'label'         => 'Fields',
-            'required'      => false,
-            'choices'       => $fields,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 10),
-        )));
-        // Generate team pick list
-        $teams = $this->manager->loadTeamNames($data);
-        array_unshift($teams,'All Teams');
-        $form->add($this->factory->createNamed('teams', 'choice', null, array(
-            'label'         => 'Teams',
-            'required'      => false,
-            'choices'       => $teams,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 10),
-        )));
-        // Generate levels pick list
-        $levels  = $this->manager->loadLevelChoices($data);
-        array_unshift($levels,'All Levels');
-        $form->add($this->factory->createNamed('levels', 'choice', null, array(
-            'label'         => 'Levels',
-            'required'      => false,
-            'choices'       => $levels,
-            'expanded'      => false,
-            'multiple'      => true,
-            'disabled'      => false,
-            'attr' => array('size' => 10),
-        )));
         // Generate sports pick list
         $names  = $this->manager->loadDomainSubChoices($data);
         array_unshift($names,'All Sub Groups');

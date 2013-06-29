@@ -21,6 +21,11 @@ class ProjectTest extends EntityBaseTestCase
             $factory->createFromFixture($fixture,true);
         }
         $manager->flush();
+        
+        $fixture = self::$fixtures['entities']['projects'][1];
+        $project = $manager->findByIdentifierValue($fixture['identifiers'][1]['value']);
+        
+        $this->assertEquals($fixture['name'],$project->getName());
     }
 }
 ?>

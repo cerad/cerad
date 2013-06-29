@@ -7,6 +7,7 @@ services:
             - '@cerad_gamev2.level.manager'
             - '@cerad_gamev2.field.manager'
             - '@cerad_gamev2.game.manager'
+            - '@cerad_gamev2.team.manager'
 
     cerad_arbiter.schedule.import.master:
         class:  Cerad\Bundle\ArbiterBundle\Schedule\Import\ImportScheduleMaster

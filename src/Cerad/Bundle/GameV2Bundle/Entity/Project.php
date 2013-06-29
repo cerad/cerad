@@ -4,6 +4,8 @@ namespace Cerad\Bundle\GameV2Bundle\Entity;
 
 use Cerad\Bundle\CommonBundle\Collections\ArrayCollection;
 
+use Cerad\Bundle\CommonBundle\Entity\BaseEntityPrimary as CommonBaseEntityPrimary;
+
 /* ==============================================
  * A project hold specific season information
  * 
@@ -15,39 +17,16 @@ use Cerad\Bundle\CommonBundle\Collections\ArrayCollection;
  * 
  * Games will have both a project reference and a level reference
  * Think you can get the admin info from that
- * 
- * Older hash examples
- * 
-+-----------------------------------------------+
-| hash_project                                  |
-+-----------------------------------------------+
-| SP2013SOCCERALYSAUBURN                        |
-| SP2013SOCCERALYSBIRMINGHAM                    |
-| SP2013SOCCERALYSGADSDEN                       |
-| SP2013SOCCERALYSHUNTSVILLE                    |
-| SP2013SOCCERALYSLALIGABIRMINGHAMADULTAMATEURS |
-| SP2013SOCCERALYSMOBILE                        |
-| SP2013SOCCERALYSMONTGOMERY                    |
-| SP2013SOCCERALYSSRAGAMES                      |
-| SP2013SOCCERALYSTUSCALOOSA                    |
-| SP2013SOCCERNASOAAHSAA                        |
-| SP2013SOCCERNASOAMSSL                         |
-| SP2013SOCCERNASOAUSSFHASL                     |
-| SP2013SOCCERNASOAUSSFHASLWOMEN'S              |
-+-----------------------------------------------+
  */
-class Project extends BaseEntity
-{
-    protected $id;       // GUID - Either user readable or hash
-    protected $identifiers;
-    
+
+class Project extends CommonBaseEntityPrimary
+{   
     protected $sport;
     protected $source;   // Arbiter, Zayso etc
     protected $season;
     protected $domain;    // Primary Domain, a project can still be associated with other domains
     protected $domainSub; // Same for sub domains
     
-    protected $name;
     protected $desc;
     protected $status = 'Active';
    
@@ -60,10 +39,8 @@ class Project extends BaseEntity
     /* ===========================================================
      * Getters/Setters
      */
-    public function getId()        { return $this->id;     }
-    public function getName()      { return $this->name;   }
     public function getDesc()      { return $this->desc;   }
-    public function getData()      { return $this->data;  }
+    public function getData()      { return $this->data;   }
     public function getStatus()    { return $this->status; }
     
     public function getSport ()    { return $this->sport;  }
@@ -75,10 +52,8 @@ class Project extends BaseEntity
     public function getProjectTeams () { return $this->projectTeams;  }
     public function getProjectLevels() { return $this->projectLevels; }
     public function getProjectFields() { return $this->projectFields; }
-    public function getIdentifiers()   { return $this->identifiers;   }
     
     public function setId       ($value) { $this->onPropertySet('id',       $value); }
-    public function setName     ($value) { $this->onPropertySet('name',     $value); }
     public function setDesc     ($value) { $this->onPropertySet('desc',     $value); }
     public function setData     ($value) { $this->onPropertySet('data',     $value); }
     public function setStatus   ($value) { $this->onPropertySet('status',   $value); }
@@ -94,65 +69,23 @@ class Project extends BaseEntity
      */
     public function __construct($data = null)
     {
-        $this->data = $data;
+        parent::__construct();
         
-        $this->id = $this->genGUID();
-        $this->identifiers = new ArrayCollection();
+        $this->data = $data;
         
         $this->projectTeams  = new ArrayCollection();
         $this->projectLevels = new ArrayCollection();
         $this->projectFields = new ArrayCollection();
     }
-    public function addIdentifier(ProjectIdentifier $identifier)
-    {
-        // TODO: check for dups
-        $this->identifiers[] = $identifier;
-        $identifier->setProject($this);
-        $this->onPropertyChanged('identifiers');
-    }
-    /*
-    public function addTeam(Team $entity)
-    {
-        $this->teams[] = $entity;
-        $entity->setProject($this);
-    }
-    public function addLevel(Level $entity)
-    {
-        $this->levels[] = $entity;
-        $entity->setProject($this);
-    }*/
-    /* =============================================
-     * Add a field to the project
-     * Creates the ProjectField if necessary
-     * 
-     */
-    public function addField(Field $item)
-    {
-        // Protect against dups
-        if ($this->hasField($item)) return $this;
-   
-        // Make new entity
-        $rel = new ProjectField();
-        $rel->setProject($this);
-        $rel->setField  ($item);
+    public function newIdentifier() { return new ProjectIdentifier(); }
 
-        $this->projectFields[] = $rel;
-        
-        // This is very important, need to trigger when have changes
-        $this->onPropertyChanged('projectFields');
-     
-        // Should update the other side?
-        // $item->setProject($this);
-        
-        return $this;
-    }
-    public function hasField(Field $item)
+    public function addField(Field $item,$role = null)
     {
-        foreach($this->projectFields as $rel)
-        {
-            if ($rel->getField()->getId() == $item->getId()) return true;
-        }
-        return false;
+        return $this->addRelItem('projectFields',__NAMESPACE__.'\\ProjectField',$item,$role);
+    }
+    public function addTeam(Team $item,$role = null)
+    {
+        return $this->addRelItem('projectTeams',__NAMESPACE__.'\\ProjectTeam',$item,$role);
     }
     /* ==========================================================
      * ProjectLevel relation
@@ -181,58 +114,6 @@ class Project extends BaseEntity
         }
         return false;
    }
-    /* ==========================================================
-     * ProjectTeam relation
-     */
-    public function addTeam(Team $item, $role = null)
-    {
-        return $this->addRelItem('projectTeams','ProjectTeam',$item,$role);
-        
-        // Protect against dups
-        if ($this->getRelItem($this->projectTeams,$item,$role)) return $this;
-   
-        // Make new entity
-        $rel = new ProjectTeam();
-        $rel->setProject($this);
-        $rel->setTeam   ($item);
-
-        $this->projectTeams[] = $rel;
-        
-        $this->onPropertyChanged('projectLevels');
-     
-        return $this;
-    }
-    public function addRelItem($relPropName,$relClassName,$item,$role = null)
-    {
-        $rels = &$this->$relPropName;
-        
-        // Protect against dups
-        if ($this->getRelItem($rels,$item,$role)) return $this;
-   
-        // Make new entity
-        $rel = new $relClassName();
-        $rel->setEntity1($this);
-        $rel->setEntity2($item);
-
-        $rels[] = $rel;
-        
-        $this->onPropertyChanged($relPropName);
-     
-        return $this;
-    }
-    public function getRelItem($rels,$item,$role = null)
-    {
-        foreach($rels as $rel)
-        {
-            if 
-            (
-                ($rel->getRole() == $role) && 
-                ($rel->getEntity2()->getId() == $item->getId())
-            ) return rel;
-        }
-        return null;
-   }
-
    /* =========================================
      * Debugging
      */

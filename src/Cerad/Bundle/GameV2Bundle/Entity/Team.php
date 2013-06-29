@@ -1,18 +1,18 @@
 <?php
-
 namespace Cerad\Bundle\GameV2Bundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Cerad\Bundle\CommonBundle\Collections\ArrayCollection;
 
 use Cerad\Bundle\CommonBundle\Entity\BaseEntityPrimary as CommonBaseEntityPrimary;
 
 class Team extends CommonBaseEntityPrimary
 {
-    const RolePhysical = 'Physical';
-    const RolePool     = 'Pool';
+    const RolePhysical    = 'Physical';
+    const RolePool        = 'Pool';
+    const RolePlaceHolder = 'Placeholder';
     
     protected $role = self::RolePhysical;
-    protected $name;
+    
     protected $level;  // Belongs to one and only one level
     protected $league; // Belongs to at most one league
     protected $status = 'Active';
@@ -22,7 +22,6 @@ class Team extends CommonBaseEntityPrimary
     protected $teamProjects; // A team can cross between multiple projects?
     
     public function getRole  () { return $this->role;    }
-    public function getName  () { return $this->name;    }
     public function getLevel () { return $this->level;   }
     public function getLeague() { return $this->league;  }
     public function getStatus() { return $this->status;  }
@@ -32,7 +31,6 @@ class Team extends CommonBaseEntityPrimary
     public function getTeamProjects() { return $this->teamProjects; }
    
     public function setRole   ($value) { $this->onPropertySet('role',   $value); }
-    public function setName   ($value) { $this->onPropertySet('name',   $value); }
     public function setLevel  ($value) { $this->onPropertySet('level',  $value); }
     public function setLeague ($value) { $this->onPropertySet('league', $value); }
     public function setStatus ($value) { $this->onPropertySet('status', $value); }

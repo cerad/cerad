@@ -11,6 +11,7 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
 {
   //protected $manager;
     protected $gameManager;
+    protected $teamManager;
     protected $fieldManager;
     protected $levelManager;
     protected $projectManager;
@@ -32,6 +33,7 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
     {
       //$this->manager        = $manager;
         $this->gameManager    = $manager->gameManager;
+        $this->teamManager    = $manager->teamManager;
         $this->fieldManager   = $manager->fieldManager;
         $this->levelManager   = $manager->levelManager;
         $this->projectManager = $manager->projectManager;
@@ -73,10 +75,7 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
             $this->projects = null;
             $this->fields   = null;
             $this->levels   = null;
-            
-          //$this->fieldManager  ->clearCache();
-          //$this->levelManager  ->clearCache();
-          //$this->projectManager->clearCache();
+            $this->teams    = null;
             
             $this->flushCount = 0;
         }
@@ -159,13 +158,13 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         
         if (isset($this->projects[$hash])) return $this->projects[$hash];
         
-        $project = $manager->findProjectByIdentifierValue($hash);
+        $project = $manager->findByIdentifierValue($hash);
         if ($project)
         {
             $this->projects[$hash] = $project;
             return $project;
         }
-        $project = $manager->newProject();
+        $project = $manager->newEntity();
         
         $project->setSport    ($sport);
         $project->setSource   ($source);
@@ -176,7 +175,7 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         $name = sprintf('%s %s %s %-8s %s',$source,$sport,$season,$domain,$domainSub);
         $project->setName($name);
         
-        $identifier = $manager->newProjectIdentifier();
+        $identifier = $manager->newIdentifier();
         $identifier->setSource ($source);
         $identifier->setValue  ($hash);
         $project->addIdentifier($identifier);
@@ -219,6 +218,96 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
         $manager->persist($item);
         $this->fields[$hash] = $item;
         $project->addField($item);
+         
+        return $item;
+    }
+    /* ========================================
+     * Team Caching
+     */
+    protected function getTeam($project,$name,$role,$level)
+    {
+        // Do some filtering and try to limit to "real" teams
+        switch($name)
+        {
+            case null: case '':
+            case '1A': case '1B': case '1SEED':
+            case '2A': case '2B': case '2SEED':
+            case '3A': case '3B': case '3SEED':
+            case '4A': case '4B': case '4SEED':
+            case 'A1': case 'A2': case 'A3': case 'A4': case 'A5': case 'A6': 
+            case 'B1': case 'B2': case 'B3': case 'B4': case 'B5': case 'B6': 
+            case 'C1': case 'C2': case 'C3': case 'C4': case 'C5': case 'C6': 
+            case 'D1': case 'D2': case 'D3': case 'D4': case 'D5': case 'D6': 
+                
+            case 'Bracket I 1st':  case 'Bracket I 2nd':
+            case 'Bracket II 1st': case 'Bracket II 2nd':
+                
+            case 'G1L': case 'G2L': case 'G3L': case 'G4L': case 'G5L': case 'G6L': case 'G7L': case 'G8L':
+            case 'G1W': case 'G2W': case 'G3W': case 'G4W': case 'G5W': case 'G6W': case 'G7W': case 'G8W':
+            
+            case 'F1W': case 'F2W': case 'F3W': case 'F4W':
+                
+            case 'TBD': case 'TBD1': case 'TBD2': case 'TBD3': case 'TBD4': case 'TOC':
+                
+            case 'Place 1': case 'Place 2': case 'Place 3': case 'Place 4': case 'Place 5': 
+            case 'Place 6': case 'Place 7': case 'Place 8': case 'Place 9':
+                
+            case 'team1' : case 'team2' : case 'team3' : case 'team4' : 
+            case 'Team 1': case 'Team 2': case 'Team 3': case 'Team 4': 
+            case 'Team 5': case 'Team 6': case 'Team 7': case 'Team 8':
+                
+            case 'Wild Card 1': case 'Wild Card 2': case 'Wild Card 3': case 'Wild Card 4': 
+            case 'Wild Card 5': case 'Wild Card 6': case 'Wild Card 7': case 'Wild Card 8': 
+                                
+                return;  
+        }
+      //if (strpos($name,'Wild Card ')   === 0) return;
+        if (strpos($name,'Winner Game ') === 0) return;
+        
+        // Could almost go by size
+        // LFC is valid
+        if (strlen($name) < 5) 
+        {
+            switch($name)
+            {
+                case 'LFC':
+                case '120': case '226': case '919': case '926':
+                    break;
+                default:
+                    echo sprintf("Team Name %s\n",$name);
+           }
+        }
+        // Onwards
+        $manager = $this->teamManager;
+        $hash = $manager->hash(array($project->getSource(),$project->getDomain(),$name));
+        
+        if (isset($this->teams[$hash])) 
+        {   
+            $item = $this->teams[$hash];
+            $project->addTeam($item);
+            return $item;
+        }
+        $item = $manager->findByIdentifierValue($hash);
+        if ($item)
+        {   
+            $this->teams[$hash] = $item;
+            $project->addTeam($item);
+            return $item;
+        }
+        $item = $manager->newEntity();
+                
+        $item->setName ($name);
+        $item->setRole ($role);
+        $item->setLevel($level);
+        
+        $identifier = $manager->newIdentifier();
+        $identifier->setSource ($project->getSource());
+        $identifier->setValue  ($hash);
+        $item->addIdentifier($identifier);
+        
+        $manager->persist($item);
+        $this->teams[$hash] = $item;
+        $project->addTeam($item);
          
         return $item;
     }
