@@ -224,7 +224,7 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
     /* ========================================
      * Team Caching
      */
-    protected function getTeam($project,$name,$role,$level)
+    protected function getTeam($project,$name,$level,$role = 'Physical')
     {
         // Do some filtering and try to limit to "real" teams
         switch($name)

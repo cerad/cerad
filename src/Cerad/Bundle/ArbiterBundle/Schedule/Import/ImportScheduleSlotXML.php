@@ -86,8 +86,8 @@ class ImportScheduleSlotXML extends ImportScheduleBase
         
         $gameReportStatus = $row['Report_Status'];
 
-        $physicalHomeTeam = $this->getTeam($project,$row['Home_Team'],'Home',$level);
-        $physicalAwayTeam = $this->getTeam($project,$row['Away_Team'],'Away',$level);
+        $physicalHomeTeam = $this->getTeam($project,$row['Home_Team'],$level);
+        $physicalAwayTeam = $this->getTeam($project,$row['Away_Team'],$level);
         
         $this->processGameTeam(
                 $game->getHomeTeam(),
