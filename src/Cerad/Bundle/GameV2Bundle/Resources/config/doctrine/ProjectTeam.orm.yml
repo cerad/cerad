@@ -1,0 +1,13 @@
+Cerad\Bundle\GameV2Bundle\Entity\ProjectTeam:
+  
+    type:  entity
+    table: project_team
+                
+    manyToOne:
+        entity1:
+            targetEntity: Project
+            
+        entity2:
+            targetEntity: Team
+
+    

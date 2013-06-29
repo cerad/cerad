@@ -2,7 +2,7 @@
 
 namespace Cerad\Bundle\GameV2Bundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Cerad\Bundle\CommonBundle\Collections\ArrayCollection;
 
 /* ==============================================
  * A project hold specific season information
@@ -181,6 +181,58 @@ class Project extends BaseEntity
         }
         return false;
    }
+    /* ==========================================================
+     * ProjectTeam relation
+     */
+    public function addTeam(Team $item, $role = null)
+    {
+        return $this->addRelItem('projectTeams','ProjectTeam',$item,$role);
+        
+        // Protect against dups
+        if ($this->getRelItem($this->projectTeams,$item,$role)) return $this;
+   
+        // Make new entity
+        $rel = new ProjectTeam();
+        $rel->setProject($this);
+        $rel->setTeam   ($item);
+
+        $this->projectTeams[] = $rel;
+        
+        $this->onPropertyChanged('projectLevels');
+     
+        return $this;
+    }
+    public function addRelItem($relPropName,$relClassName,$item,$role = null)
+    {
+        $rels = &$this->$relPropName;
+        
+        // Protect against dups
+        if ($this->getRelItem($rels,$item,$role)) return $this;
+   
+        // Make new entity
+        $rel = new $relClassName();
+        $rel->setEntity1($this);
+        $rel->setEntity2($item);
+
+        $rels[] = $rel;
+        
+        $this->onPropertyChanged($relPropName);
+     
+        return $this;
+    }
+    public function getRelItem($rels,$item,$role = null)
+    {
+        foreach($rels as $rel)
+        {
+            if 
+            (
+                ($rel->getRole() == $role) && 
+                ($rel->getEntity2()->getId() == $item->getId())
+            ) return rel;
+        }
+        return null;
+   }
+
    /* =========================================
      * Debugging
      */

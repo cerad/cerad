@@ -14,9 +14,14 @@ Cerad\Bundle\GameV2Bundle\Entity\Team:
           mappedBy:     entity
           cascade:      ['all']
           
+      teamProjects:
+        targetEntity: ProjectTeam
+        mappedBy:     entity2  # Slave to master
+        cascade:      ['all']
+        
       teamTeams1:
         targetEntity: TeamTeam
-        mappedBy:     entity2  # Slave to mastet
+        mappedBy:     entity2  # Slave to master
         cascade:      ['all']
         
       teamTeams2:

@@ -19,7 +19,7 @@ class Team extends CommonBaseEntityPrimary
     
     protected $teamTeams1;
     protected $teamTeams2;
-    protected $projectTeams; // A team can cross between multiple projects?
+    protected $teamProjects; // A team can cross between multiple projects?
     
     public function getRole  () { return $this->role;    }
     public function getName  () { return $this->name;    }
@@ -29,7 +29,7 @@ class Team extends CommonBaseEntityPrimary
     
     public function getTeamTeams1  () { return $this->teamTeams1;   }
     public function getTeamTeams2  () { return $this->teamTeams2;   }
-    public function getProjectTeams() { return $this->projectTeams; }
+    public function getTeamProjects() { return $this->teamProjects; }
    
     public function setRole   ($value) { $this->onPropertySet('role',   $value); }
     public function setName   ($value) { $this->onPropertySet('name',   $value); }
@@ -45,7 +45,8 @@ class Team extends CommonBaseEntityPrimary
         parent::__construct();
         
         $this->teamTeams1    = new ArrayCollection();
-        $this->projectTeams  = new ArrayCollection();
+        $this->teamTeams2    = new ArrayCollection();
+        $this->teamProjects  = new ArrayCollection();
     }
     public function newIdentifier() { return new TeamIdentifier(); }
     
@@ -55,8 +56,21 @@ class Team extends CommonBaseEntityPrimary
      * Only implementing master => slave for now
      * AKA addTeamSlave or addTeamRight
      */
-    public function addTeam2($team2,$role = null)
+    public function addProject(Project $item,$role = null)
     {
+        // Works
+        return $this->addRelItem('teamProjects',__NAMESPACE__.'\\ProjectTeam',$item,$role);
+    }
+    public function addTeam1(Team $item,$role = null)
+    {
+        // Works
+        return $this->addRelItem('teamTeams1',__NAMESPACE__.'\\TeamTeam',$item,$role);
+    }
+    public function addTeam2(Team $item,$role = null)
+    {
+        // Works
+        return $this->addRelItem('teamTeams2',__NAMESPACE__.'\\TeamTeam',$item,$role);
+        
         $team1 = $this;
        
         // Check for dups

@@ -1,20 +1,34 @@
 <?php
 namespace Cerad\Bundle\CommonBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Cerad\Bundle\CommonBundle\Collections\ArrayCollection;
 
 /* ==================================================
  * For lack of a better term
  * Primary elements have their own manager
- * Examples: Team Game Project
+ * Examples: Project Field Venue Level Team League
+ * 
+ * Game might be a bit different
+ * 
  * They all have identifiers
  */
 abstract class BaseEntityPrimary extends BaseEntity
 {
-    protected $id; // All have a guid id
-
-    public function getId()    { return $this->id; }
-    public function setId($id) { return $this->onPropertySet('id',$id); }
+    protected $id;   // All have a guid id
+    protected $name; // All have a name
+    protected $desc; // Applicable to most
+    
+    protected $status = 'Active';  // This might be sone step too far
+    
+    public function getId    () { return $this->id;     }
+    public function getName  () { return $this->name;   }
+    public function getDesc  () { return $this->desc;   }
+    public function getStatus() { return $this->status; }
+    
+    public function setId    ($value) { return $this->onPropertySet('id',    $value); }
+    public function setName  ($value) { return $this->onPropertySet('name',  $value); }
+    public function setDesc  ($value) { return $this->onPropertySet('desc',  $value); }
+    public function setStatus($value) { return $this->onPropertySet('status',$value); }
     
     /* =============================================================
      * Lots of entities have identifiers
@@ -41,7 +55,7 @@ abstract class BaseEntityPrimary extends BaseEntity
             if ($identifierx->getValue() == $identifier->getValue()) return;
         }
         // Copy name if none existing
-        if (!$identifier->getName()) $identifier->setname($this->getName());
+        if (!$identifier->getName()) $identifier->setName($this->getName());
         
         // Add it
         $this->identifiers[] = $identifier;
@@ -60,6 +74,37 @@ abstract class BaseEntityPrimary extends BaseEntity
     {
         $this->id          = self::genGUID();
         $this->identifiers = new ArrayCollection();        
+    }
+    
+    /* =======================================
+     * Try to standardize adding many to many relation
+     * 
+     * Works except because it is in the common bundle.
+     * A FQN needs to be passed, bit of a pain on the calling end
+     */
+    public function addRelItem($relPropName,$relClassName,$item,$role = null)
+    {
+        // Relations
+        $rels = $this->$relPropName;
+        
+        // Protect against dups
+        foreach($rels as $rel)
+        {
+            if (($rel->getRole() == $role) && ($rel->getEntity2()->getId() == $item->getId())) return $this;
+        }
+        // Make new entity
+        $rel = new $relClassName();
+        $rel->setRole   ($role);
+        $rel->setEntity1($this);
+        $rel->setEntity2($item);
+        $rel->setName1  ($this->getName());
+        $rel->setName2  ($item->getName());
+
+        $rels[] = $rel;
+        $this->$relPropName = $rels;
+        $this->onPropertyChanged($relPropName);
+     
+        return $this;
     }
 }
 ?>
