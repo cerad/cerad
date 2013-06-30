@@ -13,15 +13,16 @@
     syntaxCheck                 = "false"
     bootstrap                   = "bootstrap.php.cache" >
 
-    <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>../../cerad/src/Cerad/Bundle/GameV2Bundle/Tests/Entity</directory>
-                <file>DatabaseResetTest.php</file>
-                <file>ProjectTest.php</file>
-                <file>TeamTest.php</file>
-            <directory></directory>
-        </testsuite>
-    </testsuites>
+<testsuites>
+  <testsuite name="Project Test Suite">
+    <directory>../../cerad/src/Cerad/Bundle/GameV2Bundle/Tests/Entity/DatabaseResetTest.php</directory>
+    <directory>../../cerad/src/Cerad/Bundle/GameV2Bundle/Tests/Entity/ProjectTest.php</directory>
+    <directory>../../cerad/src/Cerad/Bundle/GameV2Bundle/Tests/Entity/LevelTest.php  </directory>
+    <directory>../../cerad/src/Cerad/Bundle/GameV2Bundle/Tests/Entity/FieldTest.php  </directory>
+    <directory>../../cerad/src/Cerad/Bundle/GameV2Bundle/Tests/Entity/TeamTest.php   </directory>
+    <directory></directory>
+  </testsuite>
+</testsuites>
 
     <!--
     <php>
