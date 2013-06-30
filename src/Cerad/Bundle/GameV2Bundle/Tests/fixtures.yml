@@ -56,15 +56,15 @@ entities:
             value:  JPSOCCERSP2013JPAYSOAREA5CFSPRINGSENDOFF
        
     teams:
-        1:
+        0:
             id:    546CF032-9707-454D-B015-ADD0AD7EEFA3
-            name: 'HFC Boys 92 Blue 1'
+            name: 'HFC Boys 92 Blue 0'
             role: 'Physical'
             identifiers:
                 1:
                     source: Arbiter
                     value:  ARBITERHUNTSVILEHFCBOYS92BLUE
-        2:
+        1:
             id:    9E855F60-EBBD-47CB-9142-EAFADD6C7B91
             name: 'R0894-U12B-01 Jolly Jokers'
             role: 'Physical'
@@ -72,7 +72,7 @@ entities:
                 1:
                     source: Zayso
                     value:  ZAYSOR0894U12B01JOLLYJOKERS           
-        3:
+        2:
             id:    C0CCDE50-E22B-4DC7-BC2F-3BE72956B36D
             name: 'Sparkman HS'
             role: 'Physical'
@@ -80,9 +80,9 @@ entities:
                 1:
                     source: AHSAA
                     value:  AHSAASPARKMANHS
-        4:
+        3:
             id:    20D06CB3-6814-4A78-AA42-E746711D9CE1
-            name: 'HFC Boys 92 Blue 4'
+            name: 'HFC Boys 92 Blue 3'
             role: 'Physical'
             identifiers:
                 1:

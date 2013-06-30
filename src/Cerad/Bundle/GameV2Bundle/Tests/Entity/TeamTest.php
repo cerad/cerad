@@ -14,6 +14,8 @@ class TeamTest extends EntityBaseTestCase
 
         $manager = $client->getContainer()->get($this->teamManagerId);
         
+        $valuex = null;
+        
         $entityFixtures = isset(self::$fixtures['entities']['teams']) ? self::$fixtures['entities']['teams'] : array();
         foreach($entityFixtures as $entityFixture)
         {
@@ -41,7 +43,7 @@ class TeamTest extends EntityBaseTestCase
                 }
                 $identifier = $manager->newIdentifier();
                 
-                $identifier->setValue ($value);
+                $identifier->setValue ($value); $valuex = $value;
                 $identifier->setSource($source);
                 
                 $entity->addIdentifier($identifier);
@@ -50,6 +52,12 @@ class TeamTest extends EntityBaseTestCase
         }
         $manager->flush();
         $manager->clear();
+        
+        // Quick identifier test
+        $team = $manager->findByIdentifierValue($valuex);
+        $this->assertTrue(is_object($team));
+        $manager->clear();
+         
         return;
         
 
@@ -96,14 +104,49 @@ class TeamTest extends EntityBaseTestCase
         $manager->clear();
         
         // See if truely linked
-        $team1Id = self::$fixtures['entities']['teams'][1]['id'];
-        $team4Id = self::$fixtures['entities']['teams'][4]['id'];
-        $team1 = $manager->find($team1Id);
+        $team0Id = self::$fixtures['entities']['teams'][0]['id'];
+        $team3Id = self::$fixtures['entities']['teams'][3]['id'];
+        $team0 = $manager->find($team0Id);
         
-        $teamTeams2 = $team1->getTeamTeams2();
+        $teamTeams2 = $team0->getTeamTeams2();
         
         $this->assertEquals(1,count($teamTeams2));
-        $this->assertEquals($team4Id,$teamTeams2[0]->getEntity2()->getId());
+        $this->assertEquals($team3Id,$teamTeams2[0]->getEntity2()->getId());
+        
+        $manager->clear();
+    }
+    /** ========================================================
+     * @depends testNewTeams
+     * 
+     */
+    public function testNewProjectTeams()
+    {
+        $client = $this->createClientApp();
+
+        $teamManager    = $client->getContainer()->get($this->teamManagerId);
+        $projectManager = $client->getContainer()->get($this->projectManagerId);
+        
+        $teamFixtures    = self::$fixtures['entities']['teams'];
+        $projectFixtures = self::$fixtures['entities']['projects'];
+        
+        $project = $projectManager->find($projectFixtures[0]['id']);
+        
+        $team0 = $teamManager->find($teamFixtures[0]['id']);
+        $team1 = $teamManager->find($teamFixtures[1]['id']);
+        
+        $this->assertEquals(0,count($project->getProjectTeams()));
+        $project->addTeam($team0);
+        $project->addTeam($team1);
+        $this->assertEquals(2,count($project->getProjectTeams()));
+        
+        $projectManager->flush();
+        $projectManager->clear();
+        
+        $project = $projectManager->find($projectFixtures[0]['id']);
+        $this->assertEquals(2,count($project->getProjectTeams()));
+
+        $projectManager->clear();
+        
     }
 }
 
