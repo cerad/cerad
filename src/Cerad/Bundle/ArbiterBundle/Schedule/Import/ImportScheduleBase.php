@@ -199,18 +199,18 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
             $project->addField($item);
             return $item;
         }
-        $item = $manager->findFieldByIdentifierValue($hash);
+        $item = $manager->findByIdentifierValue($hash);
         if ($item)
         {   
             $this->fields[$hash] = $item;
             $project->addField($item);
             return $item;
         }
-        $item = $manager->newField();
+        $item = $manager->newEntity();
                 
         $item->setName($name);
         
-        $identifier = $manager->newFieldIdentifier();
+        $identifier = $manager->newIdentifier();
         $identifier->setSource ($project->getSource());
         $identifier->setValue  ($hash);
         $item->addIdentifier($identifier);
@@ -325,18 +325,18 @@ class ImportScheduleBase implements PropertyChangedListener, EventSubscriber
             $project->addLevel($item);
             return $item;
         }
-        $item = $manager->findLevelByIdentifierValue($hash);
+        $item = $manager->findByIdentifierValue($hash);
         if ($item)
         {   
             $this->levels[$hash] = $item;
             $project->addLevel($item);
             return $item;
         }
-        $item = $manager->newLevel();
+        $item = $manager->newEntity();
         
         $item->setName($name);
         
-        $identifier = $manager->newLevelIdentifier();
+        $identifier = $manager->newIdentifier();
         $identifier->setSource ($project->getSource());
         $identifier->setValue  ($hash);
         $item->addIdentifier($identifier);

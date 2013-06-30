@@ -118,3 +118,28 @@ entities:
                 1:
                     source: Test
                     value:  TESTWI2013FIELD1
+                    
+# ========================================
+    levels:
+        0:
+            id:      7AE2F44D-E314-4C58-9474-C414A1964123
+            name:    U12BC
+            desc:    U12 Boys Core
+            age:     U12
+            gender:  B
+            program: C
+            identifiers:
+                1:
+                    source: Test
+                    value:  TESTWI2013U12BC
+        1:
+            id:      49F4BBCB-54BD-43DD-95EF-E1C3E566BF66
+            name:    U12GE
+            desc:    U12 Girls Extra
+            age:     U12
+            gender:  G
+            program: E
+            identifiers:
+                1:
+                    source: Test
+                    value:  TESTWI2013U12GE

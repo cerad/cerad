@@ -1,0 +1,13 @@
+Cerad\Bundle\GameV2Bundle\Entity\LevelLevel:
+  
+    type:  entity
+    table: level_level
+                
+    manyToOne:
+        entity1:
+            targetEntity: Level
+            
+        entity2:
+            targetEntity: Level
+
+    

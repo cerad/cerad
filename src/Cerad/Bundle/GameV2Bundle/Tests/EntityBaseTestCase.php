@@ -34,6 +34,19 @@ class EntityBaseTestCase extends WebTestCase
     {
         self::$fixtures = Yaml::parse(file_get_contents(__DIR__ . '/fixtures.yml'));
     }
-
+    protected function findProject($client,$index = 0)
+    {
+        $manager = $client->getContainer()->get($this->projectManagerId);
+       
+        $fixtures = self::$fixtures['entities']['projects'];
+        
+        $id = $fixtures[$index]['id'];
+        
+        $project = $manager->find($id);
+        
+        $this->assertTrue(is_object($project));
+        
+        return $project;
+    }
 }
 ?>

@@ -4,7 +4,7 @@ Cerad\Bundle\GameV2Bundle\Entity\LevelIdentifier:
     table: level_identifier
                 
     manyToOne:
-        level:
+        entity:
             targetEntity: Level
 
     

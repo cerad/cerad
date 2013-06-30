@@ -7,31 +7,28 @@ Cerad\Bundle\GameV2Bundle\Entity\Level:
     
     changeTrackingPolicy: NOTIFY
 
-    id:
-        id:
-            type:   string
-            length: 40
-            generator: { strategy: NONE }
-            
     oneToMany:
-             
       identifiers:
           targetEntity: LevelIdentifier
-          mappedBy:     level
+          mappedBy:     entity
           cascade:      ['all']
           
-      projectLevels:
+      levelProjects:
         targetEntity: ProjectLevel
-        mappedBy:     entity2
+        mappedBy:     entity2  # Slave to master
+        cascade:      ['all']
+        
+      levelLevels1:
+        targetEntity: LevelLevel
+        mappedBy:     entity2  # Slave to master
+        cascade:      ['all']
+        
+      levelLevels2:
+        targetEntity: LevelLevel
+        mappedBy:     entity1  # Master to slave
         cascade:      ['all']
      
     fields:
-      
-        name:
-            column:   name
-            type:     string
-            length:   40
-            nullable: false
             
         age:
             column:   age
@@ -47,6 +44,12 @@ Cerad\Bundle\GameV2Bundle\Entity\Level:
             
         program:
             column:   program
+            type:     string
+            length:   20
+            nullable: true
+            
+        division:
+            column:   division
             type:     string
             length:   20
             nullable: true
