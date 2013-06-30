@@ -17,3 +17,9 @@ Cerad\Bundle\CommonBundle\Entity\BaseEntityPrimary:
             type:     string
             length:   80
             nullable: false
+            
+        desc:
+            column:   descx
+            type:     string
+            length:   80
+            nullable: true

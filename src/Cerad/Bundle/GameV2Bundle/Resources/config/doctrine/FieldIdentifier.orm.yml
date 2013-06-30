@@ -4,7 +4,7 @@ Cerad\Bundle\GameV2Bundle\Entity\FieldIdentifier:
     table: field_identifier
                 
     manyToOne:
-        field:
+        entity:
             targetEntity: Field
-            nullable:     false
+
     

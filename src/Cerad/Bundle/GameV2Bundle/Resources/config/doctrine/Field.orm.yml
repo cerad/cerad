@@ -6,25 +6,29 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
     repositoryClass: Cerad\Bundle\GameV2Bundle\EntityRepository\FieldRepository
     
     changeTrackingPolicy: NOTIFY
-        
-    id:
-        id:
-            type:   string
-            length: 40
-            generator: { strategy: NONE }
-            
+                    
     oneToMany:
-            
+      
       identifiers:
-        targetEntity: FieldIdentifier
-        mappedBy:     field
+          targetEntity: FieldIdentifier
+          mappedBy:     entity
+          cascade:      ['all']
+          
+      fieldProjects:
+        targetEntity: ProjectField
+        mappedBy:     entity2  # Slave to master
         cascade:      ['all']
         
-      projectFields:
-        targetEntity: ProjectField
-        mappedBy:     entity2
+      fieldFields1:
+        targetEntity: FieldField
+        mappedBy:     entity2  # Slave to master
         cascade:      ['all']
-    
+        
+      fieldFields2:
+        targetEntity: FieldField
+        mappedBy:     entity1  # Master to slave
+        cascade:      ['all']
+                
     fields:
             
         venue:
@@ -32,18 +36,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Field:
             type:     string
             length:   40
             nullable: true
-            
-        name:
-            column:   name
-            type:     string
-            length:   40
-            nullable: false
-            
-        desc:
-            column:   descx
-            type:     string
-            nullable: true
-        
+                    
         checkConflicts:
             column: check_conflicts
             type:   boolean

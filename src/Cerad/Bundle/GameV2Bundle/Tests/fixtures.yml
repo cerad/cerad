@@ -1,5 +1,6 @@
 entities:
   
+# ========================================
     projects:
       0:
         id:        5BBD0493-8C84-4036-829F-046E230F7225
@@ -54,7 +55,8 @@ entities:
           2:
             source: JP
             value:  JPSOCCERSP2013JPAYSOAREA5CFSPRINGSENDOFF
-       
+            
+# ========================================       
     teams:
         0:
             id:    546CF032-9707-454D-B015-ADD0AD7EEFA3
@@ -90,13 +92,29 @@ entities:
                     value:  ARBITERBIRMIGHAMHFCBOYS92BLUE
 
     team_teams:
-        1:
+        0:
             role: Same
             id1:  546CF032-9707-454D-B015-ADD0AD7EEFA3 # Team #1
             id2:  20D06CB3-6814-4A78-AA42-E746711D9CE1 # Team #2
             
-        2:
+        1:
             role: Same
             id2:  546CF032-9707-454D-B015-ADD0AD7EEFA3 # Team #2
             id1:  20D06CB3-6814-4A78-AA42-E746711D9CE1 # Team #1
             
+# ========================================
+    fields:
+        0:
+            id:    E390C195-9915-42CE-B7A9-439A29D2711D
+            name: 'Field #0'
+            identifiers:
+                1:
+                    source: Test
+                    value:  TESTWI2013FIELD0
+        1:
+            id:    A8B6BA4E-84CD-4799-BA9B-1448A1363B5B
+            name: 'Field #1'
+            identifiers:
+                1:
+                    source: Test
+                    value:  TESTWI2013FIELD1

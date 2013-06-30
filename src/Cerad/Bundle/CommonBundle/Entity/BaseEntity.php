@@ -5,8 +5,14 @@ namespace Cerad\Bundle\CommonBundle\Entity;
 use Doctrine\Common\NotifyPropertyChanged,
     Doctrine\Common\PropertyChangedListener;
 
+use Cerad\Bundle\CommonBundle\Functions\Hash;
+
 class BaseEntity implements NotifyPropertyChanged
 {
+    public function hash($value, $crc = false)
+    {
+        return Hash::exe($value,$crc);
+    }
     /* =================================================
      * Making this a static partly so it can be used outside of an entity
      * And partly just because

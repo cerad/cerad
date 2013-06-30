@@ -30,13 +30,7 @@ Cerad\Bundle\GameV2Bundle\Entity\Project:
         cascade:      ['all']
        
     fields:
-            
-        desc:
-            column:   descx
-            type:     string
-            length:   80
-            nullable: true
-            
+                        
         status:
             column:   status
             type:     string
