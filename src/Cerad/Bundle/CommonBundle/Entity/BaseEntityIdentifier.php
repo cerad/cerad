@@ -1,6 +1,8 @@
 <?php
 namespace Cerad\Bundle\CommonBundle\Entity;
 
+use Cerad\Bundle\CommonBundle\Functions\IfIsSet;
+
 class BaseEntityIdentifier extends BaseEntity
 {
     const SourceKey     = 'Key';      // This is the only one with special meaning?
@@ -29,5 +31,23 @@ class BaseEntityIdentifier extends BaseEntity
     public function setSource($value) { $this->onPropertySet('source',  $value); }
     public function setEntity($value) { $this->onPropertySet('entity',  $value); }
     
+    public function loadFromArray($fixture,$entity,$project)
+    {       
+        $value  = IfIsSet::exe($fixture,'value' );
+        $source = IfIsSet::exe($fixture,'source');
+        $status = IfIsSet::exe($fixture,'status');
+                
+        if (!$value) $value = $this->genIdentifierValue($entity,$project);
+        
+        $this->setName  ($entity->getName());
+        $this->setValue ($value);
+        $this->setSource($source);
+                
+        if ($status) $this->setStatus($status);
+                
+        $entity->addIdentifier($this);
+        
+        return $this;
+    }    
 }
 ?>

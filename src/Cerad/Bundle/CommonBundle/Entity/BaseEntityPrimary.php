@@ -3,6 +3,8 @@ namespace Cerad\Bundle\CommonBundle\Entity;
 
 use Cerad\Bundle\CommonBundle\Collections\ArrayCollection;
 
+use Cerad\Bundle\CommonBundle\Functions\IfIsSet;
+
 /* ==================================================
  * For lack of a better term
  * Primary elements have their own manager
@@ -105,6 +107,46 @@ abstract class BaseEntityPrimary extends BaseEntity
         $this->onPropertyChanged($relPropName);
      
         return $this;
+    }
+    protected function loadFromArray($fixture,$project = null)
+    {
+        // Entity
+        $id     = IfIsSet::exe($fixture,'id');
+        $name   = IfIsSet::exe($fixture,'name');
+        $desc   = IfIsSet::exe($fixture,'desc');
+        $status = IfIsSet::exe($fixture,'status');
+                
+        if ($id)     $this->setId    ($id);
+        if ($status) $this->setStatus($status);
+
+        $this->setName($name);
+        $this->setDesc($desc);
+                
+        // Idnetifiers
+        $identifiersFixture = IfIsSet::exe($fixture,'identifiers',array());
+        foreach($identifiersFixture as $identifierFixture)
+        {
+            $identifier = $this->newIdentifier();
+            $identifier->loadFromArray($identifierFixture,$this,$project);
+/*
+            $entity = $this;
+            
+            $value  = IfIsSet::exe($identifierFixture,'value' );
+            $source = IfIsSet::exe($identifierFixture,'source');
+            $status = IfIsSet::exe($identifierFixture,'status');
+                
+            if (!$value) $value = $this->genIdentifierValue($project);
+            
+            $identifier = $this->newIdentifier();
+            
+            $identifier->setValue ($value);
+            $identifier->setSource($source);
+                
+            if ($status) $identifier->setStatus($status);
+                
+            $this->addIdentifier($identifier);  
+ */                      
+        }
     }
 }
 ?>

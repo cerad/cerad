@@ -7,44 +7,55 @@ services:
     alias: doctrine.orm.gamesv2_entity_manager
         
 # ==============================================================
-#   My Managers aka repos
+# My Managers aka repos
+# Note that class is not used for repos however a warning is generated
   cerad_gamev2.project.manager:
-    class:  Cerad\Bundle\GameBundleV2\EntityRepository\ProjectRepository
+    class:  Cerad\Bundle\GameV2Bundle\EntityRepository\ProjectRepository
     factory_service: 'cerad_gamev2.entity_manager'
     factory_method:  'getRepository'
     arguments:  
       - 'Cerad\Bundle\GameV2Bundle\Entity\Project'
             
   cerad_gamev2.level.manager:
-    class:  Cerad\Bundle\GameBundleV2\EntityRepository\LevelRepository
+    class:  Cerad\Bundle\GameV2Bundle\EntityRepository\LevelRepository
     factory_service: 'cerad_gamev2.entity_manager'
     factory_method:  'getRepository'
     arguments:  
       - 'Cerad\Bundle\GameV2Bundle\Entity\Level'
             
   cerad_gamev2.field.manager:
-    class:  Cerad\Bundle\GameBundleV2\EntityRepository\FieldRepository
+    class:  Cerad\Bundle\GameV2Bundle\EntityRepository\FieldRepository
     factory_service: 'cerad_gamev2.entity_manager'
     factory_method:  'getRepository'
     arguments:  
       - 'Cerad\Bundle\GameV2Bundle\Entity\Field'
+      
+  cerad_gamev2.team.manager:
+    class:  Cerad\Bundle\GameV2Bundle\EntityRepository\TeamRepository
+    factory_service: 'cerad_gamev2.entity_manager'
+    factory_method:  'getRepository'
+    arguments:  
+      - 'Cerad\Bundle\GameV2Bundle\Entity\Team'
             
   cerad_gamev2.game.manager:
-    class:  Cerad\Bundle\GameBundleV2\EntityRepository\GameRepository
+    class:  Cerad\Bundle\GameV2Bundle\EntityRepository\GameRepository
     factory_service: 'cerad_gamev2.entity_manager'
     factory_method:  'getRepository'
     arguments:  
       - 'Cerad\Bundle\GameV2Bundle\Entity\Game'
       
-  cerad_gamev2.team.manager:
-    class:  Cerad\Bundle\GameBundleV2\EntityRepository\TeamRepository
-    factory_service: 'cerad_gamev2.entity_manager'
-    factory_method:  'getRepository'
+  cerad_gamev2.schedule.manager:
+    class:  Cerad\Bundle\GameV2Bundle\Schedule\ScheduleManager
     arguments:  
-      - 'Cerad\Bundle\GameV2Bundle\Entity\Team'
+      - '@cerad_gamev2.project.manager'
+      - '@cerad_gamev2.level.manager'
+      - '@cerad_gamev2.field.manager'
+      - '@cerad_gamev2.team.manager'
+      - '@cerad_gamev2.game.manager'
 
 # ======================================================
 # Factores are fun
+# Probably not needed
   cerad_gamev2.project.factory:
     class:  Cerad\Bundle\GameV2Bundle\EntityFactory\ProjectFactory
     arguments:  

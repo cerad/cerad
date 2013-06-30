@@ -6,6 +6,8 @@ use Cerad\Bundle\CommonBundle\Collections\ArrayCollection;
 
 use Cerad\Bundle\CommonBundle\Entity\BaseEntityPrimary as CommonBaseEntityPrimary;
 
+use Cerad\Bundle\CommonBundle\Functions\IfIsSet;
+
 /* ==============================================
  * A project hold specific season information
  * 
@@ -127,6 +129,38 @@ class Project extends CommonBaseEntityPrimary
             $this->domainSub,
             $this->id
         );
+    }
+    public function loadFromArray($myFixture,$project = null,$connectToProject = false)
+    {
+        // Non-standard properties
+        $this->setData     (IfIsSet::exe($myFixture,'data'     ));
+        $this->setSport    (IfIsSet::exe($myFixture,'sport'    ));
+        $this->setSource   (IfIsSet::exe($myFixture,'source'   ));
+        $this->setSeason   (IfIsSet::exe($myFixture,'season'   ));
+        $this->setDomain   (IfIsSet::exe($myFixture,'domain'   ));
+        $this->setDomainSub(IfIsSet::exe($myFixture,'domainSub'));
+ 
+        // Maybe for cloning?
+        if (!$project) $project = $this;
+        
+        return parent::loadFromArray($myFixture,$project);
+    }
+    public function genIdentifierValue($project)
+    {
+        // Maybe a clone?
+        if (!$project) $project = $this;
+        
+        $values = array();
+        $values[] = $project->getSource();
+        if ($project->getName()) $values[] = $project->getName();
+        else
+        {
+            $values[] = $project->getSport();
+            $values[] = $project->getSeason();
+            $values[] = $project->getDomain();
+            $values[] = $project->getDomainSub();
+        }
+        return $this->hash($values);        
     }
 }
 ?>
