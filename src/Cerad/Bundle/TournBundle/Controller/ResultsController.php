@@ -31,7 +31,7 @@ class ResultsController extends Controller
             $gender = substr($div,3,1);
             $params = array
             (
-                'projects' => array($project->getKey()),
+                'projects' => array($project->getKeySearch()),
                 'ages'     => array($age),
                 'genders'  => array($gender),
                 'gameTypes'=> array('PP'),    // Stored in game.pool, game.level contains the bracket
