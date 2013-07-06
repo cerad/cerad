@@ -25,7 +25,7 @@
             <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
         {% endif %}
             
-{% if is_granted('ROLE_ADMIN') %}
+{# if is_granted('ROLE_ADMIN') #}{% if true %}
     <td rowspan="2"><a href="{{ path('cerad_tourn_game_report', { num: game.num }) }}">{{ game.num }}</a></td>
 {% else %}
     <td rowspan="2">{{ game.getNum() }}</td>
