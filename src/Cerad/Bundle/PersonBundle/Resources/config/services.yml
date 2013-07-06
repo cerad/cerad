@@ -1,3 +1,12 @@
+# ==========================================
+# Overrides for class names, 
+# Eventually most of the classes will have these parameters
+parameters:
+      cerad_person.ayso_referee_badge.form_type.class:
+          Cerad\Bundle\PersonBundle\Form\Type\AYSO\RefereeBadgeFormType
+
+# ===========================================
+# And the services
 services:
   
     cerad_person.entity_manager:
@@ -67,7 +76,7 @@ services:
             - { name: form.type, alias: cerad_person_ayso_volunteer_id }
             
     cerad_person.ayso_referee_badge.form_type:
-        class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RefereeBadgeFormType
+        class: '%cerad_person.ayso_referee_badge.form_type.class%'
         tags:
             - { name: form.type, alias: cerad_person_ayso_referee_badge }
 
