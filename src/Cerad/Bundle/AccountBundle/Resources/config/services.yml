@@ -9,7 +9,7 @@ services:
         class: Cerad\Bundle\AccountBundle\Security\UserProvider
         arguments: 
             - '@fos_user.user_manager'
-        #   - '@cerad_person.manager'
+            # '@cerad_person.manager' # Added in Account extension
         
     cerad_account.user_encoder:
         class: Cerad\Bundle\AccountBundle\Security\UserEncoder
@@ -42,7 +42,7 @@ services:
        
     cerad_account.authentication_information:
         class: Cerad\Bundle\AccountBundle\Security\AuthenticationInformation
-      
+          
     # ==========================================================
     # My listeners
     cerad_account.registration_listener:

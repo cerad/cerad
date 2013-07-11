@@ -258,5 +258,12 @@ class PersonRepository extends EntityRepository
         $this->persist($person);
         $this->flush();
     }
+    /* =============================================
+     * TODO: This needs to lookup ayso/ussf id's and return the person
+     */
+    public function findByIdentifierValue($value)
+    {
+        return null;
+    }
 }
 ?>

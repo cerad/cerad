@@ -2,7 +2,9 @@
 
 namespace Cerad\Bundle\AccountBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
@@ -34,9 +36,16 @@ class AccountExtension extends Extension
             
             $container->setParameter('cerad_account.' . $name,$value); 
         }
-        
-        // Continue
+        // Load the services
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+       
+        // real dangerous, change the user provider service
+        if (isset($config['service']['person_manager']))
+        {
+            $personManagerId = $config['service']['person_manager'];
+            $definition = $container->getDefinition('cerad_account.user_provider');
+            $definition->addArgument(new Reference($personManagerId));
+        }
     }
 }
