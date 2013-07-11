@@ -1,37 +1,86 @@
-# ==================================================
-# Account identifier (social networks) stuff
-cerad_account_identifier_add:
-  path: /identifier/add
-  defaults:  { _controller: CeradAccountBundle:Identifier:add }
 
-cerad_account_create:
-  path: /create
-  defaults:  { _controller: CeradAccountBundle:Create:create }
+cerad_account_index:
+  path: /
+  defaults:  { _controller: CeradAccountBundle:Main:index }
+
+cerad_account_welcome:
+  path: /welcome
+  defaults:  { _controller: CeradAccountBundle:Main:welcome }
   
-cerad_account_edit:
-  path: /edit/{id}
-  defaults:  { _controller: CeradAccountBundle:Edit:edit, id: 0 }
+cerad_account_home:
+  path: /home
+  defaults:  { _controller: CeradAccountBundle:Main:home }
   
-# ==================================================
-# Password reset stuff
-cerad_account_password_reset:
-  path: /password-reset
-  defaults:  { _controller: CeradAccountBundle:Password:resetRequest }
+cerad_account_login:
+  path: /login
+  defaults:  { _controller: CeradAccountBundle:Security:login }
   
+cerad_account_login_check:
+  path: /login-check
+  defaults:  { _controller: CeradAccountBundle:Security:check }  # Throws exception
+    
+cerad_account_logout:
+  path: /logout
+  defaults:  { _controller: CeradAccountBundle:Security:logout } # Throes exception
+    
+cerad_account_register:
+  path: /register
+  defaults:  { _controller: CeradAccountBundle:Registration:register }
+  
+# ===========================================
+# Password resetting stuff
+# I only need two actions
 cerad_account_password_reset_request:
-  path: /password-reset/request
-  defaults:  { _controller: CeradAccountBundle:Password:resetRequest }
+  path: /password/reset/request
+  defaults:  { _controller: CeradAccountBundle:PasswordReset:request }
+  methods:  [GET, POST]
   
-cerad_account_password_reset_email_sent:
-  path: /password-reset/email-sent
-  defaults:  { _controller: CeradAccountBundle:Password:emailSent }
+cerad_account_password_reset_confirm:
+  path:       /password/reset/confirm/{token}
+  defaults:  { _controller: CeradAccountBundle:PasswordReset:confirm, token: null }
+  methods:  [GET, POST]
   
-# The fos user route will grab the action
-cerad_account_password_reset_reset:
-  path: /password-reset/reset/{token}
-  defaults:  { _controller: CeradAccountBundle:Password:resetReset }
+cerad_account_password_reset_check_email_not_used:
+  path:      /password/reset/check-email
+  defaults:  { _controller: CeradAccountBundle:PasswordReset:checkEmail }
+  methods:   [GET, POST]
   
-# Grab this here so my action is run
-# fos_user_resetting_reset:
-#   path: /password-reset/reset/{token}
-#   defaults:  { _controller: CeradAccountBundle:Password:resetReset }
+cerad_account_password_reset_send_email_not_used:
+  path:      /password/reset/send-email
+  defaults:  { _controller: CeradAccountBundle:PasswordReset:sendEmail }
+  methods:   [POST]
+
+  
+cerad_account_password_change:
+  path:      /password/change
+  defaults:  { _controller: CeradAccountBundle:PasswordChange:change }
+  methods:  [GET POST]
+
+# ===========================================
+# Password resetting stuff
+# Copied from FOS for reference
+fos_user_resetting_request:
+  path: /resetting/request
+  defaults:  { _controller: CeradAccountBundle:Resetting:request }
+  methods:  [GET]
+  
+fos_user_resetting_send_email:
+  path: /resetting/send-email
+  defaults:  { _controller: CeradAccountBundle:Resetting:sendEmail }
+  methods:  [POST]
+  
+fos_user_resetting_check_email:
+  path: /resetting/check-email
+  defaults:  { _controller: CeradAccountBundle:Resetting:checkEmail }
+  methods:  [GET]
+
+fos_user_resetting_reset:
+  path: /resetting/reset/{token}
+  defaults:  { _controller: CeradAccountBundle:Resetting:reset }
+  methods:  [GET POST]
+  
+fos_user_change_password:
+  path: /change-password
+  defaults:  { _controller: CeradAccountBundle:ChangePassword:changePassword }
+  methods:  [GET POST]
+

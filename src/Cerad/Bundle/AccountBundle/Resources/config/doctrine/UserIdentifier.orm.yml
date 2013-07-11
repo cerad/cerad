@@ -1,0 +1,45 @@
+Cerad\Bundle\AccountBundle\Entity\UserIdentifier:
+    type:  entity
+    table: account_identifier
+    
+    id:
+        id:
+            type:   string
+            length: 40
+            generator: { strategy: NONE }
+            
+    manyToOne:
+      
+        user:
+            targetEntity: User
+            inversedBy:   identifiers
+            
+    fields:
+        source:
+            type:     string
+            length:   20
+            nullable: false
+            
+        value:
+            type:     string
+            unique:   true
+            nullable: false
+            
+        name:
+            type:     string
+            length:   80
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
+          
+        profile:
+            type:     array
+            nullable: true
+
+        createdOn:
+            column: created_on
+            type:   datetime
+           

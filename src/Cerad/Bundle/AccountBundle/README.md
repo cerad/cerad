@@ -9,5 +9,6 @@ A given user can sign in with multiple accounts.
 
 Eventually it may also support an oauth2 system based on the HWIOauth bundle.
 
+FOSUserBundle is being used as a library and not as a bundle.
 
 

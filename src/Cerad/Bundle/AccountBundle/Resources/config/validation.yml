@@ -1,4 +1,4 @@
-Cerad\Bundle\AccountBundle\Entity\AccountUser:
+Cerad\Bundle\AccountBundle\Entity\User:
   
   constraints:
     

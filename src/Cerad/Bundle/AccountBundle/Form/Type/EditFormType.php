@@ -11,7 +11,7 @@ class EditFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class'        => 'Cerad\Bundle\AccountBundle\Entity\AccountUser',
+            'data_class'        => 'Cerad\Bundle\AccountBundle\Entity\User',
             'intention'         => 'create',
             'validation_groups' => array('update'),
         ));

@@ -9,11 +9,12 @@ class PasswordResetFormType extends AbstractType
 {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        // Maybe add a not-blank validator
     }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username','cerad_account_username_existing')
+            ->add('username','text')
         ;
     }
     public function getName()

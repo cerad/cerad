@@ -9,10 +9,34 @@ use Symfony\Component\Config\FileLocator;
 
 class AccountExtension extends Extension
 {
+    public function getAlias() { return 'cerad_account'; }
+        
     public function load(array $configs, ContainerBuilder $container)
     {
+        // Simple merge for possible multiple source (dev etc)
+        $config = array();
+        foreach ($configs as $subConfig) 
+        {
+            $config = array_merge($config, $subConfig);
+        }
+        // For now just store as a parameter
+        $container->setParameter('cerad_account.config',$config);
+        
+        $names = array
+        (   
+            'firewall_name',
+            'user_class',
+            'user_identifier_class',
+        );
+        foreach($names as $name)
+        {
+            $value = isset($config[$name]) ? $config[$name] : null;
+            
+            $container->setParameter('cerad_account.' . $name,$value); 
+        }
+        
+        // Continue
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
-    public function getAlias() { return 'cerad_account'; }
 }
