@@ -114,12 +114,20 @@ class Field extends CommonBaseEntityPrimary
         $desc   = IfIsSet::exe($entityFixture,'desc');
         $status = IfIsSet::exe($entityFixture,'status');
         
+        $url       = IfIsSet::exe($entityFixture,'url');
+        $latitude  = IfIsSet::exe($entityFixture,'latitude');
+        $longitude = IfIsSet::exe($entityFixture,'longitude');
+        
         if ($id)     $this->setId    ($id);
         if ($status) $this->setStatus($status);
 
         $this->setName($name);
         $this->setDesc($desc);
         
+        $this->setUrl      ($url);
+        $this->setLatitude ($latitude);
+        $this->setLongitude($longitude);
+         
         // Idnetifiers
         $identifiersFixture = IfIsSet::exe($entityFixture,'identifiers',array());
         foreach($identifiersFixture as $identifierFixture)
