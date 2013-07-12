@@ -1,0 +1,16 @@
+{% extends '@CeradAccount/layout.html.twig' %}
+  
+{% block content %}
+<h5>Check Your Email</h5>
+<p>
+    An email has been sent to your {{ email }} account.  
+    It will contain a confirmation number.  
+    Enter the number in the form below.
+</p>
+{% include '@CeradAccount/Password/Reset/confirm_form.html.twig' %}
+<p>
+    If the email does not arrive a few seconds then <strong>Check Your SPAM Folder.</strong>
+</p><p>
+    Username: {{ user.username }} Token: {{ token }} Tries: {{ tries }}
+</p>
+{% endblock %}

@@ -17,11 +17,8 @@ class DisplayNameFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'label'           => 'Display Name',
+            'label'           => 'User Display Name',
             'attr'            => array('size' => 30),
-         // 'constraints'     => array(
-         //     new Assert\NotNull(array('message' => 'Display Name is required')),
-         // ),
         ));
     }
     public function getParent() { return 'text'; }

@@ -7,7 +7,7 @@
   
 {% block content %}
 <h3>Pool Play Games and Results</h3>
-{% include('@CeradTourn/results/poolplay/select.html.twig') %}
+{{ include('@CeradTourn/results/poolplay/select.html.twig') }}
 <br />
 
 {% for poolKey, pool in pools %}

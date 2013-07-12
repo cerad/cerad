@@ -1,0 +1,24 @@
+{% if passwordResetForm is defined %}
+{% set form = passwordResetForm %}
+<form 
+    id     = "cerad_account_password_reset_form"
+    class  = "cerad_account_password_reset_form cerad_common_form1" 
+    action = "{{ path('cerad_account_password_reset_request') }}"
+    method = "post"
+    {{ form_enctype(form) }}
+ >
+    <fieldset>
+        {{ form_row(form.username,{ 'label': 'User Name or Email'}) }}
+    </fieldset>
+    <fieldset>
+        {% if passwordResetError is defined %}{% if passwordResetError %}
+            <div style="color:red;">{{ passwordResetError }}</div>
+        {% endif %}{% endif %}
+        <div class="cerad_common_form_controls controls">
+            <span>Request a password reset</span>
+            <input type="submit" name="accountPasswordReset" value="Reset Password" />
+        </div>
+    </fieldset>
+<div style="display: none;">{{ form_rest(form) }}</div>
+</form>
+{% endif %}

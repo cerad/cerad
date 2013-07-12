@@ -1,0 +1,24 @@
+<form 
+    id     = "cerad_account_password_reset_confirm_form"
+    class  = "cerad_account_password_reset_confirm_form" 
+    action = "{{ path('cerad_account_password_reset_confirm') }}"
+    method = "post"
+    {{ form_enctype(form) }}
+ >
+    <fieldset>
+        {{ form_row(form.token,          { 'label': 'Confirmation Number'} ) }}
+        {{ form_row(form.password.pass1, { 'label': 'New Password',         'required': true }) }}
+        {{ form_row(form.password.pass2, { 'label': 'Repeat New Password', 'required': true }) }}
+    </fieldset>
+    <fieldset>
+        {% if error is defined %}{% if error %}
+            <div style="color:red;">{{ error }}</div>
+        {% endif %}{% endif %}
+        <div class="cerad_common_form_controls controls">
+            <span></span>
+            <input type="submit" name="accountToken" value="Reset Password" />
+        </div>
+    </fieldset>
+<div style="display: none;">{{ form_rest(form) }}</div>
+</form>
+

@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
  * Then tries legacy md5
  * Also supports master password
  */
-class AccountUserEncoder extends MessageDigestPasswordEncoder
+class UserEncoder extends MessageDigestPasswordEncoder
 {
     public function __construct($master, $algorithm = 'sha512', $encodeHashAsBase64 = true, $iterations = 5000)
     {

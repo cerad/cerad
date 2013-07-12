@@ -1,0 +1,103 @@
+Cerad\Bundle\AccountBundle\Entity\User:
+    type:  entity
+    table: account_user
+    
+    id:
+        id:
+            type:   string
+            length: 40
+            generator: { strategy: NONE }
+    
+    oneToMany:
+
+        identifiers:
+            targetEntity: UserIdentifier
+            mappedBy:     user
+            cascade:      ['all']
+           
+    fields:
+    
+        name:
+            column:   name
+            type:     string
+            length:   80
+            nullable: true
+            
+        personId:
+            column:   person_id
+            type:     string
+            length:   40
+            nullable: true
+            
+        personNo:
+            column:   person_no
+            type:     boolean
+           
+        createdOn:
+            column: created_on
+            type:   datetime
+            
+# ================================================
+# These all came from the FOSUserBundle
+        username:
+            type: string
+            
+        usernameCanonical:
+            column: username_canonical
+            type:   string
+            unique: true
+            
+        email:
+            type: string
+            
+        emailCanonical:
+            column: email_canonical
+            type:   string
+            unique: true
+            
+        enabled:
+            type: boolean
+            
+        salt:
+            type: string
+
+        password:
+            type: string
+            
+        lastLogin:
+            column:   last_login
+            type:     datetime
+            nullable: true
+            
+        locked:
+            type: boolean
+            
+        expired:
+            type: boolean
+            
+        expiresAt:
+            column:   expires_at
+            type:     datetime
+            nullable: true
+            
+        confirmationToken:
+            column:   confirmation_token
+            type:     string
+            nullable: true
+            
+        passwordRequestedAt:
+            column:   password_requested_at
+            type:     datetime
+            nullable: true
+            
+        roles:
+            type: array
+            
+        credentialsExpired:
+            column: credentials_expired
+            type:   boolean
+            
+        credentialsExpireAt:
+            column:   credentials_expire_at
+            type:     datetime
+            nullable: true

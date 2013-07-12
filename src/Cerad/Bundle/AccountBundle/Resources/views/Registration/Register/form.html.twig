@@ -1,0 +1,22 @@
+<form 
+    id     = "cerad_account_register_form"
+    class  = "cerad_account_register_form cerad_common_form1" 
+    action = "{{ path('cerad_account_register') }}" 
+    method = "post" 
+    {{ form_enctype(form) }} novalidate
+ >
+    <fieldset><legend><span>Account Information</span></legend>
+        {{ form_row(form.name)                }}
+        {{ form_row(form.username)            }}
+        {{ form_row(form.email)               }}
+        {{ form_row(form.plainPassword.pass1) }}
+        {{ form_row(form.plainPassword.pass2) }}
+    </fieldset>
+    <fieldset>
+        <div class="cerad_common_form_controls controls">
+            <span>ALL Fields are required.</span>
+            <input type="submit" name="accountRegister" value="Create Account" />
+        </div>
+    </fieldset>
+<div style="display: none;">{{ form_rest(form) }}</div>
+</form>

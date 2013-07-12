@@ -35,7 +35,7 @@
     {{ form_widget(form.status) }}
     {# form_widget(form.pointsApplied)  #}
     {{ form_widget(form.report.status) }}  
-    {% if is_granted('ROLE_SCORER') %}
+    {# if is_granted('ROLE_SCORER') #}{% if true %}
         <input type="submit" name="gameReport" value="Save"  />
     {% endif %}
 </div>

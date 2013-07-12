@@ -19,7 +19,7 @@ class GameReportController extends Controller
         // Need a better way to get the actual project object
         $projectManager = $this->get('cerad.project.repository');
         $projectParams  = $this->get('cerad_tourn.project');
-        $projectEntity  = $projectManager->findOneBy(array('hash' => $projectParams->getKey()));
+        $projectEntity  = $projectManager->findOneBy(array('hash' => $projectParams->getKeySearch()));
         if (!$projectEntity)
         {
             return $this->redirect($this->generateUrl('cerad_tourn_home'));

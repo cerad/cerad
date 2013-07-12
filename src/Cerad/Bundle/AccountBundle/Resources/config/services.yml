@@ -1,13 +1,66 @@
-
 services:
-    cerad_account.manager:
-        alias: fos_user.user_manager
-
-    cerad_account.registration.form_type:
-        class: Cerad\Bundle\AccountBundle\Form\Type\RegistrationFormType
-        arguments: [%fos_user.model.user.class%]
+  
+    cerad_account.entity_manager:
+        alias: doctrine.orm.accounts_entity_manager # Need to tie this to cerad_account.model_manager_name
+    
+    # ===========================================================
+    # Use fos naming schemes for now
+    cerad_account.user_provider:
+        class: Cerad\Bundle\AccountBundle\Security\UserProvider
+        arguments: 
+            - '@fos_user.user_manager'
+            # '@cerad_person.manager' # Added in Account extension
+        
+    cerad_account.user_encoder:
+        class: Cerad\Bundle\AccountBundle\Security\UserEncoder
+        arguments: [%cerad_account.master_password%]
+        
+    cerad_account.user_manager:
+        class: Cerad\Bundle\AccountBundle\Security\UserManager
+        arguments:
+            - '@security.encoder_factory'
+            - '@fos_user.util.canonicalizer.default'
+            - '@fos_user.util.canonicalizer.default'
+            - '@cerad_account.entity_manager'
+            - '%cerad_account.user_class%'
+            - '%cerad_account.user_identifier_class%'
+            
+    cerad_account.account_manager:
+        alias: cerad_account.user_manager
+        
+    cerad_account.account.manager:
+        alias: cerad_account.user_manager
+            
+    cerad_account.user_checker:
+        class: Symfony\Component\Security\Core\User\UserChecker
+        
+    cerad_account.login_manager:
+        class: Cerad\Bundle\AccountBundle\Security\LoginManager
+        arguments:
+            - '@security.context'
+            - '@cerad_account.user_checker'
+       
+    cerad_account.authentication_information:
+        class: Cerad\Bundle\AccountBundle\Security\AuthenticationInformation
+          
+    # ==========================================================
+    # My listeners
+    cerad_account.registration_listener:
+        class: Cerad\Bundle\AccountBundle\EventListener\RegistrationListener
         tags:
-            - { name: form.type, alias: cerad_account_registration }
+            - { name: kernel.event_subscriber }
+    
+    # REGISTRATION_COMPLETED, REGISTRATION_CONFIRMED, RESETTING_RESET_COMPLETED
+    cerad_account.authentication_listener:
+        class: FOS\UserBundle\EventListener\AuthenticationListener
+        arguments:
+            - '@cerad_account.login_manager'
+            - '%cerad_account.firewall_name%'            
+        tags:
+            - { name: kernel.event_subscriber }          
+    
+    # ==============================================================
+    # Lost of form types
             
     cerad_account.create.form_type:
         class: Cerad\Bundle\AccountBundle\Form\Type\CreateFormType
@@ -63,50 +116,26 @@ services:
         class: Cerad\Bundle\AccountBundle\Form\Type\SigninFormType
         tags:
             - { name: form.type, alias: cerad_account_signin }
-           
-    cerad_account.user_provider:
-        class: Cerad\Bundle\AccountBundle\Security\AccountUserProvider
-        arguments: 
-            - '@fos_user.user_manager'
-            - '@cerad_person.manager'
-        
-    cerad_account.user_encoder:
-        class: Cerad\Bundle\AccountBundle\Security\AccountUserEncoder
-        arguments: [%cerad_account_master_password%]
-        
-    cerad_account.user_manager:
-        class: Cerad\Bundle\AccountBundle\Security\AccountUserManager
-        parent:   fos_user.user_manager.default
-        arguments:
-            - 'Cerad\Bundle\AccountBundle\Entity\AccountIdentifier'
-
-# ==============================================
-# Validation
-    cerad_account.username.unique.validator:
-        class: Cerad\Bundle\AccountBundle\Validator\Constraints\UsernameUniqueValidator
-        arguments: 
-            - '@cerad_account.user_provider'
-        tags:
-            - { name: validator.constraint_validator, alias: cerad_account_username_unique }
             
-    cerad_account.username.existing.validator:
-        class: Cerad\Bundle\AccountBundle\Validator\Constraints\UsernameExistingValidator
-        arguments: 
-            - '@cerad_account.user_provider'
+    cerad_account.token.form_type:
+        class: Cerad\Bundle\AccountBundle\Form\Type\TokenFormType
         tags:
-            - { name: validator.constraint_validator, alias: cerad_account_username_existing }
+            - { name: form.type, alias: cerad_account_token }
 
-    cerad_account.email.unique.validator:
-        class: Cerad\Bundle\AccountBundle\Validator\Constraints\EmailUniqueValidator
-        arguments: 
-            - '@fos_user.user_manager'
-        tags:
-            - { name: validator.constraint_validator, alias: cerad_account_email_unique }
-            
-    doctrine.orm.validator.unique_if_modified: 
-        class: Cerad\Bundle\AccountBundle\Validator\Constraints\UniqueIfModifiedEntityValidator
-        arguments: 
-            - '@doctrine'
-        tags:
-            - { name: validator.constraint_validator, alias: doctrine.orm.validator.unique_if_modified }
+    # ===================================================
+    # Some FOS Services, keep the name for now
+    fos_user.user_manager:
+        alias: cerad_account.user_manager
+    
+    fos_user.util.canonicalizer.default:
+        class: FOS\UserBundle\Util\Canonicalizer
       
+    fos_user.util.user_manipulator:
+        class: FOS\UserBundle\Util\UserManipulator
+        arguments:
+            - '@fos_user.user_manager'
+
+    fos_user.util.token_generator:
+        class: FOS\UserBundle\Util\TokenGenerator
+        arguments:
+            - '@logger'

@@ -31,7 +31,7 @@ class ResultsController extends Controller
             $gender = substr($div,3,1);
             $params = array
             (
-                'projects' => array($project->getKey()),
+                'projects' => array($project->getKeySearch()),
                 'ages'     => array($age),
                 'genders'  => array($gender),
                 'gameTypes'=> array('PP'),    // Stored in game.pool, game.level contains the bracket
@@ -46,12 +46,13 @@ class ResultsController extends Controller
         $resultsManager = $this->get('cerad_tourn.results.manager');
         $pools = $resultsManager->getPools($games,$poolFilter);
         
-        // For list of genders and ages
-        $project = $this->get('cerad_tourn.project');
+        $ages    = $project->getAges();
+        $genders = $project->getGenders();
         
+        // Render
         $tplData = array();
-        $tplData['ages']    = $project->getAges();
-        $tplData['genders'] = $project->getGenders();
+        $tplData['ages']    = $ages['choices'];
+        $tplData['genders'] = $genders['choices'];
         $tplData['route']   = 'cerad_tourn_results_poolplay';
         $tplData['pools']   = $pools;
         $tplData['games']   = $games; // Only for debugging
