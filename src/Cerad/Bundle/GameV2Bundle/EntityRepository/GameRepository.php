@@ -1,6 +1,7 @@
 <?php
 namespace Cerad\Bundle\GameV2Bundle\EntityRepository;
 
+// TODO: Move the Base to CommonBundle and refactor
 class GameRepository extends BaseRepository
 {
     // Nice to make this configurable
@@ -20,6 +21,11 @@ class GameRepository extends BaseRepository
     public function newGame()       
     { 
         $className = $this->getGameClassName();
+        return new $className;
+    }
+    public function newGameTeam()       
+    { 
+        $className = $this->getGameTeamClassName();
         return new $className;
     }
     

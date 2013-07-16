@@ -69,6 +69,11 @@ services:
     class:  Cerad\Bundle\GameV2Bundle\EntityFactory\TeamFactory
     arguments:  
       - '@cerad_gamev2.schedule.manager'
+      
+  cerad_gamev2.game.factory:
+    class:  Cerad\Bundle\GameV2Bundle\EntityFactory\GameFactory
+    arguments:  
+      - '@cerad_gamev2.schedule.manager'
 
 # ======================================================
 # Some forms
