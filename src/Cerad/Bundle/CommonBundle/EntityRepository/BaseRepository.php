@@ -14,9 +14,10 @@ class BaseRepository extends EntityRepository
     public function detach ($item) { $this->_em->detach ($item); }
     public function persist($item) { $this->_em->persist($item); }
     public function refresh($item) { $this->_em->refresh($item); }
-    
-     public function getEventManager      () { return $this->_em->getEventManager(); }
-     public function getDatabaseConnection() { return $this->_em->getConnection(); }
+
+    public function getReference($id)       { return $this->_em->getReference($this->_entityName,$id); }
+    public function getEventManager      () { return $this->_em->getEventManager(); }
+    public function getDatabaseConnection() { return $this->_em->getConnection(); }
     
     /* ===================================================
      * Probably trying to do too much but many entities have

@@ -56,10 +56,19 @@ services:
 # ======================================================
 # Factores are fun
 # Probably not needed
+#
+# Think they are needed when an instance depends on other existing instances
+# Such as a team needing a level
+#
   cerad_gamev2.project.factory:
     class:  Cerad\Bundle\GameV2Bundle\EntityFactory\ProjectFactory
     arguments:  
       - '@cerad_gamev2.project.manager'
+      
+  cerad_gamev2.team.factory:
+    class:  Cerad\Bundle\GameV2Bundle\EntityFactory\TeamFactory
+    arguments:  
+      - '@cerad_gamev2.schedule.manager'
 
 # ======================================================
 # Some forms
