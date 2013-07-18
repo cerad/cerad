@@ -92,10 +92,20 @@ class GameFactory
            // Track project fields
             $project->addField($field);
         }
-        // Home team
-        $this->addTeam($game,'Home',$entityFixture['team1_id'],$entityFixture['score1']);
-        $this->addTeam($game,'Away',$entityFixture['team2_id'],$entityFixture['score2']);
-        
+        // Teams
+        $gameTeamsFixture = IfIsSet::exe($entityFixture,'game_teams',array());
+        foreach($gameTeamsFixture as $gameTeamFixture)
+        {
+            $this->addGameTeam($game,$gameTeamFixture);
+        }
+        // Persons
+        $gamePersonsFixture = IfIsSet::exe($entityFixture,'game_persons',array());
+        $slot = 0;
+        foreach($gamePersonsFixture as $gamePersonFixture)
+        {
+            $slot++;
+            $this->addGamePerson($game,$slot,$gamePersonFixture);
+        }
         // Persist and return
         if ($persist) $manager->persist($entity);
         return $entity;        
@@ -103,28 +113,102 @@ class GameFactory
     /* ================================================================
      * This should probably be public and be in a custom import routine
      */
-    protected function addTeam($game,$role,$teamId,$score)
+    protected function addGameTeam($game,$entityFixture)
     {
-        $gameTeam = $this->gameManager->newGameTeam();
-        $gameTeam->setRole($role);
-        $gameTeam->setScore($score);
-        $gameTeam->setLevel($game->getLevel());
+        $name     = IfIsSet::exe($entityFixture,'name');
+        $role     = IfIsSet::exe($entityFixture,'role');
+        $score    = IfIsSet::exe($entityFixture,'score');
+        $status   = IfIsSet::exe($entityFixture,'status');
+        $teamId   = IfIsSet::exe($entityFixture,'team_id'  );
+        $levelId  = IfIsSet::exe($entityFixture,'level_id' );
+        $leagueId = IfIsSet::exe($entityFixture,'league_id');
+
+        $league = null;
         
-        if ($teamId)
+        // See if have a link to a physical team
+        $team = $teamId ? $this->teamManager->find($teamId) : null;
+        if ($team)
         {
-            $team = $this->teamManager->find($teamId);
-            if ($team)
-            {
-                $gameTeam->setName ($team->getName());
-                $gameTeam->setLevel($team->getLevel());
-                $game->getProject()->addTeam($team);
-            }
+            if (!$name)    $name    = $team->getName();
+            if (!$levelId) $levelId = $team->getLevel()->getId();
+            
+            $game->getProject()->addTeam($team);
+            
         }
-        else $gameTeam->setName('TBD');
+        // Check for level
+        $level = null;
+        if ($levelId) $level = $this->levelManager->find($levelId);
         
+        if (!$level && $team) $level = $team->getLevel();
+        
+        if (!$level) $level = $game->getLevel();
+        
+        if ($level) $game->getProject()->addLevel($level);
+        
+        // Few don't have a name
+        if (!$name) $name = 'TBD';
+        
+        $gameTeam = $this->gameManager->newGameTeam();
+        $gameTeam->setRole ($role);
+        $gameTeam->setName ($name);
+        $gameTeam->setScore($score);
+        $gameTeam->setLevel($level);
+        
+        if ($status) $gameTeam->setStatus($status);
+                
+        // Connect it
         $game->addTeam($gameTeam);
+        return $gameTeam;
+    }
+    /* ================================================================
+     * This should probably be public and be in a custom import routine
+     */
+    protected function addGamePerson($game,$slot,$entityFixture)
+    {
+        $name     = IfIsSet::exe($entityFixture,'name');
+        $role     = IfIsSet::exe($entityFixture,'role');
+        $email    = IfIsSet::exe($entityFixture,'role');
+        $phone     = IfIsSet::exe($entityFixture,'role');
+        $status   = IfIsSet::exe($entityFixture,'status');
+        $teamId   = IfIsSet::exe($entityFixture,'team_id'  );
+        $levelId  = IfIsSet::exe($entityFixture,'level_id' );
+        $leagueId = IfIsSet::exe($entityFixture,'league_id');
+
+        $league = null;
         
+        // See if have a link to a physical team
+        $team = $teamId ? $this->teamManager->find($teamId) : null;
+        if ($team)
+        {
+            if (!$name)    $name    = $team->getName();
+            if (!$levelId) $levelId = $team->getLevel()->getId();
+            
+            $game->getProject()->addTeam($team);
+            
+        }
+        // Check for level
+        $level = null;
+        if ($levelId) $level = $this->levelManager->find($levelId);
         
+        if (!$level && $team) $level = $team->getLevel();
+        
+        if (!$level) $level = $game->getLevel();
+        
+        if ($level) $game->getProject()->addLevel($level);
+        
+        // Few don't have a name
+        if (!$name) $name = 'TBD';
+        
+        $gameTeam = $this->gameManager->newGameTeam();
+        $gameTeam->setRole ($role);
+        $gameTeam->setName ($name);
+        $gameTeam->setScore($score);
+        $gameTeam->setLevel($level);
+        
+        if ($status) $gameTeam->setStatus($status);
+                
+        // Connect it
+        $game->addTeam($gameTeam);
         return $gameTeam;
     }
 }
