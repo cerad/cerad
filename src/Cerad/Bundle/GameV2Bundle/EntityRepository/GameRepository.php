@@ -28,6 +28,11 @@ class GameRepository extends BaseRepository
         $className = $this->getGameTeamClassName();
         return new $className;
     }
+    public function newGamePerson()       
+    { 
+        $className = $this->getGamePersonClassName();
+        return new $className;
+    }
     
     public function createGamePerson($game = null, $role = null, $slot = null, $name = null)       
     { 

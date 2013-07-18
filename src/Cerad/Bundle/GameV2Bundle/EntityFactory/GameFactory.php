@@ -168,48 +168,25 @@ class GameFactory
         $name     = IfIsSet::exe($entityFixture,'name');
         $role     = IfIsSet::exe($entityFixture,'role');
         $email    = IfIsSet::exe($entityFixture,'role');
-        $phone     = IfIsSet::exe($entityFixture,'role');
+        $phone    = IfIsSet::exe($entityFixture,'role');
         $status   = IfIsSet::exe($entityFixture,'status');
-        $teamId   = IfIsSet::exe($entityFixture,'team_id'  );
-        $levelId  = IfIsSet::exe($entityFixture,'level_id' );
+        $personId = IfIsSet::exe($entityFixture,'person_id'); // Soft link
         $leagueId = IfIsSet::exe($entityFixture,'league_id');
 
-        $league = null;
+        $gamePerson = $this->gameManager->newGamePerson();
+        $gamePerson->setSlot($slot);
+        $gamePerson->setRole($role);
+        $gamePerson->setName ($name);
+        $gamePerson->setEmail($email);
+        $gamePerson->setPhone($phone);
         
-        // See if have a link to a physical team
-        $team = $teamId ? $this->teamManager->find($teamId) : null;
-        if ($team)
-        {
-            if (!$name)    $name    = $team->getName();
-            if (!$levelId) $levelId = $team->getLevel()->getId();
-            
-            $game->getProject()->addTeam($team);
-            
-        }
-        // Check for level
-        $level = null;
-        if ($levelId) $level = $this->levelManager->find($levelId);
+        $gamePerson->setPerson($personId);
         
-        if (!$level && $team) $level = $team->getLevel();
-        
-        if (!$level) $level = $game->getLevel();
-        
-        if ($level) $game->getProject()->addLevel($level);
-        
-        // Few don't have a name
-        if (!$name) $name = 'TBD';
-        
-        $gameTeam = $this->gameManager->newGameTeam();
-        $gameTeam->setRole ($role);
-        $gameTeam->setName ($name);
-        $gameTeam->setScore($score);
-        $gameTeam->setLevel($level);
-        
-        if ($status) $gameTeam->setStatus($status);
+        if ($status) $gamePerson->setStatus($status);
                 
         // Connect it
-        $game->addTeam($gameTeam);
-        return $gameTeam;
+        $game->addPerson($gamePerson);
+        return $gamePerson;
     }
 }
 ?>
