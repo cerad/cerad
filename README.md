@@ -6,6 +6,7 @@ Open Source Sports Organizer
 ### Version Tags
 
 v1.2013.06 - Created 17 June 2013 following the completion of the S5Games2013.
+v1.2013.07 - Created 19 July 2013 - Prior to refactoring for national games.
 
 ### Tagging hints
 
