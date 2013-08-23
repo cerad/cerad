@@ -1,15 +1,7 @@
 {% extends '@CeradPerson/layout.html.twig' %}
 
 {% block content %}
-{% include '@CeradPerson/AYSO/referee/create/form.html.twig'    %}
-<h3>AYSO Volunteer Information Help</h3>
-<ul>
-    <li>Display Name - This is what will show up at the top of the screen when you signin.</li>
-    <li>User Name - You can use this to signin instead of a social network.</li>
-    <li>User Email - This can also be used for signing in.  
-        It's also used for password recovery.  
-        Please use a valid email and please monitor the email account as the tournament approaches.
-    </li>
-    <li>User Password - Used when signing in without a social network.</li>
-</ul>
+{% include '@CeradPerson/AYSO/referee/create/form.html.twig' %}
+{% include '@CeradPerson/AYSO/referee/create/help.html.twig' %}
+
 {% endblock %}
