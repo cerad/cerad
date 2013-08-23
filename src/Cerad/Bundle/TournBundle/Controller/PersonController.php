@@ -117,7 +117,7 @@ class PersonController extends Controller
         $tplData = array();
         $tplData['form']   = $form->createView();
         $tplData['person'] = $person;
-        return $this->render('@CeradTourn/person/plan.html.twig', $tplData);
+        return $this->render('@CeradTourn/Person/plan.html.twig', $tplData);
     }
 }
 ?>

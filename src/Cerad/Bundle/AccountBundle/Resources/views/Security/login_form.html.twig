@@ -1,13 +1,13 @@
 {% if loginForm is defined %}
 {% set form = loginForm %}
 <form 
-    id     = "cerad_account_signin_form"
-    class  = "cerad_account_signin_form cerad_common_form1" 
+    id     = "cerad_account_login_form"
+    class  = "cerad_account_login_form cerad_common_form1" 
     action = "{{ path('cerad_account_login_check') }}" 
     method = "post" 
     {{ form_enctype(form) }}
  >
-    <fieldset><legend><span>Account Sign In</span></legend>
+    <fieldset><legend><span>Account Log In</span></legend>
         {{ form_row(form.username,{ 'label': 'User Name or Email'}) }}
         {{ form_row(form.password,{ 'label': 'Password'          }) }}
     </fieldset>

@@ -9,54 +9,34 @@ class MainController extends Controller
 {
     public function indexAction(Request $request)
     {
-        return $this->redirect($this->generateUrl('cerad_tourn_welcome'));
-            
-        $tplData = array();
-        $tplData['last_username'] = $request->getSession()->get(SecurityContext::LAST_USERNAME);
-        $tplData['csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
-         
-        return $this->render('@CeradTourn/welcome.html.twig', $tplData);
+        return $this->redirect($this->generateUrl('cerad_tourn_welcome'));        
     }
     public function welcomeAction(Request $request)
     {
+        // Majic to get any previous errors
+        $authInfo = $this->get('cerad_account.authentication_information')->get($request);
+        
         $item = array(
-            'username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
+            'error'    => $authInfo['error'],
+            'username' => $authInfo['lastUsername'],
             'password' => null,
         );
-        $signinForm = $this->createForm($this->get('cerad_account.signin.formtype'),$item);
+        $loginForm = $this->createForm($this->get('cerad_account.login.formtype'),$item);
         
         $tplData = array();
-      //$tplData['last_username'] = $request->getSession()->get(SecurityContext::LAST_USERNAME);
-      //$tplData['csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
-        $tplData['signinForm']    = $signinForm->createView();
+        $tplData['loginForm'] = $loginForm->createView();
         
-     
-      //return $this->render('CeradTournBundle::welcome.html.twig', $tplData);
         return $this->render('@CeradTourn/welcome.html.twig', $tplData);
     }
-    public function userHeaderAction()
-    {
-        $tplData = array();
-        
-        return $this->render('@project/user_header.html.twig', $tplData);
-   }
-   public function textAlertsAction()
-    {
-        $tplData = array();
-        
-        return $this->render('@project/text_alerts.html.twig', $tplData);
-    }
-    public function contactAction()
+     public function contactAction()
     {
         $tplData = array();
         
         return $this->render('@CeradTourn/contact.html.twig', $tplData);
     }
-    public function classesAction()
-    {
-        $tplData = array();
-        return $this->render('@project/classes.html.twig', $tplData);
-    }
+    /* ==========================================================================
+     * Pretty sure that none of these are being used
+     *
     public function scheduleAction()
     {
         $manager = $this->get('cerad_legacy2012.game.manager');
@@ -182,6 +162,6 @@ class MainController extends Controller
         $tplData['form'] = $form->createView();
         return $this->render('@project/search_form.html.twig', $tplData);
     }
-
+*/
 }
 ?>

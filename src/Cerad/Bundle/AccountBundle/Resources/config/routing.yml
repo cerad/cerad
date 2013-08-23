@@ -27,6 +27,10 @@ cerad_account_register:
   path: /register
   defaults:  { _controller: CeradAccountBundle:Registration:register }
   
+cerad_account_profile_edit:
+  path: /profile/edit/{id}
+  defaults:  { _controller: CeradAccountBundle:Profile:profile }
+  
 # ===========================================
 # Password resetting stuff
 # I only need two actions

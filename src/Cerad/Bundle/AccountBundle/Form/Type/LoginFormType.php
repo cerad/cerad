@@ -5,7 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class SigninFormType extends AbstractType
+class LoginFormType extends AbstractType
 {
    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -23,7 +23,7 @@ class SigninFormType extends AbstractType
     }
     public function getName()
     {
-        return 'cerad_account_signin';
+        return 'cerad_account_login';
     }
 }
 

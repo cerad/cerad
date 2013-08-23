@@ -53,10 +53,10 @@ class CreateController extends Controller
             // This should also be a message but for now attach to account
             if ($account)
             {
-                if (!$account->getPersonGuid())
+                if (!$account->getPersonId())
                 {
-                    $account->setPersonGuid($person->getId());
-                    $accountManager = $this->get('cerad_account.manager');
+                    $account->setPersonId($person->getId());
+                    $accountManager = $this->get('cerad_account.user_manager');
                     $accountManager->updateUser($account,true);
                 }
             }

@@ -49,7 +49,7 @@ class SecurityController extends Controller
             'username' => $info['lastUsername'],
             'password' => null,
         );
-        $loginForm         = $this->createForm($this->get('cerad_account.signin.formtype'),        $item);
+        $loginForm         = $this->createForm($this->get('cerad_account.login.formtype'),        $item);
         $passwordResetForm = $this->createForm($this->get('cerad_account.password_reset.formtype'),$item);
         
         // Render

@@ -3,6 +3,8 @@ namespace Cerad\Bundle\PersonBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Cerad\Bundle\CommonBundle\Functions\Guid;
+
 class Person extends BaseEntity
 {
     const GenderMale    = 'M';
@@ -53,8 +55,7 @@ class Person extends BaseEntity
         $this->persons     = new ArrayCollection();
         $this->identifiers = new ArrayCollection();
        
-        // Simple 32 char string, not really a guid but oh well
-        $this->id = strtoupper(md5(uniqid('zayso',true)));
+        $this->id = Guid::gen();
     }
     /* ======================================================================
      * Standard getter/setters

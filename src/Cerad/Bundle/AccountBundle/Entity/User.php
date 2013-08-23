@@ -5,7 +5,7 @@ use FOS\UserBundle\Model\User as UserBase;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Cerad\Bundle\AccountBundle\Functions\Guid;
+use Cerad\Bundle\CommonBundle\Functions\Guid;
 
 class User extends UserBase
 {
