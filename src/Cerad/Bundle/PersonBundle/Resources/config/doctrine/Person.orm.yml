@@ -7,7 +7,7 @@ Cerad\Bundle\PersonBundle\Entity\Person:
     id:
         id:
             type: string
-            length: 32
+            length: 40
             generator: { strategy: NONE }
             
     oneToMany:
