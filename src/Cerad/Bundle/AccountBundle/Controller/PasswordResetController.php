@@ -21,18 +21,18 @@ class PasswordResetController extends Controller
     public function requestAction(Request $request)
     {
         // Majic to get any previous errors
-        $authInfo = $this->get('cerad_account.authentication_information');
-        $info = $authInfo->get($request);
-        
+        $authInfo = $this->get('cerad_account.authentication_information')->get($request);
+    
         $item = array(
             'error'    => null,
-            'username' => $info['lastUsername'],
+            'username' => $authInfo['lastUsername'],
         );
         $form = $this->createForm($this->get('cerad_account.password_reset.formtype'),$item);
+        
         $form->handleRequest($request);
 
         if ($form->isValid()) 
-        { 
+        {
             // Suppose a data transformer could be used here?
             $item = $form->getData();
             $username = $item['username'];
@@ -76,6 +76,7 @@ class PasswordResetController extends Controller
                 return $this->redirect($this->generateUrl('cerad_account_password_reset_confirm'));
             }
         }
+        
         // Render
         $tplData = array();
         $tplData['passwordResetError'] = $item['error'];
