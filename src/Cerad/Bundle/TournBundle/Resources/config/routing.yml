@@ -150,3 +150,6 @@ cerad_tourn_test_simple:
   path: /test/simple
   defaults:  { _controller: CeradTournBundle:Test:simple }
 
+cerad_tourn_test_dynamic:
+  path: /test/dynamic
+  defaults:  { _controller: CeradTournBundle:Test:dynamic }

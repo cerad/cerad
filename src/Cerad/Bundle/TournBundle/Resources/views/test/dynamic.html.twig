@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Simple</title>
+    </head>
+    <body>
+        <h3>Simple test page</h3>
+<form 
+    id   ="cerad_tourn_test_form1_form"
+    class="cerad_tourn_form" 
+    action="{{ path('cerad_tourn_test_dynamic') }}" 
+    method="post" 
+    {{ form_enctype(form) }}
+>
+    {{ form_row(form.gender) }}
+    <input type="submit" name="testForm1" value="Submit" />
+    {{ form_rest(form) }}
+</form>
+    </body>
+</html>
+

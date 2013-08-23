@@ -4,6 +4,8 @@ namespace Cerad\Bundle\TournBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Cerad\Bundle\TournBundle\Form\Type\Test\DynamicFormType;
+
 class TestController extends Controller
 {
     /* ==========================================
@@ -72,6 +74,28 @@ class TestController extends Controller
         // And display
         $tplData = array();
         return $this->render('@CeradTourn/test/simple.html.twig', $tplData);
+        
+    }
+    public function dynamicAction(Request $request)
+    {
+        if ($request->isMethod('POST'))
+        {
+            $all = $request->request->all();
+          //$all['cerad_tourn_test_dynamic']['gender'] = 'X';
+            $request->request->replace($all);
+        }
+        $form = $this->createForm(new DynamicFormType());
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            echo "Form is valid<br />";
+            $data = $form->getData();
+            echo sprintf("Form is valid gender: %s<br />",$data['gender']);
+        }
+       // And display
+        $tplData = array();
+        $tplData['form'] = $form->createView();
+        return $this->render('@CeradTourn/test/dynamic.html.twig', $tplData);
         
     }
 }
