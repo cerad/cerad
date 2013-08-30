@@ -1,5 +1,5 @@
 {
-    "name":        "cerad",
+    "name":        "cerad/cerad",
     "type":        "symfony-bundles",
     "description": "Cerad Libraries",
     "keywords":    ["security"],
@@ -23,5 +23,5 @@
         }
     },
 
-    "target-dir": "Cerad"
+    "target-dir": "src"
 }
