@@ -36,7 +36,8 @@ class JanrainAuthenticationListener extends AbstractAuthenticationListener
         $this->securityContext = $securityContext;
     }
     /* ===========================================================
-     * Redirect back from the janrain stite
+     * Redirect back from the janrain site
+     * check_path: cerad_janrain_check
      */
     protected function attemptAuthentication(Request $request)
     {   
@@ -109,7 +110,7 @@ class JanrainAuthenticationListener extends AbstractAuthenticationListener
             // Not signed in? redirect to register       
             if ($this->securityContext->getToken() == null)
             {
-                $response = $this->httpUtils->createRedirectResponse($request, $this->options['create_path']);
+                $response = $this->httpUtils->createRedirectResponse($request, $this->options['register_path']);
             }
             else
             {

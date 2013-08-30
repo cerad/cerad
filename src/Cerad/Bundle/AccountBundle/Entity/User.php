@@ -9,7 +9,7 @@ use Cerad\Bundle\CommonBundle\Functions\Guid;
 
 class User extends UserBase
 {
-    protected $name;
+    protected $name;        // Display name
     protected $person;      // Linked Object, can be null, no autocreate
     protected $personId;    // Guid of any linked person
     protected $personNo;    // Flag to indicate that a persone will not be attached
@@ -57,6 +57,7 @@ class User extends UserBase
         }
         $this->identifiers[] = $identifier;
         $identifier->setUser($this);
+        $identifier->setName($this->name);
     }
     public function newIdentifier() { return new UserIdentifier(); }
     

@@ -1,0 +1,22 @@
+{% extends '@CeradTourn/layout.html.twig' %}
+  
+{% block content %}
+<h3>Referee Schedule</h3>
+<p>Fake Schedule From S5Games 2013.</p>
+{% include('@CeradTourn/schedule/referee/search.html.twig') %}
+{% include('@CeradTourn/schedule/referee/games.html.twig')  %}
+
+{% block jquery %} 
+{{ parent() }}
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" charset="utf8" src="{{  asset('bundles/ceradtourn/js/zaysocore.js')}}"></script>
+<script>
+$(document).ready(function() 
+{
+    // Clevel checkbox all functionality
+    $('.zayso-checkbox-all').change(Zayso.checkboxAll);
+});
+</script>
+{% endblock %}
+
+{% endblock %}

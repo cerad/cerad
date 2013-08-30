@@ -19,8 +19,8 @@ services:
             - '@security.http_utils'
                                      # also gets login_path injected
 
-    cerad_janrain.registration.event_listener:
-        class:  Cerad\Bundle\JanrainBundle\EventListener\RegistrationListener
+    cerad_janrain.event_listener:
+        class:  Cerad\Bundle\JanrainBundle\EventListener\JanrainEventListener
         tags:   
           - { name: kernel.event_subscriber }
         arguments:

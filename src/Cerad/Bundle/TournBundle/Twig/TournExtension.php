@@ -5,14 +5,23 @@ class TournExtension extends \Twig_Extension
 {
     protected $env;
     protected $project;
+    protected $showConfig;
     
     public function getName()
     {
         return 'cerad_tourn_extension';
     }
-    public function __construct($project)
+    public function __construct($project,$showConfigs)
     {
         $this->project = $project;
+        
+        $configName = defined('CERAD_TOURN_SHOW_CONFIG') ? CERAD_TOURN_SHOW_CONFIG : 'default';
+
+        if (!isset($showConfigs[$configName]))
+        {
+            throw new \Exception('Undefined show config : ' . $configName);
+        }
+        $this->showConfig = $showConfigs[$configName];
     }
     public function initRuntime(\Twig_Environment $env)
     {
@@ -26,7 +35,8 @@ class TournExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(            
-          //'cerad_tourn_show_header' => new \Twig_Function_Method($this, 'showHeader'),
+            'cerad_tourn_show' => new \Twig_Function_Method($this, 'show'),
+            
           //'cerad_tourn_is_iframe'   => new \Twig_Function_Method($this, 'isIFrame'),
             'cerad_tourn_get_referer' => new \Twig_Function_Method($this, 'getReferer'),
             
@@ -54,6 +64,14 @@ class TournExtension extends \Twig_Extension
       //die($referer);
         return $referer;
         
+    }
+    public function show($param)
+    {
+        if (!isset($this->showConfig[$param]))
+        {
+            throw new \Exception('Undefined show config param : ' . $param);
+        }
+        return $this->showConfig[$param];
     }
 }
 ?>

@@ -31,6 +31,14 @@ cerad_account_profile_edit:
   path: /profile/edit/{id}
   defaults:  { _controller: CeradAccountBundle:Profile:profile }
   
+cerad_account_identifier_add:
+  path: /identifier/add
+  defaults:  { _controller: CeradAccountBundle:Identifier:add }
+  
+cerad_account_identifier_list:
+  path: /identifier/list
+  defaults:  { _controller: CeradAccountBundle:Identifier:list }
+  
 # ===========================================
 # Password resetting stuff
 # I only need two actions

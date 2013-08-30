@@ -18,7 +18,7 @@ use FOS\UserBundle\Event\FormEvent;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class RegistrationListener implements EventSubscriberInterface
+class JanrainEventListener implements EventSubscriberInterface
 {
     protected $userManager;
     
@@ -45,7 +45,7 @@ class RegistrationListener implements EventSubscriberInterface
         // Get the stuff
         $profile = $session->get('cerad_janrain_profile');
         $user    = $event->getForm()->getData();
-        
+
         // Want to add one or possibly two account_identifier objects
         $identifier = $this->userManager->createIdentifier($profile->getProviderName(),$profile->getIdentifier(),$profile->getData());
         $this->userManager->addIdentifierToUser($user,$identifier);
@@ -80,7 +80,9 @@ class RegistrationListener implements EventSubscriberInterface
         $user->setEmail   ($profile->getEmail());
         
         // Other good stuff in the profile as well
-        
+        // Maybe add the identifiers here?  No display name as of yet
+        $event->source = $profile->getProviderName();
+
         // echo sprintf("RegistrationInitialize %s %s\n",get_class($user),get_class($profile));
         
         //die();

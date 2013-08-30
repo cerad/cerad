@@ -6,6 +6,12 @@
     {{ form_enctype(form) }} novalidate
  >
     <fieldset><legend><span>Account Information</span></legend>
+        {% if source %}
+        <div>
+            <label>Social Network</label>
+            <div>{{ source }}</div>
+        </div>
+        {% endif %}
         {{ form_row(form.name)                }}
         {{ form_row(form.username)            }}
         {{ form_row(form.email)               }}

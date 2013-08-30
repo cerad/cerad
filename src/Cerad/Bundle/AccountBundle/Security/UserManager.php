@@ -47,6 +47,16 @@ class UserManager extends UserManagerBase
         
         return null;
     }
+    public function createIdentifier($source,$value,$data)
+    {
+        $identifierClassName = $this->userIdentifierClassName;
+        
+        $identifier = new $identifierClassName();
+        $identifier->setSource($source);
+        $identifier->setValue($value);
+        $identifier->setProfile($data);
+        return $identifier;
+    }
     public function addIdentifierToUser($user,$identifier)
     {
         $user->addIdentifier($identifier);

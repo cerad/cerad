@@ -7,10 +7,10 @@ class GoogleProfile extends AbstractProfile
     public function getIdentifier2() 
     { 
         // Just to be safe
-        if (!isset($this->data['googleUserid']) || !$this->data['googleUserid']) return;
+        if (!isset($this->data['googleUserId']) || !$this->data['googleUserId']) return;
         
         // Append google just to help make sure it stays unique
-        return 'google' . $this->data['googleUserid']; 
+        return 'google' . $this->data['googleUserId']; 
     }
 }
 /* 

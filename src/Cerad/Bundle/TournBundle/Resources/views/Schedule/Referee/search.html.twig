@@ -1,0 +1,79 @@
+{% if searchForm is defined  %}
+{% set form = searchForm     %}
+<form 
+    action="{{ path('cerad_tourn_schedule_referee_list') }}" 
+    method="post" {{ form_enctype(form) }}
+    style="border: none;"
+    class="zayso_schedule_search_form"
+>
+<table border="1" style="width: 1100px;">
+<tr>
+    <td colspan="2">
+        <table> {# Use this to get the check box tables to go across the screen #}
+            <tr>
+                <td>
+                    {% set items = form.dates %}
+                    {% include '@CeradTourn/schedule/search/checkbox.html.twig' %}
+                </td><td>
+                    {% set items = form.ages %}
+                    {% include '@CeradTourn/schedule/search/checkbox.html.twig' %}
+                </td><td>
+                    {% set items = form.genders %}
+                    {% include '@CeradTourn/schedule/search/checkbox.html.twig' %}
+                </td><td>
+                    {% set items = form.programs %}
+                    {% include '@CeradTourn/schedule/search/checkbox.html.twig' %}
+                </td><td>
+                    {% set items = form.venues %}
+                    {% include '@CeradTourn/schedule/search/checkbox.html.twig' %}
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td colspan="2">
+        <table>
+            <tr>
+                <td>
+                    <table border="1">
+                        <tr><th>Kick Off</th></tr>
+                        <tr><td>{{ form_widget(form.time1) }}</td></tr>
+                        <tr><td>{{ form_widget(form.time2) }}</td></tr>
+                    </table>
+                </td><td>
+                    <table border="1">
+                        <tr><th>{{ form.myTeams.vars.label   }}</th></tr>
+                        <tr><td>{{ form_widget(form.myTeams) }}</td></tr>
+                    </table>
+                </td><td>
+                    <table border="1">
+                        <tr><th>{{ form.myPersons.vars.label   }}</th></tr>
+                        <tr><td>{{ form_widget(form.myPersons) }}</td></tr>
+                    </table>
+                </td><td>
+                    <table border="1">
+                        <tr><th colspan="20">Search/Filter</th></tr>
+                        <tr><td>Game Numbers</td><td>{{ form_widget(form.numFilter)     }}</td></tr>
+                        <tr><td>Teams       </td><td>{{ form_widget(form.teamFilter)    }}</td></tr>
+                        <tr><td>Officials   </td><td>{{ form_widget(form.refereeFilter) }}</td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="{{ path('cerad_tourn_schedule_referee_list', { _format: 'xls'}) }}">Spreadsheet</a>
+        <a href="{{ path('cerad_tourn_schedule_referee_list', { _format: 'csv'}) }}">Text File</a>
+    </td>
+    <td align="right">
+        <span>Sort By: {{ form_widget(form.sortBy) }}</span>
+        <input type="submit" name="schSearchSubmit" value="Search" />
+    </td>
+</tr>
+</table>
+<div style="display: none;">{{ form_rest(form) }}</div>
+</form>
+{% endif %}

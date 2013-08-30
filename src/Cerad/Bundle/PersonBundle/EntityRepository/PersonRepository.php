@@ -2,6 +2,7 @@
 namespace Cerad\Bundle\PersonBundle\EntityRepository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 // PersonReg => PersonLeague?
 class PersonRepository extends EntityRepository
@@ -264,6 +265,28 @@ class PersonRepository extends EntityRepository
     public function findByIdentifierValue($value)
     {
         return null;
+    }
+    public function findAllNames()
+    {
+        $qb = $this->createQueryBuilder('person');
+        
+        $query = $qb->select('partial person.{id,name}')
+                 ->addOrderBy('person.name', 'ASC')
+                 ->getQuery();
+        
+        return $query->getArrayResult();
+        
+        echo $query->getSQL() . "\n";
+        
+      //$query = $qb->select('partial person.{id,name}, partial cert.{id}')
+        $query = $qb->select('partial person.{id,name}')
+                ->leftJoin('person.certs','cert','WITH', "cert.role = 'Fake'")
+                 ->addOrderBy('person.name', 'ASC')
+                 ->getQuery();
+        
+        echo $query->getSQL() . "\n";
+        
+        return $query->getResult(Query::HYDRATE_SIMPLEOBJECT);
     }
 }
 ?>

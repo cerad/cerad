@@ -21,8 +21,13 @@ class RegistrationController extends Controller
 
         $user = $userManager->createUser();
         $user->setEnabled(true);
-
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, new UserEvent($user, $request));
+        
+        $event = new UserEvent($user, $request);
+        
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE,$event);
+        
+        // Really should make my own event and add a janrain profile
+        $source = isset($event->source) ? $event->source : null;
         
         // Form stuff
         $form = $this->createForm($this->get('cerad_account.create.formtype'),$user);
@@ -49,11 +54,12 @@ class RegistrationController extends Controller
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
             return $response;
         }
-        
+        ///else die('invalid');
         
        // Render
         $tplData = array();
         $tplData['form'] = $form->createView();
+        $tplData['source'] = $source;
         return $this->render('@CeradAccount/Registration/Register/index.html.twig', $tplData);        
     }
 }

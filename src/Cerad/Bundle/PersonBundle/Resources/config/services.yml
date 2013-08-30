@@ -107,3 +107,11 @@ services:
           - '@cerad_person.phone.datatransformer'
         tags:
           - { name: twig.extension }
+          
+# Funky event listeners
+    cerad_person.event_listener:
+        class:  Cerad\Bundle\PersonBundle\EventListener\PersonEventListener
+        tags:   
+          - { name: kernel.event_subscriber }
+        arguments:
+          - '@cerad_person.repository'

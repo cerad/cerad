@@ -3,12 +3,18 @@
     <thead>
         <tr><th colspan="20">Game Schedule - Count: {{ games | length }}</th></tr>
         <tr>
+            <td colspan="10">
+                Field Pell  = Pellissippi (about 15 minutes from Ball Camp)<br />
+                Field BC/NB = Ball Camp/Nicholas Ball Park (right next to each other)
+            </td>
+        </tr>
+        <tr>
             <th>Game</th>
             <th>DOW</th>
             <th>Time</th>
             <th>Field</th>
             <th>Type</th>
-            <th>Division</th>
+            <th>Div Pool</th>
             <th>Home / Away Teams</th>
             <th>Officials</th>
         </tr>
@@ -31,14 +37,26 @@
             </td>
            <td class="schedule-games-list-teams"><table>
                 {% for gameTeam in game.teams %}
-                    <tr><td>{{ gameTeam.score }}</td><td>{{ gameTeam.name }}</td></tr>
+                    <tr>
+                        <td>{{ gameTeam.score }}</td>
+                        {% if gameTeam.selected %}
+                           <td style="color: #009933;">{{ gameTeam.name }}</td>
+                        {% else %}
+                           <td>{{ gameTeam.name }}</td>
+                        {%endif %}
+                    </tr>
                 {% endfor %}
             </table></td>
             <td class="schedule-games-list-officials"><table class="game-officials-list">
                 {% for gamePerson in game.persons  %}
                 <tr>
-                    <td><a href="{{ path('cerad_tourn_schedule_referee_assign', { 'id': game.id }) }}">{{ gamePerson.role }}:</a></td>
-                    <td class="game-person-status-{{ gamePerson.status }}">{{ gamePerson.name }} </td>
+                  {#<td><a href="{{ path('cerad_tourn_schedule_referee_assign', { 'id': game.id }) }}">{{ gamePerson.role }}:</a></td>#}
+                    <td>{{ gamePerson.role }}:</td>
+                    {% if gamePerson.selected %}
+                        <td style="color: #009933;">{{ gamePerson.name }}</td>
+                    {% else %}
+                       <td>{{ gamePerson.name }}</td>
+                    {%endif %}
                 </tr>
                 {% endfor %}
             </table></td>
@@ -47,20 +65,3 @@
     </tbody>
     </table>
 </div>
-{# block javascripts %}
-<script type="text/javascript">
-    $(document).ready(function() 
-    {
-        $('#schedule').dataTable(
-        {
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "aaSorting": [[ 2, "asc" ],[ 5, "asc" ],[ 4, "asc" ]]
-        });
-    });
-</script>
-{% endblock #}
