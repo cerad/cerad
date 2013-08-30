@@ -1,3 +1,27 @@
 {
-    "name": "ahundiak"
+    "name":        "cerad",
+    "type":        "symfony-bundles",
+    "description": "Cerad Libraries",
+    "keywords":    ["security"],
+    "homepage":    "https://github.com/cerad/cerad.git",
+    "license":     "MIT",
+
+    "authors": [
+        {
+            "name":  "Art Hundiak",
+            "email": "ahundiak@gmail.com"
+        }
+    ],
+            
+    "require": {
+        "php": ">=5.3.3"
+    },
+        
+    "autoload": {
+        "psr-0": {
+            "Cerad": ""
+        }
+    },
+
+    "target-dir": "Cerad"
 }
