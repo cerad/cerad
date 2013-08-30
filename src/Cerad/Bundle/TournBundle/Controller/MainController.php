@@ -26,13 +26,13 @@ class MainController extends Controller
         $tplData = array();
         $tplData['loginForm'] = $loginForm->createView();
         
-        return $this->render('@CeradTourn/welcome.html.twig', $tplData);
+        return $this->render('@CeradTourn/Welcome/index.html.twig', $tplData);
     }
-     public function contactAction()
+    public function contactAction()
     {
         $tplData = array();
         
-        return $this->render('@CeradTourn/contact.html.twig', $tplData);
+        return $this->render('@CeradTourn/Contact/index.html.twig', $tplData);
     }
     /* ==========================================================================
      * Pretty sure that none of these are being used
