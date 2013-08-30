@@ -41,7 +41,7 @@ class HomeController extends Controller
         $tplData['account'] = $this->getUser();
         $tplData['project'] = $this->get('cerad_tourn.project');
         
-        return $this->render('@CeradTourn/home.html.twig', $tplData);
+        return $this->render('@CeradTourn/Home/index.html.twig', $tplData);
     }
     /* ==============================================================
      * Everything below here was for demo purposes
