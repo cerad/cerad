@@ -19,17 +19,19 @@ class PersonRepository extends EntityRepository
     public function getEventManager      () { return $this->_em->getEventManager(); }
 
     // Nice to make this configurable
-    public function getPersonClassName      () { return $this->_entityName; }
-    public function getPersonCertClassName  () { return $this->_entityName . 'Cert';   }
-    public function getPersonPlanClassName  () { return $this->_entityName . 'Plan';   }
-    public function getPersonLeagueClassName() { return $this->_entityName . 'League'; }
-    public function getPersonPersonClassName() { return $this->_entityName . 'Person'; }
+    public function getPersonClassName      ()     { return $this->_entityName; }
+    public function getPersonCertClassName  ()     { return $this->_entityName . 'Cert';   }
+    public function getPersonPlanClassName  ()     { return $this->_entityName . 'Plan';   }
+    public function getPersonLeagueClassName()     { return $this->_entityName . 'League'; }
+    public function getPersonPersonClassName()     { return $this->_entityName . 'Person'; }
+    public function getPersonIdentifierClassName() { return $this->_entityName . 'Identifier'; }
     
-    public function newPerson()       { $className = $this->getPersonClassName      (); return new $className(); }
-    public function newPersonCert()   { $className = $this->getPersonCertClassName  (); return new $className(); }
-    public function newPersonPlan()   { $className = $this->getPersonPlanClassName  (); return new $className(); }
-    public function newPersonLeague() { $className = $this->getPersonLeagueClassName(); return new $className(); }
-    public function newPersonPerson() { $className = $this->getPersonPersonClassName(); return new $className(); }
+    public function newPerson()           { $className = $this->getPersonClassName          (); return new $className(); }
+    public function newPersonCert()       { $className = $this->getPersonCertClassName      (); return new $className(); }
+    public function newPersonPlan()       { $className = $this->getPersonPlanClassName      (); return new $className(); }
+    public function newPersonLeague()     { $className = $this->getPersonLeagueClassName    (); return new $className(); }
+    public function newPersonPerson()     { $className = $this->getPersonPersonClassName    (); return new $className(); }
+    public function newPersonIdentifier() { $className = $this->getPersonIdentifierClassName(); return new $className(); }
     
     /* =============================================================
      * Load all certs for a given identifier
@@ -259,13 +261,6 @@ class PersonRepository extends EntityRepository
         $this->persist($person);
         $this->flush();
     }
-    /* =============================================
-     * TODO: This needs to lookup ayso/ussf id's and return the person
-     */
-    public function findByIdentifierValue($value)
-    {
-        return null;
-    }
     public function findAllNames()
     {
         $qb = $this->createQueryBuilder('person');
@@ -287,6 +282,21 @@ class PersonRepository extends EntityRepository
         echo $query->getSQL() . "\n";
         
         return $query->getResult(Query::HYDRATE_SIMPLEOBJECT);
+    }
+    /* ===========================================
+     * Get a handle on identifiers
+     */
+    public function findIdentifierByValue($value)
+    {
+        $repo = $this->_em->getRepository($this->getPersonIdentifierClassName());
+        return $repo->findOneBy(array('value' => $value));        
+    }
+    public function createIdentifier($source,$value)
+    {
+        $identifier = $this->newPersonIdentifier();
+        $identifier->setSource($source);
+        $identifier->setValue($value);
+        return $identifier;
     }
 }
 ?>

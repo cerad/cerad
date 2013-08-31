@@ -1,5 +1,5 @@
 <?php
-namespace Cerad\Bundle\PersonBundle\Form\Type\AYSO;
+namespace Cerad\Bundle\PersonBundle\Form\Type\USSF;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,27 +20,30 @@ class RefereeBadgeFormType extends AbstractType
         $resolver->setDefaults(array(
           //'invalid_message' => 'Unknown Region Number',
             
-            'label'    => 'AYSO Referee Badge',
+            'label'    => 'USSF Referee Badge',
             'choices'  => $this->refereeBadgeChoices,
             'multiple' => false,
             'expanded' => false,
+            
+            'empty_value' => 'USSF Badge',
+            'empty_data'  => null
+            
         ));
     }
     public function getParent() { return 'choice'; }
-    public function getName()   { return 'cerad_person_ayso_referee_badge'; }
+    public function getName()   { return 'cerad_person_ussf_referee_badge'; }
     
     protected $refereeBadgeChoices = array
     (
-        'None'         => 'None',
-        'Regional'     => 'Regional',
-        'Intermediate' => 'Intermediate',
-        'Advanced'     => 'Advanced',
-        'National'     => 'National',
-        'National_1'   => 'National 1',
-        'National_2'   => 'National 2',
-        'Assistant'    => 'Assistant',
-        'U8Official'   => 'U8',
-    );
+        'None'     => 'None',
+        'Grade_9'  => 'Grade 9',
+        'Grade_8'  => 'Grade 8',
+        'Grade_7'  => 'Grade 7',
+        'Grade_6'  => 'Grade 6',
+        'Grade_5'  => 'Grade 5',
+        'Grade_4'  => 'Grade 4',
+        'SeeNotes' => 'See Notes',
+   );    
 }
 
 ?>

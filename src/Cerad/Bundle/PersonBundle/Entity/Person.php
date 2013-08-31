@@ -4,17 +4,15 @@ namespace Cerad\Bundle\PersonBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Cerad\Bundle\CommonBundle\Functions\Guid;
+use Cerad\Bundle\CommonBundle\Entity\BaseEntityPrimary as CommonBaseEntityPrimary;
 
-class Person extends BaseEntity
+class Person extends CommonBaseEntityPrimary
 {
     const GenderMale    = 'M';
     const GenderFemale  = 'F';
     const GenderUnknown = 'U';
     
-    protected $id;
     protected $idx; // Just to help with legacy import
-    
-    protected $name;
     
     protected $lastName;
     protected $nickName;  // Obsolete?
@@ -45,18 +43,18 @@ class Person extends BaseEntity
     protected $certs;
     protected $leagues;
     protected $persons;
-    protected $identifiers;
     
     public function __construct()
     {
+        parent::__construct();
+        
         $this->certs       = new ArrayCollection();
         $this->plans       = new ArrayCollection();
         $this->leagues     = new ArrayCollection();
         $this->persons     = new ArrayCollection();
-        $this->identifiers = new ArrayCollection();
-       
-        $this->id = Guid::gen();
     }
+    public function newIdentifier() { return new PersonIdentifier(); }
+    
     /* ======================================================================
      * Standard getter/setters
      */
@@ -200,6 +198,10 @@ class Person extends BaseEntity
     {
         return $this->getLeague(PersonLeague::FedAYSO,PersonLeague::RoleVolunteer,$autoCreate);
     }
+    public function getLeagueUSSFContractor($autoCreate = true)
+    {
+        return $this->getLeague(PersonLeague::FedUSSF,PersonLeague::RoleContractor,$autoCreate);
+    }
     // Need for forms
     public function setVolunteerAYSO($value) { return $this; }
     public function setLeagueAYSOVolunteer($value) { return $this; }
@@ -233,6 +235,27 @@ class Person extends BaseEntity
         }
         return null;
     }
+    public function getPersonPersonPrimary($autoCreate = true)
+    {
+        foreach($this->persons as $personPerson)
+        {
+            if ($personPerson->getRole() == 'PersonPerson::RolePrimary')
+            {
+                // Should only be one primary
+                return $personPerson;
+            }
+        }
+        if (!$autoCreate) return null;
+            
+        $personPerson = new PersonPerson();
+        $personPerson->setMaster($this);
+        $personPerson->setSlave ($this);
+        $personPerson->setRole  (PersonPerson::RolePrimary);
+            
+        $this->addPerson($personPerson);
+            
+        return $personPerson;
+    }
     /* ====================================================
      * Project Plans
      */
@@ -252,29 +275,6 @@ class Person extends BaseEntity
             if ($plan->getProjectKey() == $projectKey)
             {
                 return $plan;
-            }
-        }
-        return null;
-    }
-    /* ====================================================
-     * Unique identifiers
-     */
-    public function addIdentifier($identifier)
-    {
-        $this->identifiers[] = $identifier;
-        $identifier->setPerson($this);
-    }
-    public function getIdentifiers() { return $this->identifiers; }
-    
-    public function getIdentifier($identifierKey)
-    {
-        if (is_object($identifierKey)) $identifierKey = $identifierKey->getKey();
-        
-        foreach($this->identifiers as $identifier)
-        {
-            if ($identifier->getKey() == $identifierKey)
-            {
-                return $identifier;
             }
         }
         return null;

@@ -8,6 +8,9 @@ class BaseEntityIdentifier extends BaseEntity
     const SourceKey     = 'Key';      // This is the only one with special meaning?
     const SourceManual  = 'Manual';   // Made by hand
     const SourceArbiter = 'Arbiter';  // More of a source
+    const SourceUSSFC   = 'USSFC';  // More of a source
+    const SourceAYSOV   = 'AYSOV';  // More of a source
+    const SourceAYSOP   = 'AYSOP';  // More of a source
     
     protected $id;
     protected $name;    // Debugging

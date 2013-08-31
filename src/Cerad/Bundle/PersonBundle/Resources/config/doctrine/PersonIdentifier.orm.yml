@@ -1,33 +1,10 @@
 Cerad\Bundle\PersonBundle\Entity\PersonIdentifier:
+  
     type:  entity
     table: person_identifier
-    changeTrackingPolicy: NOTIFY
-    
-    uniqueConstraints:
-       person_identifier_key_index:
-           columns: keyx
-    
-    id:
-        id:
-            type: integer
-            generator: { strategy: AUTO }
-            
+                
     manyToOne:
-      
-        person:
+        entity:
             targetEntity: Person
             inversedBy:   identifiers
-             
-    fields:
-            
-        key:
-            column:   keyx
-            type:     string
-            length:   40
-            nullable: false
-            
-        status:
-            column:   status
-            type:     string
-            length:   20
-            nullable: false
+    

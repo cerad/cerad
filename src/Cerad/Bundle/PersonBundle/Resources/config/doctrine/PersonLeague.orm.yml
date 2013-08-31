@@ -42,7 +42,7 @@ Cerad\Bundle\PersonBundle\Entity\PersonLeague:
         identifier:
             column:   identifier
             type:     string
-            length:   40
+            length:   80
             nullable: false
             
         cvpa:

@@ -4,6 +4,9 @@
 parameters:
       cerad_person.ayso_referee_badge.form_type.class:
           Cerad\Bundle\PersonBundle\Form\Type\AYSO\RefereeBadgeFormType
+          
+      cerad_person.ussf_referee_badge.form_type.class:
+          Cerad\Bundle\PersonBundle\Form\Type\USSF\RefereeBadgeFormType
 
 # ===========================================
 # And the services
@@ -85,7 +88,8 @@ services:
         tags:
             - { name: form.type, alias: cerad_person_ayso_volunteer_region }
 
-# ===============================
+# ============================================
+# AYSO Forms
     cerad_person.ayso_referee_create.form_type:
         class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RefereeCreateFormType
         tags:
@@ -100,7 +104,40 @@ services:
         class: Cerad\Bundle\PersonBundle\Form\Type\AYSO\RefereeCertFormType
         tags:
             - { name: form.type, alias: cerad_person_ayso_referee_cert }
+       
+# ================================
+# USSF Forms
+    cerad_person.ussf_referee_create.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\USSF\RefereeCreateFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ussf_referee_create }
             
+    cerad_person.ussf_referee_cert.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\USSF\RefereeCertFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ussf_referee_cert }
+            
+    cerad_person.ussf_contractor_id.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\USSF\ContractorIDFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ussf_contractor_id }
+            
+    cerad_person.ussf_referee_badge.form_type:
+        class: '%cerad_person.ussf_referee_badge.form_type.class%'
+        tags:
+            - { name: form.type, alias: cerad_person_ussf_referee_badge }
+            
+    cerad_person.ussf_referee_upgrading.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\USSF\RefereeUpgradingFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ussf_referee_upgrading }
+            
+    cerad_person.ussf_league.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\USSF\LeagueFormType
+        tags:
+            - { name: form.type, alias: cerad_person_ussf_league }
+
+# ================================
     cerad_person.twig_extension:
         class:  Cerad\Bundle\PersonBundle\Twig\PersonTwigExtension
         arguments:  
