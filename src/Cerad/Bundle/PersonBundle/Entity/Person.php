@@ -4,15 +4,16 @@ namespace Cerad\Bundle\PersonBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Cerad\Bundle\CommonBundle\Functions\Guid;
-use Cerad\Bundle\CommonBundle\Entity\BaseEntityPrimary as CommonBaseEntityPrimary;
 
-class Person extends CommonBaseEntityPrimary
+class Person extends BaseEntity
 {
     const GenderMale    = 'M';
     const GenderFemale  = 'F';
     const GenderUnknown = 'U';
     
-    protected $idx; // Just to help with legacy import
+    protected $id;
+    protected $name;
+    protected $note;
     
     protected $lastName;
     protected $nickName;  // Obsolete?
@@ -31,7 +32,6 @@ class Person extends CommonBaseEntityPrimary
 
     // Move these to PersonAddress?
     // Want to handle work locations and college locations
-    protected $address;
     protected $city;
     protected $state;
     protected $zipcode;
@@ -40,20 +40,20 @@ class Person extends CommonBaseEntityPrimary
     protected $status    = 'Active';
     
     protected $plans;
-    protected $certs;
     protected $leagues;
     protected $persons;
+    protected $identifiers;
+    
+    protected $idx; // Legacy Import
     
     public function __construct()
     {
-        parent::__construct();
-        
-        $this->certs       = new ArrayCollection();
+        $this->id          = Guid::gen();   
         $this->plans       = new ArrayCollection();
         $this->leagues     = new ArrayCollection();
         $this->persons     = new ArrayCollection();
+        $this->identifiers = new ArrayCollection();
     }
-    public function newIdentifier() { return new PersonIdentifier(); }
     
     /* ======================================================================
      * Standard getter/setters
@@ -62,6 +62,7 @@ class Person extends CommonBaseEntityPrimary
     public function getIdx      () { return $this->idx; }
     public function getDob      () { return $this->dob; }
     public function getName     () { return $this->name;   }
+    public function getNote     () { return $this->note;   }
     public function getEmail    () { return $this->email;  }
     public function getPhone    () { return $this->phone;  }
     
@@ -78,6 +79,7 @@ class Person extends CommonBaseEntityPrimary
     public function setIdx      ($value) { $this->onPropertySet('idx',      $value); }
     public function setDob      ($value) { $this->onPropertySet('dob',      $value); }
     public function setName     ($value) { $this->onPropertySet('name',     $value); }
+    public function setNote     ($value) { $this->onPropertySet('note',     $value); }
     public function setCity     ($value) { $this->onPropertySet('city',     $value); }
     public function setState    ($value) { $this->onPropertySet('state',    $value); }
     public function setEmail    ($value) { $this->onPropertySet('email',    $value); }
@@ -89,19 +91,9 @@ class Person extends CommonBaseEntityPrimary
     public function setNickName ($value) { $this->onPropertySet('nickName', $value); }
     public function setFirstName($value) { $this->onPropertySet('firstName',$value); }
     
-    // Really sets the dob
-    public function setAge($age)
-    {
-        if (!$age)              return;
-        if ($this->age == $age) return;
-        
-        $year = 2013 - $age;
-        $dt = new \DateTime($year . '-01-01 00:00');
-        
-        $this->setDob($dt);
-        $this->age = $age;
-    }
-    // Should return age as of some date
+    /* ===========================================
+     * Age with optional asOf date
+     */
     public function getAge($asOf = null)
     {
         if (!$this->dob) return null;
@@ -115,54 +107,28 @@ class Person extends CommonBaseEntityPrimary
         return $years;
     }
     /* ====================================================
-     * Certification
+     * Organization identifiers
      */
-    public function addCert($cert)
+    public function newIdentifier() { return new PersonIdentifier(); }
+    public function addIdentifier($identifier)
     {
-        $this->certs[] = $cert;
-        $cert->setPerson($this);
-    }
-    public function getCerts() { return $this->certs; }
-    
-    public function getCert($fed,$role,$autoCreate = true)
-    {
-         foreach($this->certs as $item)
+        $identifierId = $identifier->getId();
+        foreach($this->identifiers as $identifierx)
         {
-            if (($item->getFed() == $fed) && ($item->getRole() == $role))
-            {
-                return $item;
-            }
+            if ($identifierId == $identifierx->getId()) return $this;
         }
-        if (!$autoCreate) return null;
+        $this->identifiers[] = $identifier;
+        $identifier->setPerson($this);
+    }
+    public function getIdentifiers() { return $this->identifiers; }
+    public function getIdentifier($role) 
+    { 
+        foreach($this->identifiers as $identifier);
+        if ($identifier->getRole() == $role) return $identifier;
+    }
+    public function getIdentifierAYSOV() { return $this->getIdentifier(PersonIdentifier::RoleAYSOV); }
+    public function getIdentifierUSSFC() { return $this->getIdentifier(PersonIdentifier::RoleUSSFC); }
         
-        $item = new PersonCert();
-        $item->setFed ($fed);
-        $item->setRole($role);
-        $this->addCert($item);
-        return $item;
-    }
-    public function getCertRefereeUSSF($autoCreate = true)
-    {
-        return $this->getCert(PersonCert::FedUSSF,PersonCert::RoleReferee,$autoCreate);
-    }
-    public function getCertRefereeAYSO($autoCreate = true)
-    {
-        return $this->getCert(PersonCert::FedAYSO,PersonCert::RoleReferee,$autoCreate);
-    }
-    public function getCertUSSFReferee($autoCreate = true)
-    {
-        return $this->getCert(PersonCert::FedUSSF,PersonCert::RoleReferee,$autoCreate);
-    }
-    public function getCertAYSOReferee($autoCreate = true)
-    {
-        return $this->getCert(PersonCert::FedAYSO,PersonCert::RoleReferee,$autoCreate);
-    }
-    // Keep forms happy
-    public function setCertRefereeAYSO($value) { return $this; }
-    public function setCertRefereeUSSF($value) { return $this; }
-    public function setCertAYSOReferee($value) { return $this; }
-    public function setCertUSSFReferee($value) { return $this; }
-    
     /* ====================================================
      * Leagues
      */

@@ -1,7 +1,11 @@
-Cerad\Bundle\PersonBundle\Entity\PersonCert:
+Cerad\Bundle\PersonBundle\Entity\PersonOrg:
     type:  entity
-    table: person_cert
+    table: person_org
     changeTrackingPolicy: NOTIFY
+   
+   #uniqueConstraints:
+   #   person_league_identifier_index:
+   #       columns: identifier
     
     id:
         id:
@@ -12,7 +16,7 @@ Cerad\Bundle\PersonBundle\Entity\PersonCert:
       
         identifier:
             targetEntity: PersonIdentifier
-            inversedBy:   certs
+            inversedBy:   orgs
              
     fields:
             
@@ -21,37 +25,58 @@ Cerad\Bundle\PersonBundle\Entity\PersonCert:
             type:     string
             length:   20
             nullable: false
-             
-        badge:
+            
+        orgId:
+            column:   org_id
+            type:     string
+            length:   40
+            nullable: false
+            
+      # =======================
+        memYear:
+            column:   mem_year
             type:     string
             length:   20
             nullable: true
             
-        badgex:
+        memLast:
+            column:   mem_last
+            type:     date
+            nullable: true
+            
+        memFirst:
+            column:   mem_first
+            type:     date
+            nullable: true
+            
+        memExpires:
+            column:   mem_expires
+            type:     date
+            nullable: true
+            
+      # =======================
+        bcYear:
+            column:   bc_year
             type:     string
             length:   20
             nullable: true
             
-        dateFirstCertified:
-            column:   date_cert
+        bcLast:
+            column:   bc_last
+            type:     date
+            nullable: true
+
+        bcFirst:
+            column:   bc_first
             type:     date
             nullable: true
             
-        dateLastUpgraded:
-            column:   date_upgraded
+        bcExpires:
+            column:   bc_expires
             type:     date
             nullable: true
-            
-        dateExpires:
-            column:   date_expires
-            type:     date
-            nullable: true
-           
-        upgrading:
-            type:     string
-            length:   20
-            nullable: true
-                      
+                       
+      # =======================
         status:
             type:     string
             length:   20

@@ -3,6 +3,12 @@ Cerad\Bundle\PersonBundle\Entity\Person:
     table: person
     repositoryClass: Cerad\Bundle\PersonBundle\EntityRepository\PersonRepository
     changeTrackingPolicy: NOTIFY
+    
+    id:
+       id:
+           type:   string
+           length: 40
+           generator: { strategy: NONE }
                 
     oneToMany:
       
@@ -11,12 +17,7 @@ Cerad\Bundle\PersonBundle\Entity\Person:
             mappedBy:     person
             cascade:      ['all']
            #Index by project key
-            
-        certs:
-            targetEntity: PersonCert
-            mappedBy:     person
-            cascade:      ['all']
-            
+                        
         leagues:
             targetEntity: PersonLeague
             mappedBy:     person
@@ -29,14 +30,17 @@ Cerad\Bundle\PersonBundle\Entity\Person:
             
         identifiers:
             targetEntity: PersonIdentifier
-            mappedBy:     entity
+            mappedBy:     person
             cascade:      ['all']
                          
     fields:
-#       idx:
-#           type: integer
-#           nullable: true
 
+        name:
+            column:   name
+            type:     string
+            length:   80
+            nullable: false
+            
         firstName:
             column:   first_name
             type:     string
@@ -74,6 +78,12 @@ Cerad\Bundle\PersonBundle\Entity\Person:
             type:     string
             length:   20
             nullable: true
+            
+        phoneProvider:
+            column:   phone_provider
+            type:     string
+            length:   20
+            nullable: true
            
         city:
             type:     string
@@ -84,13 +94,23 @@ Cerad\Bundle\PersonBundle\Entity\Person:
             type:     string
             length:   20
             nullable: true
-           
-        verified:
+            
+        zipcode:
             type:     string
             length:   20
             nullable: true
-            
+           
+        note:
+            column:   note
+            type:     text
+            nullable: true
+           
         status:
             type:     string
             length:   20
             nullable: false
+            
+        verified:
+            type:     string
+            length:   20
+            nullable: true

@@ -2,9 +2,47 @@ Cerad\Bundle\PersonBundle\Entity\PersonIdentifier:
   
     type:  entity
     table: person_identifier
+    
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+       id:
+           type:   string
+           length: 40
+           generator: { strategy: NONE }
                 
     manyToOne:
-        entity:
+      
+        person:
             targetEntity: Person
             inversedBy:   identifiers
+            
+    oneToMany:
+                  
+        orgs:
+            targetEntity: PersonOrg
+            mappedBy:     identifier
+            cascade:      ['all']
+            
+        certs:
+            targetEntity: PersonCert
+            mappedBy:     identifier
+            cascade:      ['all']
+                        
+    fields:
+      
+        role:
+            type:     string
+            length:   20
+            nullable: false
+                        
+        status:
+            type:     string
+            length:   20
+            nullable: false
+            
+        verified:
+            type:     string
+            length:   20
+            nullable: true
     

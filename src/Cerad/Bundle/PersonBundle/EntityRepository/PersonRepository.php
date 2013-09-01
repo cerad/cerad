@@ -286,6 +286,11 @@ class PersonRepository extends EntityRepository
     /* ===========================================
      * Get a handle on identifiers
      */
+    public function findIdentifier($id)
+    {
+        $repo = $this->_em->getRepository($this->getPersonIdentifierClassName());
+        return $repo->find($id);        
+    }
     public function findIdentifierByValue($value)
     {
         $repo = $this->_em->getRepository($this->getPersonIdentifierClassName());
