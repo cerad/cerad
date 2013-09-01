@@ -5,7 +5,7 @@ class PersonOrg extends BaseEntity
 {
     const RoleState   = 'State';
     const RoleRegion  = 'Region';
-    const RolePrimary = 'Primary';
+    const RoleDefault = 'Default';
     
     protected $id;
     protected $role;       // Primary, Region, State

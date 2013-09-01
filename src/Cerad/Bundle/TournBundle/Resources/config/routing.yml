@@ -68,6 +68,10 @@ cerad_tourn_results_sportsmanship:
 # Person stuff
 # Need to add personId at some point
 
+cerad_tourn_person_edit:
+  path: /person/edit/{id}
+  defaults:  { _controller: CeradTournBundle:Person/Edit:edit, id: null }
+  
 cerad_tourn_person_plan:
   path: /person/plan/{id}
   defaults:  { _controller: CeradTournBundle:Person:plan, id: null }
@@ -90,6 +94,10 @@ cerad_tourn_person_person_add:
  
 # ==============================================================
 # Not entirely sure about this
+cerad_tourn_account_register:
+  path: /account/register
+  defaults:  { _controller: CeradTournBundle:Account/Registration:register }
+  
 cerad_tourn_account_signin:
   path: /account/signin
   defaults:  { _controller: CeradTournBundle:Account:signin }

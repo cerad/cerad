@@ -110,25 +110,40 @@ class Person extends BaseEntity
      * Organization identifiers
      */
     public function newIdentifier() { return new PersonIdentifier(); }
-    public function addIdentifier($identifier)
+    
+    public function addIdentifier($item)
     {
-        $identifierId = $identifier->getId();
-        foreach($this->identifiers as $identifierx)
+        $itemId = $iitem->getId();
+        foreach($this->identifiers as $itemx)
         {
-            if ($identifierId == $identifierx->getId()) return $this;
+            if ($itemId == $itemx->getId()) return $this;
         }
-        $this->identifiers[] = $identifier;
-        $identifier->setPerson($this);
+        $this->identifiers[] = $item;
+        $item->setPerson($this);
+        $this->onPropertyChanged('identifiers');
     }
     public function getIdentifiers() { return $this->identifiers; }
-    public function getIdentifier($role) 
+    
+    public function getIdentifier($role,$autoCreate = true) 
     { 
-        foreach($this->identifiers as $identifier);
-        if ($identifier->getRole() == $role) return $identifier;
+        foreach($this->identifiers as $item)
+        {
+            if ($item->getRole() == $role) return $item;
+        }
+        $item = new PersonIdentifier();
+        $item->setRole($role);
+        $this->addIdentifier($item);
+        return $item;
     }
-    public function getIdentifierAYSOV() { return $this->getIdentifier(PersonIdentifier::RoleAYSOV); }
-    public function getIdentifierUSSFC() { return $this->getIdentifier(PersonIdentifier::RoleUSSFC); }
-        
+    public function getIdentifierAYSOV($autoCreate = true) 
+    { 
+        return $this->getIdentifier(PersonIdentifier::RoleAYSOV,$autoCreate);
+    }
+    public function getIdentifierUSSFC($autoCreate = true) 
+    { 
+        return $this->getIdentifier(PersonIdentifier::RoleUSSFC,$autoCreate); 
+    }
+    
     /* ====================================================
      * Leagues
      */

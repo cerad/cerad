@@ -5,6 +5,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class PersonIdentifier extends BaseEntity
 {   
+    const RoleAYSOV = 'AYSOV';
+    const RoleAYSOP = 'AYSOP';
+    const RoleUSSFC = 'USSFC';
+    
     const RoleAYSOVolunteer  = 'AYSOV';
     const RoleAYSOPlayer     = 'AYSOP';
     const RoleUSSFContractor = 'USSFC';
@@ -87,8 +91,21 @@ class PersonIdentifier extends BaseEntity
     }
     public function getOrgs() { return $this->orgs; }
     
-    public function getOrg($role, $autoCreate = true)
+    public function getOrg($role = null, $autoCreate = true)
     {
+        /* ===========================
+         * Suport mapping org role agains my rolw
+         */
+        if (!$role)
+        {
+            switch($this->role)
+            {
+                case self::RoleAYSOV : $role = PersonOrg::RoleRegion; break;
+                case self::RoleAYSOP : $role = PersonOrg::RoleRegion; break;
+                case self::RoleUSSFC : $role = PersonOrg::RoleState;  break;
+                default              : $role = PersonOrg::RoleDefault;
+            }
+        }
         foreach($this->orgs as $item)
         {
             if ($item->getRole() == $role) return $item;

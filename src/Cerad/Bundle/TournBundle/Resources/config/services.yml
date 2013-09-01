@@ -46,6 +46,11 @@ services:
         tags:
             - { name: form.type, alias: cerad_tourn_person_plan }
             
+    cerad_tourn.person_edit.form_type:
+        class:  Cerad\Bundle\TournBundle\Form\Type\Person\EditFormType
+        tags:
+            - { name: form.type, alias: cerad_tourn_person_edit }
+            
     cerad_tourn.account.person.edit.formtype:
         class:  Cerad\Bundle\TournBundle\Form\Type\Person\EditFormType
         tags:

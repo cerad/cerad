@@ -1,0 +1,29 @@
+{# @CeradTourn/Person/Edit/form.html.twig #}
+<form 
+    id     = "cerad_person_edit_form"
+    class  = "cerad_person_edit_form cerad_common_form1" 
+    action = "{{ path('cerad_person_edit', { 'id' : person.id }) }}" 
+    method = "post" 
+    {{ form_enctype(form) }} novalidate
+ >
+    <fieldset><legend><span>Person Information</span></legend>
+        {{ form_row(form.person.name,      { 'label': 'Your Name' }) }}
+        {{ form_row(form.person.firstName) }}
+        {{ form_row(form.person.lastName)  }}
+        {{ form_row(form.person.nickName)  }}
+        {{ form_row(form.person.phone)     }}
+        {{ form_row(form.person.email)     }}
+    </fieldset>
+    <fieldset><legend><span>AYSO Information</span></legend>
+        {{ form_row(form.fedId) }}
+        {{ form_row(form.orgId) }}
+        {{ form_row(form.badge) }}
+    </fieldset>
+    <fieldset>
+        <div class="cerad_common_form_controls controls">
+            <span><a href="{{ path('cerad_tourn_home') }}">Return to home when done.</a></span>
+            <input type="submit" name="personEdit" value="Update Person" />
+        </div>
+    </fieldset>
+<div style="display: block;">{{ form_rest(form) }}</div>
+</form>
