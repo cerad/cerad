@@ -21,12 +21,12 @@ Cerad\Bundle\PersonBundle\Entity\PersonFed:
                   
         orgs:
             targetEntity: PersonOrg
-            mappedBy:     fedId
+            mappedBy:     fed
             cascade:      ['all']
             
         certs:
             targetEntity: PersonCert
-            mappedBy:     fedId
+            mappedBy:     fed
             cascade:      ['all']
                         
     fields:

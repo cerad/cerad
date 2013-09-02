@@ -21,6 +21,9 @@ class PlanController extends Controller
         if (!$userPerson) return null;
         
         // Load plan id if have one
+        /* ====================================
+         * TODO: ID Could be a problem when adding persons to account
+         */
         $plan = $personRepo->findPlan($planId);
         
         // Otherwise pull from default account person
@@ -29,10 +32,12 @@ class PlanController extends Controller
         // Should never happen
         if (!$plan) return null;
         
-        // Security check if necessary
-        
         // Inject parameters
         $plan->setPlanProperties($project->getPlan());
+        
+        //die($plan->attending);
+        
+        // Security check
 
         return $plan;
     }
@@ -57,18 +62,18 @@ class PlanController extends Controller
 
         if ($form->isValid()) 
         {
-            if (1) {
             $personRepo = $this->container->get('cerad_person.repository');
             $personRepo->flush();
             
-            // return $this->redirect($this->generateUrl('cerad_tourn_home'));
-            }
+            return $this->redirect($this->generateUrl('cerad_tourn_person_plan',array('id' => $plan->getId())));
+
         }
-        
+        // Template
         $tplData = array();
         $tplData['form']   = $form->createView();
+        $tplData['plan']   = $plan;
         $tplData['person'] = $plan->getPerson();
-        return $this->render('@CeradTourn/Person/plan.html.twig', $tplData);
+        return $this->render('@CeradTourn/Person/Plan/index.html.twig', $tplData);
     }
 }
 ?>

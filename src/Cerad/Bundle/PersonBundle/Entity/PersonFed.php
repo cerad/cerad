@@ -69,7 +69,7 @@ class PersonFed extends BaseEntity
         }
         if (!$autoCreate) return null;
         
-        $item = new PersonCert();
+        $item = $this->newCert();
         $item->setRole($role);
         $this->addCert($item);
         return $item;
@@ -78,8 +78,13 @@ class PersonFed extends BaseEntity
     {
         return $this->getCert(PersonCert::RoleReferee,$autoCreate);
     }
+    public function getCertSafeHaven($autoCreate = true)
+    {
+        return $this->getCert(PersonCert::RoleSafeHaven,$autoCreate);
+    }
     // Keep forms happy
-    public function setCertReferee($value) { return $this; }
+    public function setCertReferee  ($value) { return $this; }
+    public function setCertSafeHaven($value) { return $this; }
     
     /* ====================================================
      * Organizations
@@ -107,7 +112,7 @@ class PersonFed extends BaseEntity
         }
         if (!$autoCreate) return null;
         
-        $item = new PersonOrg();
+        $item = $this-> newOrg();
         $item->setRole($role);
         $this->addOrg ($item);
         return $item;

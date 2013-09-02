@@ -71,6 +71,7 @@ class Person extends BaseEntity
     public function getNickName () { return $this->nickName;  }
     public function getFirstName() { return $this->firstName; }
 
+    public function setId       ($value) { $this->onPropertySet('id',       $value); }
     public function setDob      ($value) { $this->onPropertySet('dob',      $value); }
     public function setName     ($value) { $this->onPropertySet('name',     $value); }
     public function setNote     ($value) { $this->onPropertySet('note',     $value); }
@@ -135,7 +136,7 @@ class Person extends BaseEntity
     }
     public function getFedAYSOV($autoCreate = true) 
     { 
-        return $this->getFed(PersonPed::FedAYSO, PersonFed::RoleVolunteer,  $autoCreate);
+        return $this->getFed(PersonFed::FedAYSO, PersonFed::RoleVolunteer,  $autoCreate);
     }
     public function getFedUSSFC($autoCreate = true) 
     { 
@@ -198,7 +199,7 @@ class Person extends BaseEntity
     /* ====================================================
      * Project Plans
      */
-    public function newPlan() { return $this->PersonPlan(); }
+    public function newPlan() { return new PersonPlan(); }
     
     public function addPlan($item)
     {
@@ -213,16 +214,24 @@ class Person extends BaseEntity
     }
     public function getPlans() { return $this->plans; }
     
-    public function getPlan($projectId, $autoCreate = true) 
+    public function getPlan($project, $autoCreate = true) 
     { 
+        $projectId = is_object($project) ? $project->getId() : $project;
+        
         foreach($this->plans as $item)
         {
-            if ($item->getProjectId() == $projectId) return $item;
+            if ($item->getProjectId() == $projectId) 
+            {
+                if (is_object($project)) $item->setPlanProperties($project->getPlan());
+                return $item;
+            }
         }
         if (!$autoCreate) return null;
         
-        $item = new PersonPlan();
+        $item = $this->newPlan();
         $item->setProjectId($projectId);
+        if (is_object($project)) $item->setPlanProperties($project->getPlan());
+        
         $this->addPlan($item);
         return $item;
     }

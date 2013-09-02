@@ -16,11 +16,11 @@ class EditController extends Controller
         $dto = array();
         $dto['person'] = $person;  // Want to reuse basic form and validation
         
-        $personIdentifier = $person->getIdentifierAYSOV();
-        $cert = $personIdentifier->getCertReferee();
-        $org  = $personIdentifier->getOrgRegion(); // Should default but doesn't hurt
+        $personFed = $person->getFedAYSOV(); 
+        $cert = $personFed->getCertReferee();
+        $org  = $personFed->getOrgRegion(); // Should default but doesn't hurt
         
-        $dto['fedId'] = $personIdentifier->getId(); // TODO: Deal with the impossible case of being blank
+        $dto['fedId'] = $personFed->getId(); // TODO: Deal with the impossible case of being blank
         $dto['orgId'] = $org->getOrgId();
         $dto['badge'] = $cert->getBadge();
         
@@ -97,9 +97,9 @@ class EditController extends Controller
             $orgId  = $dto['orgId'];
             $badge  = $dto['badge'];
             
-            $personIdentifier = $person->getIdentifierAYSOV();
-            $personOrg  = $personIdentifier->getOrgRegion();
-            $personCert = $personIdentifier->getCertReferee();
+            $personFed = $person->getFedAYSOV();
+            $personOrg  = $personFed->getOrgRegion();
+            $personCert = $personFed->getCertReferee();
             
             $personOrg->setOrgId  ($orgId);
             $personCert->setBadgex($badge);

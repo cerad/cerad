@@ -27,11 +27,11 @@ class HomeController extends Controller
         {
             return $this->redirect($this->generateUrl('cerad_person_ayso_referee_create'));  
         }
-        // Also make sure have a project record
+        // Also make sure have a project plan for the main user
         $project = $this->get('cerad_tourn.project');
-        $personPlan = $person->getPlan($project);
+        $personPlan = $person->getPlan($project->getId(),false);
         
-        if (!$personPlan)
+        if (!$personPlan || $personPlan->attending == 'na')
         {
             return $this->redirect($this->generateUrl('cerad_tourn_person_plan'));              
         }
@@ -39,7 +39,7 @@ class HomeController extends Controller
         // Just display
         $tplData = array();
         $tplData['account'] = $this->getUser();
-        $tplData['project'] = $this->get('cerad_tourn.project');
+        $tplData['project'] = $project;
         
         return $this->render('@CeradTourn/Home/index.html.twig', $tplData);
     }

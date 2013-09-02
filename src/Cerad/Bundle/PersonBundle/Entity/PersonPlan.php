@@ -41,12 +41,12 @@ class PersonPlan extends BaseEntity
     
     public function setPlanProperties($props)
     {
-        $plan = $this->plan;
+        $plan = $this->basic; 
         foreach($props as $name => $prop)
         {
             $default = array_key_exists('default',$prop) ? $prop['default'] : null;
           
-            $plan[$name] = $default;
+            if (!isset($plan[$name])) $plan[$name] = $default;
         }
         $this->basic = $plan;
     }

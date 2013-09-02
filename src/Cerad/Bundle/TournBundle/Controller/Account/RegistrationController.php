@@ -76,10 +76,10 @@ class RegistrationController extends Controller
         $fedId = $data['fedId'];
         
         $personRepo = $this->container->get('cerad_person.repository');
-        $personIdentifier = $personRepo->findIdentifier($fedId);
-        if ($personIdentifier)
+        $personFed = $personRepo->findFed($fedId);
+        if ($personFed)
         {
-            $person = $personIdentifier->getPerson();
+            $person = $personFed->getPerson();
         }
         else
         {
@@ -88,11 +88,15 @@ class RegistrationController extends Controller
             $person->setName ($user->getName());
             $person->setEmail($user->getEmail());
             
-            $personIdentifier = $person->newIdentifier();
+            $personFed = $person->getFedAYSOV();
+            $personFed->setId($fedId);
             
-            $personIdentifier->setId  ($fedId);
-            $personIdentifier->setRole('AYSOV');
-            $person->addIdentifier($personIdentifier);
+            $person->getPersonPersonPrimary();
+            
+            // Attach a plan
+            $project =  $this->container->get('cerad_tourn.project');
+            $plan = $person->getPlan($project->getId());
+            $plan->setPlanProperties($project->getPlan());
         }
         $user->setPersonId($person->getId());
         
@@ -114,7 +118,7 @@ class RegistrationController extends Controller
     public function registerAction(Request $request)
     {
         // Grab a new user
-        $userManager = $this->container->get('fos_user.user_manager');
+        $userManager = $this->container->get('cerad_account.user_manager');
         $dispatcher  = $this->container->get('event_dispatcher');
 
         $user = $userManager->createUser();
@@ -154,6 +158,7 @@ class RegistrationController extends Controller
             // Everything is great, generate the correct redirect
             // And actually sign the user in?
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+            
             return $response;
         }
         ///else die('invalid');
