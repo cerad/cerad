@@ -4,6 +4,10 @@ namespace Cerad\Bundle\TournBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/* ===============================
+ * Older code, try using @CeradPerson controller?
+ * Still want to customize for adding ayso folks
+ */
 class PersonPersonController extends Controller
 {
     public function getAccountPerson()

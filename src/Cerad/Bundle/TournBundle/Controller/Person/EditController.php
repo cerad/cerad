@@ -60,7 +60,7 @@ class EditController extends Controller
         
         return $builder->getForm();
     }
-    public function editAction(Request $request, $id = null)
+    public function editAction(Request $request, $id)
     {   
         // Possible person id
         $personId = $id;
@@ -93,22 +93,9 @@ class EditController extends Controller
         if ($form->isValid()) 
         {
             $dto = $form->getData();
-            $person = $dto['person'];
-            $orgId  = $dto['orgId'];
-            $badge  = $dto['badge'];
             
-            $personFed = $person->getFedAYSOV();
-            $personOrg  = $personFed->getOrgRegion();
-            $personCert = $personFed->getCertReferee();
-            
-            $personOrg->setOrgId  ($orgId);
-            $personCert->setBadgex($badge);
-        
-            $person->getPersonPersonPrimary();
-            
-            $personRepo->persist($person);
-            $personRepo->flush();
-            
+            $this->processDto($dto);
+                        
             return $this->redirect($this->generateUrl('cerad_person_edit'));
         }
         
@@ -116,6 +103,25 @@ class EditController extends Controller
         $tplData['form']   = $form->createView();
         $tplData['person'] = $person;
         return $this->render('@CeradTourn/Person/Edit/index.html.twig', $tplData);
+    }
+    protected function processDto($dto)
+    {
+        $person = $dto['person'];
+        $orgId  = $dto['orgId'];
+        $badge  = $dto['badge'];
+            
+        $personFed  = $person->getFedAYSOV();
+        $personOrg  = $personFed->getOrgRegion();
+        $personCert = $personFed->getCertReferee();
+            
+        $personOrg->setOrgId  ($orgId);
+        $personCert->setBadgex($badge);
+        
+        $person->getPersonPersonPrimary();
+            
+        $personRepo = $this->container->get('cerad_person.repository');
+        $personRepo->persist($person);
+        $personRepo->flush();
     }
 }
 ?>

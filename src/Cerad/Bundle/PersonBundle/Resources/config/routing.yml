@@ -16,6 +16,10 @@ cerad_person_edit:
   path: /edit/{id}
   defaults:  { _controller: CeradPersonBundle:Edit:edit, id: null }
   
+cerad_person_person_edit:
+  path: /person/edit/{id}
+  defaults:  { _controller: CeradPersonBundle:Edit:edit, id: null }
+  
 cerad_person_ayso_referee_create:
   path: /create/ayso-referee
   defaults:  { _controller: CeradPersonBundle:Create:createAYSOReferee }

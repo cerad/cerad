@@ -71,6 +71,10 @@
         cerad_tourn_person_person_edit
         cerad_person_person_edit 
 
+       @CeradTourn/PersonPerson/Edit/editAction extends PersonEdit
+       
+       @CeradTourn/PersonPerson/Edit/index.html.twig
+
 ======================================
 /account/register 
     Routes: 

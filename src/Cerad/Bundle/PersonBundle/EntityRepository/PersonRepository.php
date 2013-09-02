@@ -261,30 +261,14 @@ class PersonRepository extends EntityRepository
         return $query->getResult(Query::HYDRATE_SIMPLEOBJECT);
     }
     /* ===========================================
-     * Get a handle on identifiers
+     * 02 Sep 2013 - Revised Interface
      */
-    public function findIdentifier($id)
+    // Check for null values
+    public function find($id)
     {
-        if (!isset($id)) return null;
-        
-        $repo = $this->_em->getRepository($this->getPersonIdentifierClassName());
-        return $repo->find($id);        
+        return $id ? parent::find($id) : null;
+      
     }
-    public function findIdentifierByValue($value)
-    {
-        $repo = $this->_em->getRepository($this->getPersonIdentifierClassName());
-        return $repo->findOneBy(array('value' => $value));        
-    }
-    public function createIdentifier($source,$value)
-    {
-        $identifier = $this->newPersonIdentifier();
-        $identifier->setSource($source);
-        $identifier->setValue($value);
-        return $identifier;
-    }
-    /* ===========================================
-     * Federation
-     */
     public function findFed($id)
     {
         if (!$id) return null;
@@ -292,23 +276,21 @@ class PersonRepository extends EntityRepository
         $repo = $this->_em->getRepository('CeradPersonBundle:PersonFed');
         return $repo->find($id);        
     }
-
-    /* ===========================================
-     * Null values are annoying
-     */
-    public function find($id)
-    {
-        return $id ? parent::find($id) : null;
-      
-    }
     public function findPlan($id)
     {
         if (!$id) return null;
         
-        $repo = $this->_em->getRepository($this->getPersonPlanClassName());
+        $repo = $this->_em->getRepository('CeradPersonBundle:PersonPlan');
         
         return $repo->find($id);        
     }
-
+    public function findPersonPerson($id)
+    {
+        if (!$id) return null;
+        
+        $repo = $this->_em->getRepository('CeradPersonBundle:PersonPerson');
+        
+        return $repo->find($id);        
+    }
 }
 ?>

@@ -76,17 +76,11 @@ cerad_tourn_person_plan:
   path: /person/plan/{id}
   defaults:  { _controller: CeradTournBundle:Person/Plan:plan, id: null }
   
-cerad_tourn_person_plan_success:
-  path: /person/plan-success{id}
-  defaults:  { _controller: CeradTournBundle:Person:plan, id: null }
-  
-cerad_tourn_person_plan_failure:
-  path: /person/plan-failure/{id}
-  defaults:  { _controller: CeradTournBundle:Person:plan, id: null }
-  
-cerad_tourn_person_plan_form:
-  path: /person/plan-form/{id}
-  defaults:  { _controller: CeradTournBundle:Person:planForm, id: null }
+cerad_tourn_person_person_edit:
+    pattern:  /person/person/edit/{id}
+    defaults: { _controller: CeradTournBundle:PersonPerson/Edit:edit, id: 0 }
+    requirements:
+        id: \d+
   
 cerad_tourn_person_person_add:
   path: /person/person/add
@@ -106,18 +100,6 @@ cerad_tourn_account_signin_form:
   path: /account/signin-form
   defaults:  { _controller: CeradTournBundle:Account:signinForm }
   
-#cerad_tourn_account_create:
-#  path: /account/create
-#  defaults:  { _controller: CeradTournBundle:Account:create }
-  
-cerad_tourn_account_create_success:
-  path: /account/create-success
-  defaults:  { _controller: CeradTournBundle:Account:create }
-  
-cerad_tourn_account_create_failure:
-  path: /account/create-failure
-  defaults:  { _controller: CeradTournBundle:Account:create }
-  
 cerad_tourn_account_create_form:
   path: /account/create-form
   defaults:  { _controller: CeradTournBundle:Account:createForm }
@@ -131,12 +113,6 @@ cerad_tourn_account_create_form:
 cerad_tourn_account_person_edit:
     pattern:  /account/person/edit/{id}
     defaults: { _controller: CeradTournBundle:Account/Person:edit, id: 0 }
-    requirements:
-        id: \d+
-        
-cerad_tourn_person_person_edit:
-    pattern:  /person-person/edit/{id}
-    defaults: { _controller: CeradTournBundle:Main:welcome, id: 0 }
     requirements:
         id: \d+
         

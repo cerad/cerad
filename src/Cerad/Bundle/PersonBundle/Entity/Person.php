@@ -179,7 +179,7 @@ class Person extends BaseEntity
     {
         foreach($this->persons as $personPerson)
         {
-            if ($personPerson->getRole() == 'PersonPerson::RolePrimary')
+            if ($personPerson->getRole() == PersonPerson::RolePrimary)
             {
                 // Should only be one primary
                 return $personPerson;
