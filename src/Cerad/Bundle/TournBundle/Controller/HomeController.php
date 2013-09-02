@@ -25,6 +25,9 @@ class HomeController extends Controller
         $person = $account->getPerson(false);
         if (!is_object($person))
         {
+            return $this->redirect($this->generateUrl('cerad_person_tourn_welcom')); 
+            
+            // TODO: Handle Later, should not happen
             return $this->redirect($this->generateUrl('cerad_person_ayso_referee_create'));  
         }
         // Also make sure have a project plan for the main user
@@ -33,7 +36,7 @@ class HomeController extends Controller
         
         if (!$personPlan || $personPlan->attending == 'na')
         {
-            return $this->redirect($this->generateUrl('cerad_tourn_person_plan'));              
+            return $this->redirect($this->generateUrl('cerad_tourn_person_plan_edit'));              
         }
        
         // Just display

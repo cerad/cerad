@@ -1,32 +1,42 @@
-# For testing
-cerad_person_ayso_volunteer_region:
-    pattern: /ayso/volunteer-region
-    defaults: { _controller: CeradPersonBundle:Person:aysoVolRegion }
+# @CeradPerson/routes.yml
 
-# Assume this gets called with a prefix such as person
+# prefix == person
+
+# ======================================
+# Designed to be overridden by app
+# Maybe these should be commom
+#
+# cerad_common_home
+# cerad_common_welcome
+cerad_person_home:
+  path: /home
+  
+cerad_person_welcome:
+  path: /welcome
+
+# ======================================
+# These are implemented under CeradTourn
+# Paths are overwritten
 cerad_person_person_add:
   path: /person/add
   defaults:  { _controller: CeradPersonBundle:PersonPerson:add }
   
 cerad_person_list:
   path: /list
-  defaults:  { _controller: CeradPersonBundle:List:list }
+  defaults:  { _controller: CeradPersonBundle:Person/List:list }
   
 cerad_person_edit:
   path: /edit/{id}
-  defaults:  { _controller: CeradPersonBundle:Edit:edit, id: null }
+  defaults:  { _controller: CeradPersonBundle:Person/Edit:edit, id: null }
+  
+cerad_person_plan_edit:
+  path: /plan/edit/{id}
+  defaults:  { _controller: CeradPersonBundle:PersonPlan/Edit:edit, id: null }
   
 cerad_person_person_edit:
   path: /person/edit/{id}
-  defaults:  { _controller: CeradPersonBundle:Edit:edit, id: null }
+  defaults:  { _controller: CeradPersonBundle:PersonPerson/Edit:edit, id: null }
   
-cerad_person_ayso_referee_create:
-  path: /create/ayso-referee
-  defaults:  { _controller: CeradPersonBundle:Create:createAYSOReferee }
- 
-# Designed to be overridden by app
-cerad_person_home:
-  path: /home
-  
-cerad_person_welcome:
-  path: /welcome
+cerad_person_person_add:
+  path: /person/add
+  defaults:  { _controller: CeradPersonBundle:PersonPerson/Add:add }

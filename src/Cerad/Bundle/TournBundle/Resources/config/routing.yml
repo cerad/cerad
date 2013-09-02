@@ -72,10 +72,10 @@ cerad_tourn_person_edit:
   path: /person/edit/{id}
   defaults:  { _controller: CeradTournBundle:Person/Edit:edit, id: null }
   
-cerad_tourn_person_plan:
-  path: /person/plan/{id}
-  defaults:  { _controller: CeradTournBundle:Person/Plan:plan, id: null }
-  
+cerad_tourn_person_plan_edit:
+  path: /person/plan/edit/{id}
+  defaults:  { _controller: CeradTournBundle:PersonPlan/Edit:edit, id: null }
+    
 cerad_tourn_person_person_edit:
     pattern:  /person/person/edit/{id}
     defaults: { _controller: CeradTournBundle:PersonPerson/Edit:edit, id: 0 }

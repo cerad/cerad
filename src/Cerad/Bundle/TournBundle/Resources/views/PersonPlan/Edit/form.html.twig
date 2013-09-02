@@ -1,0 +1,16 @@
+<form 
+    id     = "cerad_tourn_person_plan_form" 
+    class  = "cerad_tourn_person_plan_form cerad_common_form2 zayso_form2" 
+    action = "{{ path('cerad_tourn_person_plan',{ id: plan.id }) }}" 
+    method = "post" {{ form_enctype(form) }}
+>
+    <fieldset>
+        {{ form_rest(form) }}
+    </fieldset>
+    <fieldset>
+        <div class="cerad_common_form_controls controls">
+            <span><a href="{{ path('cerad_tourn_home') }}">Done with plans</a></span>
+            <input type="submit" name="planUpdate" value="Update Plans" />
+        </div>
+    </fieldset>
+</form>

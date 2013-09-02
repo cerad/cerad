@@ -1,10 +1,10 @@
 <?php
-namespace Cerad\Bundle\TournBundle\Controller\Person;
+namespace Cerad\Bundle\TournBundle\Controller\PersonPlan;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class PlanController extends Controller
+class EditController extends Controller
 {
     /* ================================================
      * Concert the plan id into a properly linked plan object
@@ -44,7 +44,7 @@ class PlanController extends Controller
     /* ================================================
      * $id === $planId
      */
-    public function planAction(Request $request, $id)
+    public function editAction(Request $request, $id)
     {  
         // Need current project
         $project =  $this->container->get('cerad_tourn.project');
@@ -65,7 +65,7 @@ class PlanController extends Controller
             $personRepo = $this->container->get('cerad_person.repository');
             $personRepo->flush();
             
-            return $this->redirect($this->generateUrl('cerad_tourn_person_plan',array('id' => $plan->getId())));
+            return $this->redirect($this->generateUrl('cerad_tourn_person_plan_edit',array('id' => $plan->getId())));
 
         }
         // Template
@@ -73,7 +73,7 @@ class PlanController extends Controller
         $tplData['form']   = $form->createView();
         $tplData['plan']   = $plan;
         $tplData['person'] = $plan->getPerson();
-        return $this->render('@CeradTourn/Person/Plan/index.html.twig', $tplData);
+        return $this->render('@CeradTourn/PersonPlan/Edit/index.html.twig', $tplData);
     }
 }
 ?>

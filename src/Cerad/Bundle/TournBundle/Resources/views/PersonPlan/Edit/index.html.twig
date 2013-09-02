@@ -1,0 +1,8 @@
+{# @CeradTourn/PersonPlan/Edit/index.html.twig' #}
+{% extends '@CeradTourn/layout.html.twig' %}
+  
+{% block content %}
+<div>{{ cerad_tourn_get_project_title() }} Plans for {{ person.name }}</div>
+{% include '@CeradTourn/PersonPlan/Edit/form.html.twig' %}
+{% include '@CeradTourn/PersonPlan/Edit/help.html.twig' %}
+{% endblock %}
