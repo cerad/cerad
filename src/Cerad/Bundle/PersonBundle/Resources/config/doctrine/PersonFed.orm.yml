@@ -1,7 +1,7 @@
-Cerad\Bundle\PersonBundle\Entity\PersonIdentifier:
+Cerad\Bundle\PersonBundle\Entity\PersonFed:
   
     type:  entity
-    table: person_identifier
+    table: person_fed
     
     changeTrackingPolicy: NOTIFY
     
@@ -15,22 +15,28 @@ Cerad\Bundle\PersonBundle\Entity\PersonIdentifier:
       
         person:
             targetEntity: Person
-            inversedBy:   identifiers
+            inversedBy:   feds
             
     oneToMany:
                   
         orgs:
             targetEntity: PersonOrg
-            mappedBy:     identifier
+            mappedBy:     fedId
             cascade:      ['all']
             
         certs:
             targetEntity: PersonCert
-            mappedBy:     identifier
+            mappedBy:     fedId
             cascade:      ['all']
                         
     fields:
       
+        fedId:
+            column:   fed_id
+            type:     string
+            length:   20
+            nullable: false
+            
         role:
             type:     string
             length:   20

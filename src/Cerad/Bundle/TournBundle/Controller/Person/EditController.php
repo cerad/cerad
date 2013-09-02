@@ -104,6 +104,8 @@ class EditController extends Controller
             $personOrg->setOrgId  ($orgId);
             $personCert->setBadgex($badge);
         
+            $person->getPersonPersonPrimary();
+            
             $personRepo->persist($person);
             $personRepo->flush();
             

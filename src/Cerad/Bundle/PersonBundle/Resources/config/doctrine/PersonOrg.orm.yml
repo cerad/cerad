@@ -14,8 +14,8 @@ Cerad\Bundle\PersonBundle\Entity\PersonOrg:
             
     manyToOne:
       
-        identifier:
-            targetEntity: PersonIdentifier
+        fed:
+            targetEntity: PersonFed
             inversedBy:   orgs
              
     fields:

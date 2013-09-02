@@ -15,20 +15,40 @@ Cerad\Bundle\PersonBundle\Entity\PersonPlan:
             inversedBy:   plans
              
     fields:
-        projectKey:
-            column:   project_key
+      
+        projectId:
+            column:   project_id
             type:     string
             length:   40
             nullable: false
             
-        plan:
-            column:   plan
-            type:     array
-            nullable: false
-            
-# need some dates
-
         status:
             type:     string
             length:   20
             nullable: false
+            
+        verified:
+            type:     string
+            length:   20
+            nullable: true
+            
+        basic:
+            column:   basic
+            type:     array
+            nullable: false
+            
+        level:
+            column:   level
+            type:     array
+            nullable: true
+            
+        avail:
+            column:   avail
+            type:     array
+            nullable: true
+            
+        notes:
+            column:   notes
+            type:     text
+            nullable: true
+

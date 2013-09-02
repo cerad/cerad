@@ -3,18 +3,20 @@ namespace Cerad\Bundle\PersonBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-class PersonIdentifier extends BaseEntity
+class PersonFed extends BaseEntity
 {   
-    const RoleAYSOV = 'AYSOV';
-    const RoleAYSOP = 'AYSOP';
-    const RoleUSSFC = 'USSFC';
+    const FedAYSO = 'AYSO';
+    const FedUSSF = 'USSF';
+    const FedNFHS = 'NFHS';
     
-    const RoleAYSOVolunteer  = 'AYSOV';
-    const RoleAYSOPlayer     = 'AYSOP';
-    const RoleUSSFContractor = 'USSFC';
+    const RoleVolunteer  = 'Volunteer';
+    const RolePlayer     = 'Player';
+    const RoleContractor = 'Contractor';
+    const RoleOfficial   = 'Official';
     
     protected $id;
     protected $role;
+    protected $fedId;
     protected $person;
     protected $status   = 'Active';
     protected $verified = 'No';
@@ -29,12 +31,14 @@ class PersonIdentifier extends BaseEntity
     }
     public function getId      () { return $this->id;       }
     public function getRole    () { return $this->role;     }
+    public function getFedId   () { return $this->fedId;    }
     public function getPerson  () { return $this->person;   }
     public function getStatus  () { return $this->status;   }
     public function getVerified() { return $this->verified; }
     
     public function setId      ($value) { $this->onPropertySet('id',      $value); }
     public function setRole    ($value) { $this->onPropertySet('role',    $value); }
+    public function setFedId   ($value) { $this->onPropertySet('fedId',   $value); }
     public function setPerson  ($value) { $this->onPropertySet('person',  $value); }
     public function setStatus  ($value) { $this->onPropertySet('status',  $value); }
     public function setVerified($value) { $this->onPropertySet('verified',$value); }
@@ -42,6 +46,8 @@ class PersonIdentifier extends BaseEntity
     /* ====================================================
      * Certification
      */
+    public function newCert() { return new PersonCert(); }
+
     public function addCert($item)
     {
         $role = $item->getRole();
@@ -50,7 +56,7 @@ class PersonIdentifier extends BaseEntity
             if ($itemx->getRole() == $role) return $this;
         }
         $this->certs[] = $item;
-        $item->setIdentifier($this);
+        $item->setFed($this);
         $this->onPropertyChanged('certs');
     }
     public function getCerts() { return $this->certs; }
@@ -78,6 +84,8 @@ class PersonIdentifier extends BaseEntity
     /* ====================================================
      * Organizations
      */
+    public function newOrg() { return new PersonOrg(); }
+    
     public function addOrg($item)
     {
         $role = $item->getRole();
@@ -86,26 +94,13 @@ class PersonIdentifier extends BaseEntity
             if ($itemx->getRole() == $role) return $this;
         }
         $this->orgs[] = $item;
-        $item->setIdentifier($this);
+        $item->setFed($this);
         $this->onPropertyChanged('orgs');
     }
     public function getOrgs() { return $this->orgs; }
     
     public function getOrg($role = null, $autoCreate = true)
     {
-        /* ===========================
-         * Suport mapping org role agains my rolw
-         */
-        if (!$role)
-        {
-            switch($this->role)
-            {
-                case self::RoleAYSOV : $role = PersonOrg::RoleRegion; break;
-                case self::RoleAYSOP : $role = PersonOrg::RoleRegion; break;
-                case self::RoleUSSFC : $role = PersonOrg::RoleState;  break;
-                default              : $role = PersonOrg::RoleDefault;
-            }
-        }
         foreach($this->orgs as $item)
         {
             if ($item->getRole() == $role) return $item;

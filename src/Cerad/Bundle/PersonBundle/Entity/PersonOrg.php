@@ -8,9 +8,9 @@ class PersonOrg extends BaseEntity
     const RoleDefault = 'Default';
     
     protected $id;
+    protected $fed;        // PersonFed
     protected $role;       // Primary, Region, State
     protected $orgId;      // AYSOR0894, id only no relation
-    protected $identifier; // Person Identifier AYSOV12341234, relation and id
     
     protected $memYear;    // FS2012 etc
     protected $memLast;
@@ -30,11 +30,11 @@ class PersonOrg extends BaseEntity
      * Accessors
      */
     public function getId        () { return $this->id;         }
+    public function getFed       () { return $this->fed;        }
     public function getRole      () { return $this->role;       }
     public function getOrgId     () { return $this->orgId;      }
     public function getStatus    () { return $this->status;     }
     public function getVerified  () { return $this->verified;   }
-    public function getIdentifier() { return $this->identifier; }
     
     public function getMemYear   () { return $this->memYear;    }
     public function getMemLast   () { return $this->memLast;    }
@@ -46,11 +46,11 @@ class PersonOrg extends BaseEntity
     public function getBcFirst   () { return $this->bcFirst;    }
     public function getBcExpires () { return $this->bcExpires;  }
              
+    public function setFed       ($value) { $this->onPropertySet('fed',       $value); }
     public function setRole      ($value) { $this->onPropertySet('role',      $value); }
     public function setOrgId     ($value) { $this->onPropertySet('orgId',     $value); }
     public function setStatus    ($value) { $this->onPropertySet('status',    $value); }
     public function setVerified  ($value) { $this->onPropertySet('verified',  $value); }  
-    public function setIdentifier($value) { $this->onPropertySet('identifier',$value); }
     
     public function setMemYear   ($value) { $this->onPropertySet('memYear',   $value); }
     public function setMemLast   ($value) { $this->onPropertySet('memLast',   $value); }

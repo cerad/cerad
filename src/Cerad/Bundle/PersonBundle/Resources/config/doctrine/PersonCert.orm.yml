@@ -9,9 +9,9 @@ Cerad\Bundle\PersonBundle\Entity\PersonCert:
             generator: { strategy: AUTO }
             
     manyToOne:
-      
-        identifier:
-            targetEntity: PersonIdentifier
+                  
+        fed:
+            targetEntity: PersonFed
             inversedBy:   certs
              
     fields:

@@ -1,57 +1,74 @@
 <?php
 namespace Cerad\Bundle\PersonBundle\Entity;
 
+/* =======================================
+ * Refactored to make the project key the actual project id
+ * 
+ * plan.plan
+ */
 class PersonPlan extends BaseEntity
 {
     protected $id;
     protected $person;
-    protected $projectKey;        // The key for now
-    protected $plan;              // Array for now
-    protected $status   = 'Open'; // Just because
+    protected $projectId;
+    protected $status   = 'Active';
+    protected $verified = 'No';
+    
+    // These are basically value objects
+    protected $basic = array();
+    protected $avail;
+    protected $level;
+    protected $notes;
    
-    public function __construct()
+    public function __construct($id = null, $planProps = array())
     {
-        $this->plan = array();
+    //    $this->id = $id;
+    //    $this->setPlanProperties($planProps);
     }
-    public function getPlan()       { return $this->plan; }
-    public function getPerson()     { return $this->person; }
-    public function getStatus()     { return $this->status; }
-    public function getProjectKey() { return $this->projectKey; }
+    public function getId()        { return $this->id;        }
+    public function getPlan()      { return $this->basic;     }
+    public function getPerson()    { return $this->person;    }
+    public function getStatus()    { return $this->status;    }
+    public function getVerified()  { return $this->verified;  }
+    public function getProjectId() { return $this->projectId; }
     
-    public function setPerson($value) { $this->person = $value; }
-    public function setStatus($value) { $this->status = $value; }
-    public function setPlan  ($value) { $this->plan   = $value; }
+    public function setId       ($value) { $this->id        = $value; }
+    public function setPlan     ($value) { $this->basic     = $value; }
+    public function setPerson   ($value) { $this->person    = $value; }
+    public function setStatus   ($value) { $this->status    = $value; }
+    public function setVerified ($value) { $this->verified  = $value; }
+    public function setProjectId($value) { $this->projectId = $value; }
     
-    public function setProjectKey($value) { $this->projectKey = $value; }
-   
     public function setPlanProperties($props)
     {
         $plan = $this->plan;
         foreach($props as $name => $prop)
         {
-            if (isset($prop['default'])) $default = $prop['default'];
-            else                         $default = null;
+            $default = array_key_exists('default',$prop) ? $prop['default'] : null;
           
             $plan[$name] = $default;
         }
-        $this->plan = $plan;
+        $this->basic = $plan;
     }
     public function __isset($name)
     {
-        return isset($this->plan[$name]);
+        return array_key_exists($name,$this->basic);
+        
+        // Difference is that isset fails on null
+        return isset($this->basic[$name]);
     }
     public function __get($name)
     {
-        if (isset($this->plan[$name])) return $this->plan[$name];
+        if (array_key_exists($name,$this->basic)) return $this->basic[$name];
     }
     /* =========================================
      * Maybe should trigger the notify routine?
      */
     public function __set($name,$value)
     {
-        if (isset($this->plan[$name])) 
+        if (array_key_exists($name,$this->basic)) 
         {
-            $this->plan[$name] = $value;
+            $this->basic[$name] = $value;
         }
     }
 }

@@ -39,44 +39,38 @@ class Person extends BaseEntity
     protected $verified  = 'No';
     protected $status    = 'Active';
     
+    protected $feds;
     protected $plans;
-    protected $leagues;
     protected $persons;
-    protected $identifiers;
-    
-    protected $idx; // Legacy Import
     
     public function __construct()
     {
         $this->id          = Guid::gen();   
+        $this->feds        = new ArrayCollection();
         $this->plans       = new ArrayCollection();
-        $this->leagues     = new ArrayCollection();
         $this->persons     = new ArrayCollection();
-        $this->identifiers = new ArrayCollection();
     }
     
     /* ======================================================================
      * Standard getter/setters
      */
-    public function getId       () { return $this->id;  }
-    public function getIdx      () { return $this->idx; }
-    public function getDob      () { return $this->dob; }
+    public function getId       () { return $this->id;     }
+    public function getDob      () { return $this->dob;    }
     public function getName     () { return $this->name;   }
     public function getNote     () { return $this->note;   }
     public function getEmail    () { return $this->email;  }
     public function getPhone    () { return $this->phone;  }
     
     public function getCity     () { return $this->city;   }
-    public function getState    () { return $this->state;   }
+    public function getState    () { return $this->state;  }
 
-    public function getStatus   () { return $this->status; }
-    public function getGender   () { return $this->gender; }
-    public function getVerified () { return $this->verified;      }
+    public function getStatus   () { return $this->status;    }
+    public function getGender   () { return $this->gender;    }
+    public function getVerified () { return $this->verified;  }
     public function getLastName () { return $this->lastName;  }
     public function getNickName () { return $this->nickName;  }
     public function getFirstName() { return $this->firstName; }
 
-    public function setIdx      ($value) { $this->onPropertySet('idx',      $value); }
     public function setDob      ($value) { $this->onPropertySet('dob',      $value); }
     public function setName     ($value) { $this->onPropertySet('name',     $value); }
     public function setNote     ($value) { $this->onPropertySet('note',     $value); }
@@ -107,85 +101,49 @@ class Person extends BaseEntity
         return $years;
     }
     /* ====================================================
-     * Organization identifiers
+     * Federation
      */
-    public function newIdentifier() { return new PersonIdentifier(); }
+    public function newFed() { return new PersonFed(); }
     
-    public function addIdentifier($item)
+    public function addFed($item)
     {
-        $itemId = $iitem->getId();
-        foreach($this->identifiers as $itemx)
+        $fedId = $item->getFedId();
+        $role  = $item->getRole();
+        foreach($this->feds as $itemx)
         {
-            if ($itemId == $itemx->getId()) return $this;
+            if (($fedId == $itemx->getFedId()) && ($role == $itemx->getRole())) return $this;
         }
-        $this->identifiers[] = $item;
+        $this->feds[] = $item;
         $item->setPerson($this);
-        $this->onPropertyChanged('identifiers');
+        $this->onPropertyChanged('feds');
     }
-    public function getIdentifiers() { return $this->identifiers; }
+    public function getFeds() { return $this->feds; }
     
-    public function getIdentifier($role,$autoCreate = true) 
+    public function getFed($fedId, $role, $autoCreate = true) 
     { 
-        foreach($this->identifiers as $item)
+        foreach($this->feds as $item)
         {
-            if ($item->getRole() == $role) return $item;
-        }
-        $item = new PersonIdentifier();
-        $item->setRole($role);
-        $this->addIdentifier($item);
-        return $item;
-    }
-    public function getIdentifierAYSOV($autoCreate = true) 
-    { 
-        return $this->getIdentifier(PersonIdentifier::RoleAYSOV,$autoCreate);
-    }
-    public function getIdentifierUSSFC($autoCreate = true) 
-    { 
-        return $this->getIdentifier(PersonIdentifier::RoleUSSFC,$autoCreate); 
-    }
-    
-    /* ====================================================
-     * Leagues
-     */
-    public function addLeague($league)
-    {
-        $this->leagues[] = $league;
-        $league->setPerson($this);
-    }
-    public function getLeagues() { return $this->leagues; }
-    
-    public function getLeague($fed,$role,$autoCreate = true)
-    {
-         foreach($this->leagues as $item)
-        {
-            if (($item->getFed() == $fed) && ($item->getRole() == $role))
-            {
-                return $item;
-            }
+           if (($fedId == $item->getFedId()) && ($role == $item->getRole())) return $item;
         }
         if (!$autoCreate) return null;
         
-        $item = new PersonLeague();
-        $item->setFed   ($fed);
-        $item->setRole  ($role);
-        $this->addLeague($item);
+        $item = $this->newFed();
+        $item->setRole ($role);
+        $item->setFedId($fedId);
+        $this->addFed  ($item);
         return $item;
     }
-    public function getVolunteerAYSO($autoCreate = true)
-    {
-        return $this->getLeague(PersonLeague::FedAYSO,PersonLeague::RoleVolunteer,$autoCreate);
+    public function getFedAYSOV($autoCreate = true) 
+    { 
+        return $this->getFed(PersonPed::FedAYSO, PersonFed::RoleVolunteer,  $autoCreate);
     }
-    public function getLeagueAYSOVolunteer($autoCreate = true)
-    {
-        return $this->getLeague(PersonLeague::FedAYSO,PersonLeague::RoleVolunteer,$autoCreate);
-    }
-    public function getLeagueUSSFContractor($autoCreate = true)
-    {
-        return $this->getLeague(PersonLeague::FedUSSF,PersonLeague::RoleContractor,$autoCreate);
-    }
+    public function getFedUSSFC($autoCreate = true) 
+    { 
+        return $this->getFed(PersonFed::FedUSSF, PersonFed::RoleContractor, $autoCreate);
+    }    
     // Need for forms
-    public function setVolunteerAYSO($value) { return $this; }
-    public function setLeagueAYSOVolunteer($value) { return $this; }
+    public function setFedAYSOV($value) { return $this; }
+    public function setFedUSSFC($value) { return $this; }
     
     /* ====================================================
      * Persons
@@ -240,54 +198,32 @@ class Person extends BaseEntity
     /* ====================================================
      * Project Plans
      */
-    public function addPlan($plan)
+    public function newPlan() { return $this->PersonPlan(); }
+    
+    public function addPlan($item)
     {
-        $this->plans[] = $plan;
-        $plan->setPerson($this);
+        $projectId = $item->getProjectId();
+        foreach($this->plans as $itemx)
+        {
+            if ($itemx->getProjectId() == $projectId) return $this;
+        }
+        $this->plans[] = $item;
+        $item->setPerson($this);
+        $this->onPropertyChanged('plans');
     }
     public function getPlans() { return $this->plans; }
     
-    public function getPlan($projectKey)
-    {
-        if (is_object($projectKey)) $projectKey = $projectKey->getKey();
-        
-        foreach($this->plans as $plan)
+    public function getPlan($projectId, $autoCreate = true) 
+    { 
+        foreach($this->plans as $item)
         {
-            if ($plan->getProjectKey() == $projectKey)
-            {
-                return $plan;
-            }
+            if ($item->getProjectId() == $projectId) return $item;
         }
-        return null;
-    }
-    /* ========================================================
-     * Generate and set the person's full name
-     */
-    public function genName()
-    {
-        if ($this->nickName) $name = $this->nickName.  ' ' . $this->lastName;
-        else                 $name = $this->firstName. ' ' . $this->lastName;
+        if (!$autoCreate) return null;
         
-        $this->setName($name);
-        return $this;
-   }
-   /* ==========================================================
-    * In many cases we are only interested on one league
-    * Cleverly call this leaguex
-    */
-   public function setLeaguex($league)
-   {
-       $this->leaguex = $league;
-   }
-   public function getLeaguex($autoCreate = true)
-   {
-       if ($this->leaguex) return $this->leaguex;
-       
-       if (!$autoCreate) return null;
-       
-       $this->leaguex = new League();
-       
-       return $this->leaguex;
-       
-   }
+        $item = new PersonPlan();
+        $item->setProjectId($projectId);
+        $this->addPlan($item);
+        return $item;
+    }
 }

@@ -153,29 +153,6 @@ class PersonRepository extends EntityRepository
         $personLeague = $personLeagueClassName::createVolunteerAYSO();
         return $personLeague;
     }
-    /* =================================================
-     * Create new project person
-     */
-    public function createPersonPlan($project,$person,$persist = false)
-    {
-        $personPlan = $this->newPersonPlan();
-        
-        if (is_object($project))
-        {
-            $personPlan->setProjectKey    ($project->getKey());
-            $personPlan->setPlanProperties($project->getPlan());
-        }
-        else
-        {
-            $personPlan->setPlanProperties($project['plan']);
-            $personPlan->setProjectKey    ($project['info']['key']);            
-        }
-        if ($person) $person->addPlan($personPlan);
-        
-        if ($persist) $this->persist($personPlan);
-        
-        return $personPlan;
-    }
     /* ==============================================================
      * List of all the people for a given project
      */
@@ -288,6 +265,8 @@ class PersonRepository extends EntityRepository
      */
     public function findIdentifier($id)
     {
+        if (!isset($id)) return null;
+        
         $repo = $this->_em->getRepository($this->getPersonIdentifierClassName());
         return $repo->find($id);        
     }
@@ -303,5 +282,33 @@ class PersonRepository extends EntityRepository
         $identifier->setValue($value);
         return $identifier;
     }
+    /* ===========================================
+     * Federation
+     */
+    public function findFed($id)
+    {
+        if (!$id) return null;
+        
+        $repo = $this->_em->getRepository('CeradPersonBundle:PersonFed');
+        return $repo->find($id);        
+    }
+
+    /* ===========================================
+     * Null values are annoying
+     */
+    public function find($id)
+    {
+        return $id ? parent::find($id) : null;
+      
+    }
+    public function findPlan($id)
+    {
+        if (!$id) return null;
+        
+        $repo = $this->_em->getRepository($this->getPersonPlanClassName());
+        
+        return $repo->find($id);        
+    }
+
 }
 ?>

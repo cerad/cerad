@@ -49,7 +49,8 @@ class RegisterCommand extends ContainerAwareCommand
             'person'    => $person,
             'badge'     => 'Grade_8',
             'ussfid'    => 'USSFC1234123412340001',
-            'org'       => 'USSFS_AL',
+            'fedId'     => 'USSF',
+            'orgId'     => 'USSFS_AL',
             'upgrading' => 'No',
         );
         $plan = $this->register($repo,$regData);        
@@ -68,29 +69,26 @@ class RegisterCommand extends ContainerAwareCommand
         {
             $ussfid = 'USSFFake' . uniqid();
         }
-        $personIdentifier = $repo->findIdentifier($ussfid);
-        if ($personIdentifier)
+        $personFed = $repo->findFed($ussfid);
+        if ($personFed)
         {
             // Have an existing record
-            $person = $personIdentifier->getPerson();
+            $person = $personFed->getPerson();
                 
-                // Could check certain fields for updates
+            // Could check certain fields for updates
         }
         else
         {
-            $personIdentifier = $person->newIdentifier();
-            
-            $personIdentifier->setId($ussfid);
-            $personIdentifier->setRole('USSFC');
-            $person->addIdentifier($personIdentifier);
+            $personFed = $person->getFedUSSFC();
+            $personFed->setId($ussfid);
         }
         
-        $cert = $personIdentifier->getCertReferee();
+        $cert = $personFed->getCertReferee();
         $cert->setBadgex   ($data['badge']);
         $cert->setUpgrading($data['upgrading']);
                 
-        $org = $personIdentifier->getOrgState();
-        $org->setOrgId($data['org']);
+        $org = $personFed->getOrgState();
+        $org->setOrgId($data['orgId']);
         
         $repo->persist($person);
         $repo->flush();

@@ -74,7 +74,7 @@ cerad_tourn_person_edit:
   
 cerad_tourn_person_plan:
   path: /person/plan/{id}
-  defaults:  { _controller: CeradTournBundle:Person:plan, id: null }
+  defaults:  { _controller: CeradTournBundle:Person/Plan:plan, id: null }
   
 cerad_tourn_person_plan_success:
   path: /person/plan-success{id}

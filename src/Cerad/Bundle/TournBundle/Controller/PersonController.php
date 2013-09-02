@@ -4,6 +4,9 @@ namespace Cerad\Bundle\TournBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/* ==========================
+ * 01 Sep 2013 - Replaced with @CeradTourn/Person/PlanController
+ */
 class PersonController extends Controller
 {
     public function genPlanForm(Request $request, $personId)

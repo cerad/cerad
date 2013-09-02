@@ -12,27 +12,22 @@ Cerad\Bundle\PersonBundle\Entity\Person:
                 
     oneToMany:
       
+        feds:
+            targetEntity: PersonFed
+            mappedBy:     person
+            cascade:      ['all']
+      
         plans:
             targetEntity: PersonPlan
             mappedBy:     person
             cascade:      ['all']
            #Index by project key
-                        
-        leagues:
-            targetEntity: PersonLeague
-            mappedBy:     person
-            cascade:      ['all']
             
         persons:
             targetEntity: PersonPerson
             mappedBy:     master
             cascade:      ['all']
-            
-        identifiers:
-            targetEntity: PersonIdentifier
-            mappedBy:     person
-            cascade:      ['all']
-                         
+                                     
     fields:
 
         name:
