@@ -13,11 +13,6 @@ class EmailFormType extends AbstractType
     public function getParent() { return 'text'; }
     public function getName()   { return 'cerad_person_email'; }
     
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        // Maybe a canilizier here
-        // $builder->addModelTransformer(new VolunteerIDTransformer());
-    }
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
