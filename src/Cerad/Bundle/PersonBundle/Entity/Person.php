@@ -231,7 +231,6 @@ class Person extends BaseEntity
         $item = $this->newPlan();
         $item->setProjectId($projectId);
         if (is_object($project)) $item->setPlanProperties($project->getPlan());
-        
         $this->addPlan($item);
         return $item;
     }

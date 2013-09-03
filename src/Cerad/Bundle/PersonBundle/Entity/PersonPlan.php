@@ -39,6 +39,7 @@ class PersonPlan extends BaseEntity
     public function setVerified ($value) { $this->verified  = $value; }
     public function setProjectId($value) { $this->projectId = $value; }
     
+    // TODO: Make this an array_merge
     public function setPlanProperties($props)
     {
         $plan = $this->basic; 
