@@ -13,12 +13,18 @@ class ContractorIDFormType extends AbstractType
     public function getName()   { return 'cerad_person_ussf_contractor_id'; }
     public function getParent() { return 'text'; }
 
+    protected $fakeId;
+    
+    public function __construct($fakeId = false)
+    {
+        $this->fakeId = $fakeId;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Do the double transformer to handle errors
-        $transformer = new Transformer();
-        $builder->addModelTransformer($transformer);
-        $builder->addViewTransformer ($transformer);
+        $transformer = new Transformer($this->fakeId);
+        $builder->addModelTransformer ($transformer);
+        $builder->addViewTransformer  ($transformer);
     }
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {

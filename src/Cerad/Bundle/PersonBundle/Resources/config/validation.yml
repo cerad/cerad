@@ -1,5 +1,10 @@
 # ==========================================
 # Main Person
+#
+# Keep coming back here to add additional validation groups for form processing
+# Need to rethink using this
+# And just put the validatin on the forms themselves?
+#
 Cerad\Bundle\PersonBundle\Entity\Person:
   
   constraints:
@@ -14,7 +19,7 @@ Cerad\Bundle\PersonBundle\Entity\Person:
     name:
       - NotBlank: 
           message: Cannot be blank
-          groups:  [create,update]
+          groups:  [create,update,basic]
           
     firstName:
       - NotBlank: 
@@ -29,7 +34,7 @@ Cerad\Bundle\PersonBundle\Entity\Person:
     email:
       - Email:
           message: Valid email required
-          groups:  [create,update]
+          groups:  [create,update,basic]
 
 # =======================================================
 # PersonLeague aka ayso region

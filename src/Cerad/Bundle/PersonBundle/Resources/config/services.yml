@@ -122,6 +122,12 @@ services:
         tags:
             - { name: form.type, alias: cerad_person_ussf_contractor_id }
             
+    cerad_person.ussf_contractor_id_fake.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\USSF\ContractorIDFormType
+        arguments: [true]
+        tags:
+            - { name: form.type, alias: cerad_person_ussf_contractor_id }
+            
     cerad_person.ussf_referee_badge.form_type:
         class: '%cerad_person.ussf_referee_badge.form_type.class%'
         tags:
@@ -136,6 +142,9 @@ services:
         class: Cerad\Bundle\PersonBundle\Form\Type\USSF\OrgStateFormType
         tags:
             - { name: form.type, alias: cerad_person_ussf_org_state }
+            
+# ================================
+# USSF Validation
 
 # ================================
     cerad_person.twig_extension:
