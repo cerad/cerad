@@ -132,10 +132,10 @@ services:
         tags:
             - { name: form.type, alias: cerad_person_ussf_referee_upgrading }
             
-    cerad_person.ussf_league.form_type:
-        class: Cerad\Bundle\PersonBundle\Form\Type\USSF\LeagueFormType
+    cerad_person.ussf_org_state.form_type:
+        class: Cerad\Bundle\PersonBundle\Form\Type\USSF\OrgStateFormType
         tags:
-            - { name: form.type, alias: cerad_person_ussf_league }
+            - { name: form.type, alias: cerad_person_ussf_org_state }
 
 # ================================
     cerad_person.twig_extension:
