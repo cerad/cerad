@@ -27,6 +27,7 @@ class PersonPlan extends BaseEntity
     }
     public function getId()        { return $this->id;        }
     public function getPlan()      { return $this->basic;     }
+    public function getBasic()     { return $this->basic;     }
     public function getPerson()    { return $this->person;    }
     public function getStatus()    { return $this->status;    }
     public function getVerified()  { return $this->verified;  }
@@ -34,6 +35,7 @@ class PersonPlan extends BaseEntity
     
     public function setId       ($value) { $this->id        = $value; }
     public function setPlan     ($value) { $this->basic     = $value; }
+    public function setBasic    ($value) { $this->basic     = $value; }
     public function setPerson   ($value) { $this->person    = $value; }
     public function setStatus   ($value) { $this->status    = $value; }
     public function setVerified ($value) { $this->verified  = $value; }
