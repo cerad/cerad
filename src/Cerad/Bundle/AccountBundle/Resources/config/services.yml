@@ -115,7 +115,7 @@ services:
     cerad_account.login.form_type:
         class: Cerad\Bundle\AccountBundle\Form\Type\LoginFormType
         tags:
-            - { name: form.type, alias: cerad_account_signin }
+            - { name: form.type, alias: cerad_account_login }
             
     cerad_account.token.form_type:
         class: Cerad\Bundle\AccountBundle\Form\Type\TokenFormType

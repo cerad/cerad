@@ -4,6 +4,9 @@ namespace Cerad\Bundle\PersonBundle\EntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
+use Cerad\Bundle\PersonBundle\DataTransformer\AYSO\VolunteerIDTransformer  as AYSOVolunteerIdTransformer;
+use Cerad\Bundle\PersonBundle\DataTransformer\USSF\ContractorIDTransformer as USSFContractorIdTransformer;
+
 // PersonReg => PersonLeague?
 class PersonRepository extends EntityRepository
 {
@@ -292,5 +295,39 @@ class PersonRepository extends EntityRepository
         
         return $repo->find($id);        
     }
+    /* ====================================================
+     * Used during the login process to allow looking up a person by their fed id
+     */
+    public function findByFedId($id)
+    {
+        if (!$id) return null;
+        
+        $repo = $this->_em->getRepository('CeradPersonBundle:PersonFed');
+        
+        // These should somehow be inected or something
+        $transformers = array(
+            new AYSOVolunteerIdTransformer(),
+            new USSFContractorIdTransformer(),
+        );
+        foreach($transformers as $transformer)
+        {
+            $idx = $transformer->reverseTransform($id);
+            
+            $personFed = $repo->find($idx); 
+            
+            if ($personFed) return $personFed->getPerson();
+        }
+        return null;
+        
+        // Second pass to prefix with fed
+        foreach($feds as $fed)
+        {   
+            $personFed = $repo->find($fed . $id); 
+            
+            if ($personFed) return $personFed->getPerson();
+        }
+        return null;
+    }
+
 }
 ?>

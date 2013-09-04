@@ -14,16 +14,15 @@ class LoginFormType extends AbstractType
             'intention'       => 'authenticate', // Needs to match security.yml
         ));
     }
+    public function getName() { return 'cerad_account_login'; }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', 'cerad_account_username_existing')
-            ->add('password', 'password',  array('label' => 'Zayso Password',  'attr' => array('size' => 30)))
+            ->add('username',   'cerad_account_username_existing')
+            ->add('password',   'password',  array('label' => 'Zayso Password',  'attr' => array('size' => 30)))
+            ->add('remember_me','checkbox',  array('label' => 'Remember Me'))
         ;
-    }
-    public function getName()
-    {
-        return 'cerad_account_login';
     }
 }
 

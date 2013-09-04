@@ -12,6 +12,9 @@ use Cerad\Bundle\AccountBundle\Validator\Constraints\UsernameExisting;
 
 class UsernameExistingFormType extends AbstractType
 {
+    public function getName()   { return 'cerad_account_username_existing'; }
+    public function getParent() { return 'text'; }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
       // $builder->addModelTransformer(new VolunteerIDTransformer());
@@ -19,7 +22,7 @@ class UsernameExistingFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'label'           => 'User Name or Email or AYSOID',
+            'label'           => 'Zayso User Name or Email',
             'attr'            => array('size' => 30),
             'constraints'     => array(
                 new Assert\NotNull(array('message' => 'User Name is required')), 
@@ -27,8 +30,6 @@ class UsernameExistingFormType extends AbstractType
             )
         ));
     }
-    public function getParent() { return 'text'; }
-    public function getName()   { return 'cerad_account_username_existing'; }
 }
 
 ?>

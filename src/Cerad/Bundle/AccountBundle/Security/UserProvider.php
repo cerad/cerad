@@ -19,10 +19,12 @@ class UserProvider extends UserProviderBase
     {
         parent::__construct($userManager);
         
-        $this->personManager = $personManager;
+        $this->personManager = $personManager;  // for fed id lookup
     }
     protected function addPersonToUser($user)
     {
+        throw new \Exception('UserProvider::addPersonToUser called');
+        
         // Load in person
         if (!$this->personManager) return;
 
@@ -35,7 +37,7 @@ class UserProvider extends UserProviderBase
         $user->setPerson($person);
     }
     /* ========================================================================
-     * Note that the loadUserByUsername is defined Security/UserProvider
+     * Note that the loadUserByUsername is defined in Security/UserProvider
      * It calls findUser and throws an username not foud exception
      * 
      * For some reason, findUser was made protected.  Kind of handy to have.
@@ -44,6 +46,7 @@ class UserProvider extends UserProviderBase
      * Maybe this should be in the user manager?
      */
     public function findUserByUsername($username) { return $this->findUser($username); }
+    
     protected function findUser($username)
     {
         // Check AccountUser
@@ -51,10 +54,10 @@ class UserProvider extends UserProviderBase
        
         if (!$user) $user = $this->userManager->findUserByIdentifierValue($username);
         
-        // Check for unique league id
+        // Check for fedId
         if (!$user && $this->personManager)
         {
-            $person = $this->personManager->findByIdentifierValue($username);
+            $person = $this->personManager->findByFedId($username);
             if ($person)
             {
                 $user = $this->userManager->findUserByPersonId($person->getId());
@@ -62,7 +65,7 @@ class UserProvider extends UserProviderBase
         }
         if (!$user) return null;
  
-        $this->addPersonToUser($user);
+        // $this->addPersonToUser($user);
         
         return $user;
     }
@@ -70,7 +73,7 @@ class UserProvider extends UserProviderBase
     {
         $user = parent::refreshUser($user);
         
-        $this->addPersonToUser($user);
+        //$this->addPersonToUser($user);
         
         return $user;
     }
