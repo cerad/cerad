@@ -21,3 +21,6 @@ cd aysos5games201306v
 git tag
 git checkout v1.2013.06
 
+### Solaris 2015 test
+
+
